@@ -1,0 +1,18 @@
+#!/usr/bin/env php
+<?php
+/**
+ * @version    1.0.0
+ * @package    CMSScanner
+ * @copyright  Copyright (C) 2014 CMS-Garden.org
+ * @license    GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @link       http://www.cms-garden.org
+ */
+
+require_once __DIR__ . '/../vendor/autoload.php';
+
+use Cmsgarden\Cmsscanner\Command\DetectCommand;
+use Symfony\Component\Console\Application;
+
+$application = new Application('CMSScanner', '0.1-dev');
+$application->add(new DetectCommand);
+$application->run();

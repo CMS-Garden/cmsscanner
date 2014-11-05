@@ -1,0 +1,28 @@
+{
+    "name": "cmsgarden/cmsscanner",
+    "description": "The CMS-Garden CMS scanning CLI tool.",
+    "type": "library",
+    "keywords": [
+        "cmsgarden",
+        "cms"
+    ],
+    "homepage": "http://www.cms-garden.org/",
+    "license": "GNU GENERAL PUBLIC LICENSE Version 2",
+    "authors": [
+        {
+            "name": "David Jardin",
+            "email": "david.jardin@cms-garden.org",
+            "role": "lead"
+        }
+    ],
+    "require": {
+        "symfony/finder": "2.5.*",
+        "symfony/console": "2.5.*",
+        "php": ">=5.3.3"
+    },
+    "autoload": {
+        "psr-4": {
+            "Cmsgarden\\Cmsscanner\\": "src"
+        }
+    }
+}
