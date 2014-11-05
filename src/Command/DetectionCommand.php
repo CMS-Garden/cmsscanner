@@ -1,6 +1,5 @@
 <?php
 /**
- * @version    1.0.0
  * @package    CMSScanner
  * @copyright  Copyright (C) 2014 CMS-Garden.org
  * @license    GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
