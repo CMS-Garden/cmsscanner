@@ -48,6 +48,12 @@ class DetectCommand extends DetectionCommand
                 InputOption::VALUE_NONE,
                 'If set, the detector will determine the used version'
             )
+            ->addOption(
+                'report',
+                null,
+                InputOption::VALUE_REQUIRED,
+                'Write a detailed JSON report to the specified path'
+            )
         ;
 
     }
@@ -112,6 +118,12 @@ class DetectCommand extends DetectionCommand
 
         // Write stats to command line
         $this->outputStats($stats, $input->getOption('versions'), $output);
+
+        // Write report file
+        if ($input->getOption('report')) {
+            $this->writeReport($results, $input->getOption('report'));
+            $output->writeln(sprintf("Report was written to %s", $input->getOption('report')));
+        }
     }
 
     /**
@@ -194,6 +206,28 @@ class DetectCommand extends DetectionCommand
 
                 $table->render();
             }
+        }
+    }
+
+    /**
+     * converts the results into a JSON and write it to a file
+     *
+     * @param $results
+     * @param $path
+     */
+    protected function writeReport($results, $path)
+    {
+        // we need this to convert the \SplFileInfo object into a normal path string
+        array_walk($results, function (&$result, $key) {
+                $result = array(
+                    "name" => $result->getName(),
+                    "version" => $result->getVersion(),
+                    "path" => $result->getPath()->getRealPath()
+                );
+        });
+
+        if (file_put_contents($path, json_encode($results)) === false) {
+            throw new \RuntimeException("Could not write to report file");
         }
     }
 }
