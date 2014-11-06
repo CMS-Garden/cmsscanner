@@ -10,8 +10,10 @@
 require_once __DIR__ . '/../vendor/autoload.php';
 
 use Cmsgarden\Cmsscanner\Command\DetectCommand;
+use Cmsgarden\Cmsscanner\Command\UpdateCommand;
 use Symfony\Component\Console\Application;
 
 $application = new Application('CMSScanner', '@package_version@');
 $application->add(new DetectCommand);
+$application->add(new UpdateCommand);
 $application->run();
