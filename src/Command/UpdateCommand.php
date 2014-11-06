@@ -22,7 +22,7 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class UpdateCommand extends Command
 {
-    const MANIFEST_FILE = 'http://cmsgarden.github.io/cmsscanner/manifest.json';
+    const MANIFEST_FILE = 'http://cms-garden.github.io/cmsscanner/manifest.json';
 
     /**
      * configure this console command
