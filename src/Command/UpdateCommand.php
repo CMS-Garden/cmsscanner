@@ -30,7 +30,7 @@ class UpdateCommand extends Command
     protected function configure()
     {
         $this
-            ->setName('update')
+            ->setName('cmsscanner:update')
             ->setDescription('Updates cmsscanner.phar to the latest version')
         ;
     }
