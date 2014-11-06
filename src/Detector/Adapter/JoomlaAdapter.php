@@ -32,11 +32,6 @@ class JoomlaAdapter implements AdapterInterface
         ),
         array(
             "file" => "/libraries/joomla/version.php",
-            "regex" => "/\\\$RELEASE\\s*=\\s*'1\\.5';[\\s\\S]*\\\$DEV_LEVEL\\s*=\\s*'([^']+)'/",
-            "minor" => "1.5."
-        ),
-        array(
-            "file" => "/libraries/joomla/version.php",
             "regex" => "/\\\$RELEASE\\s*=\\s*'1\\.6';[\\s\\S]*\\\$DEV_LEVEL\\s*=\\s*'([^']+)'/",
             "minor" => "1.6."
         ),
