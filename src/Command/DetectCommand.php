@@ -21,7 +21,7 @@ use Symfony\Component\Finder\Finder;
  *
  * @since   1.0.0
  */
-class DetectCommand extends DetectionCommand
+class DetectCommand extends AbstractDetectionCommand
 {
     /**
      * configure this console command

@@ -21,7 +21,7 @@ use Symfony\Component\Console\Command\Command;
  *
  * @since   1.0.0
  */
-abstract class DetectionCommand extends Command
+abstract class AbstractDetectionCommand extends Command
 {
     protected $adapters = array();
 
@@ -40,7 +40,7 @@ abstract class DetectionCommand extends Command
      *
      * @param   AdapterInterface  $adapter  An adapter instance
      *
-     * @return  DetectionCommand  The current DetectionCommand instance
+     * @return  AbstractDetectionCommand  The current AbstractDetectionCommand instance
      */
     public function addAdapter(AdapterInterface $adapter)
     {
