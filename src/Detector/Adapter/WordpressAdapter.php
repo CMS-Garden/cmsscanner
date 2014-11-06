@@ -52,7 +52,7 @@ class WordpressAdapter implements AdapterInterface
             return false;
         }
 
-        $path = new \SplFileInfo($file->getPath());
+        $path = new \SplFileInfo(dirname($file->getPath()));
 
         return new System($this->getName(), $path);
     }
@@ -66,7 +66,7 @@ class WordpressAdapter implements AdapterInterface
      */
     public function detectVersion(\SplFileInfo $path)
     {
-        $versionFile = $path . "/version.php";
+        $versionFile = $path . "/wp-includes/version.php";
 
         if (!file_exists($versionFile) || !is_readable($versionFile)) {
             return null;
