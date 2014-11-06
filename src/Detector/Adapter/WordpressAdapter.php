@@ -23,7 +23,7 @@ class WordpressAdapter implements AdapterInterface
     /**
      * look for the version.php with a wp_version string in it
      *
-     * @param Finder $finder
+     * @param   Finder  $finder  finder instance to append the criteria
      *
      * @return Finder
      */
@@ -38,9 +38,9 @@ class WordpressAdapter implements AdapterInterface
     /**
      * verify a search result by making sure that the file has the correct name and $wp_version is in there
      *
-     * @param SplFileInfo $file
+     * @param   SplFileInfo  $file  file to examine
      *
-     * @return bool|System
+     * @return  bool|System
      */
     public function detectSystem(SplFileInfo $file)
     {
@@ -60,9 +60,9 @@ class WordpressAdapter implements AdapterInterface
     /**
      * determine version number of a WordPress installation
      *
-     * @param \SplFileInfo $path
+     * @param   \SplFileInfo  $path  directory where the system is installed
      *
-     * @return null
+     * @return  null
      */
     public function detectVersion(\SplFileInfo $path)
     {

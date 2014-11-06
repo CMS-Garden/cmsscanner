@@ -50,7 +50,7 @@ class System
     /**
      * set system name
      *
-     * @param string $name
+     * @param   string  $name  system name
      */
     public function setName($name)
     {
@@ -70,7 +70,7 @@ class System
     /**
      * set installation path
      *
-     * @param \SplFileInfo $path
+     * @param   \SplFileInfo  $path  path
      */
     public function setPath(\SplFileInfo $path)
     {
@@ -90,7 +90,7 @@ class System
     /**
      * set installation version
      *
-     * @param string $version
+     * @param   string  $version  version number
      */
     public function setVersion($version)
     {

@@ -38,9 +38,9 @@ abstract class DetectionCommand extends Command
     /**
      * Registers a detector engine implementation.
      *
-     * @param AdapterInterface $adapter  An adapter instance
+     * @param   AdapterInterface  $adapter  An adapter instance
      *
-     * @return DetectionCommand The current DetectionCommand instance
+     * @return  DetectionCommand  The current DetectionCommand instance
      */
     public function addAdapter(AdapterInterface $adapter)
     {

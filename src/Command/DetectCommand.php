@@ -61,10 +61,10 @@ class DetectCommand extends DetectionCommand
     /**
      * execute this command
      *
-     * @param InputInterface  $input
-     * @param OutputInterface $output
+     * @param   InputInterface   $input   CLI input data
+     * @param   OutputInterface  $output  CLI output data
      *
-     * @return int|null|void
+     * @return  int|null|void
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
@@ -132,10 +132,10 @@ class DetectCommand extends DetectionCommand
     /**
      * generate stats array from results
      *
-     * @param array $results  results returned from system adapters
-     * @param       $versionStats generate version stats
+     * @param   array  $results       results returned from system adapters
+     * @param   bool   $versionStats  generate version stats
      *
-     * @return array
+     * @return  array
      */
     protected function generateStats(array $results, $versionStats)
     {
@@ -175,9 +175,9 @@ class DetectCommand extends DetectionCommand
     /**
      * output stats to command line
      *
-     * @param array           $stats
-     * @param                 $versionStats
-     * @param OutputInterface $output
+     * @param   array            $stats         stats data
+     * @param   bool             $versionStats  output version stats
+     * @param   OutputInterface  $output        cli output
      */
     protected function outputStats(array $stats, $versionStats, OutputInterface $output)
     {
@@ -215,8 +215,8 @@ class DetectCommand extends DetectionCommand
     /**
      * converts the results into a JSON and write it to a file
      *
-     * @param $results
-     * @param $path
+     * @param   array   $results  result data
+     * @param   string  $path     target path
      */
     protected function writeReport(array $results, $path)
     {

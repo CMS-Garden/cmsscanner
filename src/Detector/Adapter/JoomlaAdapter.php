@@ -80,9 +80,9 @@ class JoomlaAdapter implements AdapterInterface
     /**
      * Joomla has a file called configuration.php that can be used to search for working installations
      *
-     * @param Finder $finder
+     * @param   Finder  $finder  finder instance to append the criteria
      *
-     * @return Finder
+     * @return  Finder
      */
     public function appendDetectionCriteria(Finder $finder)
     {
@@ -95,9 +95,9 @@ class JoomlaAdapter implements AdapterInterface
     /**
      * try to verify a search result and work around some well known false positives
      *
-     * @param SplFileInfo $file
+     * @param   SplFileInfo  $file  file to examine
      *
-     * @return bool|System
+     * @return  bool|System
      */
     public function detectSystem(SplFileInfo $file)
     {
@@ -133,9 +133,9 @@ class JoomlaAdapter implements AdapterInterface
     /**
      * determine version of a Joomla installation within a specified path
      *
-     * @param \SplFileInfo $path
+     * @param   \SplFileInfo  $path  directory where the system is installed
      *
-     * @return null|string
+     * @return  null|string
      */
     public function detectVersion(\SplFileInfo $path)
     {
