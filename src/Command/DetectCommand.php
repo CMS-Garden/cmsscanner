@@ -32,9 +32,9 @@ class DetectCommand extends DetectionCommand
             ->setName('cmsscanner:detect')
             ->setDescription('Detects all CMS installations in a given path')
             ->addArgument(
-                'path',
-                InputArgument::REQUIRED,
-                'Directory where CMS should be detected'
+                'paths',
+                InputArgument::IS_ARRAY,
+                'Directories where CMS should be detected'
             )
             ->addOption(
                 'depth',
@@ -72,8 +72,11 @@ class DetectCommand extends DetectionCommand
         $finder = new Finder();
 
         // Search for files in the directory specified in the CLI argument
-        $finder->files()
-            ->in($input->getArgument('path'));
+        $finder->files();
+
+        foreach ($input->getArgument('paths') as $path) {
+            $finder->in($path);
+        }
 
         // Limit search to recursion level
         if ($input->getOption('depth')) {
