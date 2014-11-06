@@ -218,7 +218,7 @@ class DetectCommand extends DetectionCommand
      * @param $results
      * @param $path
      */
-    protected function writeReport($results, $path)
+    protected function writeReport(array $results, $path)
     {
         // we need this to convert the \SplFileInfo object into a normal path string
         array_walk($results, function (&$result, $key) {
