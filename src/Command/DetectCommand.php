@@ -33,7 +33,7 @@ class DetectCommand extends AbstractDetectionCommand
             ->setDescription('Detects all CMS installations in a given path')
             ->addArgument(
                 'paths',
-                InputArgument::IS_ARRAY,
+                InputArgument::IS_ARRAY | InputArgument::REQUIRED,
                 'Directories where CMS should be detected'
             )
             ->addOption(
@@ -53,6 +53,12 @@ class DetectCommand extends AbstractDetectionCommand
                 null,
                 InputOption::VALUE_REQUIRED,
                 'Write a detailed JSON report to the specified path'
+            )
+            ->addOption(
+                'readfromfile',
+                null,
+                InputOption::VALUE_NONE,
+                'Read \\0 separated target directories from a file, passed as the argument'
             )
         ;
 
@@ -74,7 +80,16 @@ class DetectCommand extends AbstractDetectionCommand
         // Search for files in the directory specified in the CLI argument
         $finder->files();
 
-        foreach ($input->getArgument('paths') as $path) {
+        // Get paths to scan in; Either from file or from the CLI arguments
+        if ($input->getOption('readfromfile')) {
+            $paths = $input->getArgument('paths');
+            $pathFile = reset($paths);
+            $paths = $this->readPathsFromFile($pathFile);
+        } else {
+            $paths = $input->getArgument('paths');
+        }
+
+        foreach ($paths as $path) {
             $finder->in($path);
         }
 
@@ -232,5 +247,25 @@ class DetectCommand extends AbstractDetectionCommand
         if (file_put_contents($path, json_encode($results)) === false) {
             throw new \RuntimeException("Could not write to report file");
         }
+    }
+
+    /**
+     * Extracts paths to scan in from an input file
+     *
+     * @param $pathsFile
+     *
+     * @return array
+     */
+    protected function readPathsFromFile($pathsFile)
+    {
+        if (!file_exists($pathsFile) || !is_readable($pathsFile)) {
+            throw new \InvalidArgumentException("Can not read paths file");
+        }
+
+        $fileContent = file_get_contents($pathsFile);
+
+        $paths = explode("\0", $fileContent);
+
+        return $paths;
     }
 }

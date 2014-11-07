@@ -116,3 +116,8 @@ This results in a report file like this:
 		  "path":"\/var\/www\/drupal-6.14"
 	   }
 	]
+
+### Read paths from an input file
+It's also possible to pass a file that contains a 0-byte separated list of paths:
+
+	cmsscanner.phar cmsscanner:detect --readfromfile /absolute/path/to/file
