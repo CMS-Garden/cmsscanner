@@ -16,7 +16,7 @@ For available options, try running:
 
 1. Download the current version of CMSScanner as a phar archive:
 
-	`wget http://cms-garden.github.io/cmsscanner/downloads/cmsscanner-0.2.0.phar && mv cmsscanner-0.2.0.phar cmsscanner.phar`
+	`wget http://cms-garden.github.io/cmsscanner/downloads/cmsscanner-0.2.1.phar && mv cmsscanner-0.2.1.phar cmsscanner.phar`
 
 2. Make it executable
 
