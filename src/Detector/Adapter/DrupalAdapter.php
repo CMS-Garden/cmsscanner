@@ -30,7 +30,7 @@ class DrupalAdapter implements AdapterInterface
             "regex" => "/version\\s*=\\s*\"(\\d\\.[^']+)\"[\\s\\S]*project\\s*=\\s*\"drupal\"/"
         ),
         array(
-            "file" => "/core/modules/system/system.info.yaml",
+            "file" => "/core/modules/system/system.info.yml",
             "regex" => "/version:\\s*'(\\d\\.[^']+)'[\\s\\S]*project:\\s*'drupal'/"
         )
     );
@@ -46,7 +46,7 @@ class DrupalAdapter implements AdapterInterface
     {
         $finder->name('system.info')
             ->contains('project = "drupal"')
-            ->name('system.info.yaml')
+            ->name('system.info.yml')
             ->contains("project: 'drupal'");
 
         return $finder;
@@ -67,7 +67,7 @@ class DrupalAdapter implements AdapterInterface
             return new System($this->getName(), $path);
         }
 
-        if ($file->getFilename() == "system.info.yaml" && stripos($file->getContents(), "'project: 'drupal'") !== false) {
+        if ($file->getFilename() == "system.info.yml" && stripos($file->getContents(), "project: 'drupal'") !== false) {
             $path = new \SplFileInfo(dirname(dirname(dirname($file->getPath()))));
 
             return new System($this->getName(), $path);
