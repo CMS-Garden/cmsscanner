@@ -21,6 +21,9 @@
         "php": ">=5.3.3",
         "herrera-io/phar-update": "1.*"
     },
+    "require-dev": {
+        "phpunit/phpunit": "4.1.*"
+    },
     "autoload": {
         "psr-4": {
             "Cmsgarden\\Cmsscanner\\": "src"

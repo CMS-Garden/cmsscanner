@@ -50,4 +50,14 @@ abstract class AbstractDetectionCommand extends Command
 
         return $this;
     }
+
+    /**
+     * Returns the currently registered adapters
+     *
+     * @return  array
+     */
+    public function getAdapters()
+    {
+        return $this->adapters;
+    }
 }
