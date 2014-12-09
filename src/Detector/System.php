@@ -1,9 +1,9 @@
 <?php
 /**
  * @package    CMSScanner
- * @copyright  Copyright (C) 2014 David Jardin - djumla Webentwicklung
+ * @copyright  Copyright (C) 2014 CMS-Garden.org
  * @license    GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
- * @link       http://www.djumla.de
+ * @link       http://www.cms-garden.org
  */
 
 namespace Cmsgarden\Cmsscanner\Detector;
