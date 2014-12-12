@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/CMS-Garden/cmsscanner.svg?branch=develop)](https://travis-ci.org/CMS-Garden/cmsscanner)
+
 # CMS-Garden CMSScanner
 
 This tool is developed by the CMS-Garden project. It's designed to scan a local filesystem for installations of the well known FOSS CMS systems that are part of the [CMS-Garden Project](www.cms-garden.org):
