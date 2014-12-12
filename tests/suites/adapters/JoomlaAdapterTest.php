@@ -34,21 +34,32 @@ class JoomlaAdapterTest extends \PHPUnit_Framework_TestCase
     public function testSystemsAreDetected()
     {
         $finder = new Finder();
-        $finder->files()->in(CMSSCANNER_MOCKFILES_PATH);
+        $finder->files()->in(CMSSCANNER_MOCKFILES_PATH)
+            ->name('dummy.php')->contains('#content')
+            ->name('configuration.php')->contains('#empty');
 
         $finder = $this->object->appendDetectionCriteria($finder);
 
         $results = array();
+        $falseCount = 0;
 
         foreach ($finder as $file) {
             $system = $this->object->detectSystem($file);
+
+            if ($system == false) {
+                $falseCount++;
+                continue;
+            }
+
             $system->version = $this->object->detectVersion($system->getPath());
 
             // Append successful result to array
             $results[$system->version] = $system;
         }
 
-        $this->assertCount(8, $results);
+        $this->assertCount(9, $results);
+        $this->assertEquals(5, $falseCount);
+        $this->assertArrayHasKey('', $results);
         $this->assertArrayHasKey('1.5.25', $results);
         $this->assertArrayHasKey('1.6.6', $results);
         $this->assertArrayHasKey('1.7.3', $results);

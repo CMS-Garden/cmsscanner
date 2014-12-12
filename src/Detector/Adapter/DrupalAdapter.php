@@ -94,7 +94,7 @@ class DrupalAdapter implements AdapterInterface
             }
 
             if (!is_readable($versionFile)) {
-                throw new \RuntimeException(sprintf("Unreadable version file %s", $versionFile));
+                continue; // @codeCoverageIgnore
             }
 
             preg_match($version['regex'], file_get_contents($versionFile), $matches);

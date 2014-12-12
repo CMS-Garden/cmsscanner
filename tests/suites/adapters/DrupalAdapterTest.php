@@ -34,21 +34,31 @@ class DrupalAdapterTest extends \PHPUnit_Framework_TestCase
     public function testSystemsAreDetected()
     {
         $finder = new Finder();
-        $finder->files()->in(CMSSCANNER_MOCKFILES_PATH);
+        $finder->files()->in(CMSSCANNER_MOCKFILES_PATH)
+            ->name('dummy.php')->contains('#content');
 
         $finder = $this->object->appendDetectionCriteria($finder);
 
         $results = array();
+        $falseCount = 0;
 
         foreach ($finder as $file) {
             $system = $this->object->detectSystem($file);
+
+            if ($system == false) {
+                $falseCount++;
+                continue;
+            }
+
             $system->version = $this->object->detectVersion($system->getPath());
 
             // Append successful result to array
             $results[$system->version] = $system;
         }
 
-        $this->assertCount(3, $results);
+        $this->assertCount(4, $results);
+        $this->assertEquals(1, $falseCount);
+        $this->assertArrayHasKey('', $results);
         $this->assertArrayHasKey('6.34', $results);
         $this->assertArrayHasKey('7.33', $results);
         $this->assertArrayHasKey('8.0.0-beta3', $results);

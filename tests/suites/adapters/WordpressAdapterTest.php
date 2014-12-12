@@ -34,21 +34,32 @@ class WordpressAdapterTest extends \PHPUnit_Framework_TestCase
     public function testSystemsAreDetected()
     {
         $finder = new Finder();
-        $finder->files()->in(CMSSCANNER_MOCKFILES_PATH);
+        $finder->files()->in(CMSSCANNER_MOCKFILES_PATH)
+            ->name('dummy.php')->contains('#content')
+            ->name('version.php')->contains('#empty');
 
         $finder = $this->object->appendDetectionCriteria($finder);
 
         $results = array();
+        $falseCount = 0;
 
         foreach ($finder as $file) {
             $system = $this->object->detectSystem($file);
+
+            if ($system == false) {
+                $falseCount++;
+                continue;
+            }
+
             $system->version = $this->object->detectVersion($system->getPath());
 
             // Append successful result to array
             $results[$system->version] = $system;
         }
 
-        $this->assertCount(4, $results);
+        $this->assertCount(5, $results);
+        $this->assertEquals(2, $falseCount);
+        $this->assertArrayHasKey('', $results);
         $this->assertArrayHasKey('2.2.1', $results);
         $this->assertArrayHasKey('2.9', $results);
         $this->assertArrayHasKey('3.7.5', $results);
