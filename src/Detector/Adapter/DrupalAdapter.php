@@ -45,9 +45,7 @@ class DrupalAdapter implements AdapterInterface
     public function appendDetectionCriteria(Finder $finder)
     {
         $finder->name('system.info')
-            ->contains('project = "drupal"')
-            ->name('system.info.yml')
-            ->contains("project: 'drupal'");
+            ->name('system.info.yml');
 
         return $finder;
     }

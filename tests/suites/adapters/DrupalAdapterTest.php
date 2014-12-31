@@ -19,6 +19,9 @@ use Symfony\Component\Finder\Finder;
  */
 class DrupalAdapterTest extends \PHPUnit_Framework_TestCase
 {
+    /**
+     * @var DrupalAdapter
+     */
     public $object;
 
     public function setUp()
@@ -35,7 +38,7 @@ class DrupalAdapterTest extends \PHPUnit_Framework_TestCase
     {
         $finder = new Finder();
         $finder->files()->in(CMSSCANNER_MOCKFILES_PATH)
-            ->name('dummy.php')->contains('#content');
+            ->name('dummy.php');
 
         $finder = $this->object->appendDetectionCriteria($finder);
 
