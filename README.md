@@ -5,6 +5,7 @@ This tool is developed by the CMS-Garden project. It's designed to scan a local 
 * Joomla
 * Drupal
 * WordPress
+* TYPO3 CMS
 
 It is designed to work on Linux, OS X and FreeBSD.
 
