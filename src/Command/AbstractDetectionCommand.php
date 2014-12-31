@@ -11,6 +11,7 @@ namespace Cmsgarden\Cmsscanner\Command;
 use Cmsgarden\Cmsscanner\Detector\Adapter\AdapterInterface;
 use Cmsgarden\Cmsscanner\Detector\Adapter\DrupalAdapter;
 use Cmsgarden\Cmsscanner\Detector\Adapter\JoomlaAdapter;
+use Cmsgarden\Cmsscanner\Detector\Adapter\Typo3CmsAdapter;
 use Cmsgarden\Cmsscanner\Detector\Adapter\WordpressAdapter;
 use Symfony\Component\Console\Command\Command;
 
@@ -24,6 +25,9 @@ use Symfony\Component\Console\Command\Command;
  */
 abstract class AbstractDetectionCommand extends Command
 {
+    /**
+     * @var AdapterInterface[]
+     */
     protected $adapters = array();
 
     public function __construct($name = null)
@@ -34,6 +38,7 @@ abstract class AbstractDetectionCommand extends Command
             ->addAdapter(new JoomlaAdapter())
             ->addAdapter(new WordpressAdapter())
             ->addAdapter(new DrupalAdapter())
+            ->addAdapter(new Typo3CmsAdapter())
         ;
     }
 
