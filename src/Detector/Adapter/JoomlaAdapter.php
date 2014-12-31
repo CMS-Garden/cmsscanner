@@ -81,8 +81,7 @@ class JoomlaAdapter implements AdapterInterface
      */
     public function appendDetectionCriteria(Finder $finder)
     {
-        $finder->name('configuration.php')
-               ->contains('class JConfig');
+        $finder->name('configuration.php');
 
         return $finder;
     }
