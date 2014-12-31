@@ -8,6 +8,7 @@
 
 namespace Cmsgarden\Cmsscanner\Command;
 
+use Cmsgarden\Cmsscanner\Detector\System;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
@@ -98,7 +99,7 @@ class DetectCommand extends AbstractDetectionCommand
             $finder->depth("<= " . $input->getOption('depth'));
         }
 
-        // Append system specific search criterias
+        // Append system specific search criteria
         foreach ($this->adapters as $adapterName => $adapter) {
             $finder = $adapter->appendDetectionCriteria($finder);
         }
@@ -147,8 +148,8 @@ class DetectCommand extends AbstractDetectionCommand
     /**
      * generate stats array from results
      *
-     * @param   array  $results       results returned from system adapters
-     * @param   bool   $versionStats  generate version stats
+     * @param   System[]  $results       results returned from system adapters
+     * @param   bool      $versionStats  generate version stats
      *
      * @return  array
      */
@@ -230,8 +231,8 @@ class DetectCommand extends AbstractDetectionCommand
     /**
      * converts the results into a JSON and write it to a file
      *
-     * @param   array   $results  result data
-     * @param   string  $path     target path
+     * @param   System[]   $results  result data
+     * @param   string     $path     target path
      */
     protected function writeReport(array $results, $path)
     {

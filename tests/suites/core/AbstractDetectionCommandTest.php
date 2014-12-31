@@ -35,7 +35,8 @@ class AbstractDetectionCommandTest extends \PHPUnit_Framework_TestCase
         $this->assertArrayHasKey('Joomla', $this->object->getAdapters());
         $this->assertArrayHasKey('WordPress', $this->object->getAdapters());
         $this->assertArrayHasKey('Drupal', $this->object->getAdapters());
-        $this->assertCount(3, $this->object->getAdapters());
+        $this->assertArrayHasKey('TYPO3 CMS', $this->object->getAdapters());
+        $this->assertCount(4, $this->object->getAdapters());
     }
 
     public function testAddingAnAdapter()
