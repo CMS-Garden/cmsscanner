@@ -74,6 +74,8 @@ class DetectCommand extends AbstractDetectionCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $startTime = microtime(true);
+
         // Create a new Finder instance
         $finder = new Finder();
 
@@ -142,6 +144,8 @@ class DetectCommand extends AbstractDetectionCommand
             $this->writeReport($results, $input->getOption('report'));
             $output->writeln(sprintf("Report was written to %s", $input->getOption('report')));
         }
+
+        $this->outputProfile($startTime, $output);
     }
 
     /**
@@ -228,6 +232,22 @@ class DetectCommand extends AbstractDetectionCommand
     }
 
     /**
+     * output stats to command line
+     *
+     * @param   float            $startTime     microtime where execution has started
+     * @param   OutputInterface  $output        cli output
+     */
+    protected function outputProfile($startTime, OutputInterface $output)
+    {
+        $output->writeln("");
+
+        $endTime = microtime(true);
+
+        $output->writeln('Execution time: ' . ($endTime - $startTime) . ' seconds');
+        $output->writeln('Memory consumption: ' . self::parseSizeUnit(memory_get_usage(true)));
+    }
+
+    /**
      * converts the results into a JSON and write it to a file
      *
      * @param   array   $results  result data
@@ -267,5 +287,20 @@ class DetectCommand extends AbstractDetectionCommand
         $paths = explode("\0", $fileContent);
 
         return $paths;
+    }
+
+    /**
+     * Creates the rounded size of the size with the appropriate unit
+     *
+     * @param   float   $bytes  The maximum size which is allowed for the uploads
+     *
+     * @return  string  String with the size and the appropriate unit
+     */
+    private static function parseSizeUnit($bytes)
+    {
+        $base     = log($bytes) / log(1024);
+        $suffixes = array('', 'k', 'M', 'G', 'T');
+
+        return round(pow(1024, $base - floor($base)), 2) . $suffixes[floor($base)];
     }
 }
