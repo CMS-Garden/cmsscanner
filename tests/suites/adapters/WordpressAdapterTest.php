@@ -19,6 +19,9 @@ use Symfony\Component\Finder\Finder;
  */
 class WordpressAdapterTest extends \PHPUnit_Framework_TestCase
 {
+    /**
+     * @var WordpressAdapter
+     */
     public $object;
 
     public function setUp()
@@ -35,8 +38,8 @@ class WordpressAdapterTest extends \PHPUnit_Framework_TestCase
     {
         $finder = new Finder();
         $finder->files()->in(CMSSCANNER_MOCKFILES_PATH)
-            ->name('dummy.php')->contains('#content')
-            ->name('version.php')->contains('#empty');
+            ->name('dummy.php')
+            ->name('version.php');
 
         $finder = $this->object->appendDetectionCriteria($finder);
 
@@ -58,7 +61,7 @@ class WordpressAdapterTest extends \PHPUnit_Framework_TestCase
         }
 
         $this->assertCount(5, $results);
-        $this->assertEquals(2, $falseCount);
+        $this->assertEquals(10, $falseCount);
         $this->assertArrayHasKey('', $results);
         $this->assertArrayHasKey('2.2.1', $results);
         $this->assertArrayHasKey('2.9', $results);

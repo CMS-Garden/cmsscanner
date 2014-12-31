@@ -19,6 +19,7 @@ use Symfony\Component\Finder\Finder;
  */
 class JoomlaAdapterTest extends \PHPUnit_Framework_TestCase
 {
+    /** @var JoomlaAdapter */
     public $object;
 
     public function setUp()
@@ -35,8 +36,8 @@ class JoomlaAdapterTest extends \PHPUnit_Framework_TestCase
     {
         $finder = new Finder();
         $finder->files()->in(CMSSCANNER_MOCKFILES_PATH)
-            ->name('dummy.php')->contains('#content')
-            ->name('configuration.php')->contains('#empty');
+            ->name('dummy.php')
+            ->name('configuration.php');
 
         $finder = $this->object->appendDetectionCriteria($finder);
 

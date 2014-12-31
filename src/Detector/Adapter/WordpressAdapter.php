@@ -29,8 +29,7 @@ class WordpressAdapter implements AdapterInterface
      */
     public function appendDetectionCriteria(Finder $finder)
     {
-        $finder->name('version.php')
-            ->contains('$wp_version =');
+        $finder->name('version.php');
 
         return $finder;
     }
