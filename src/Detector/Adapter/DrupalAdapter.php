@@ -30,7 +30,7 @@ class DrupalAdapter implements AdapterInterface
             "regex" => "/version\\s*=\\s*\"(\\d\\.[^']+)\"[\\s\\S]*project\\s*=\\s*\"drupal\"/"
         ),
         array(
-            "file" => "/core/modules/system/system.info.yaml",
+            "file" => "/core/modules/system/system.info.yml",
             "regex" => "/version:\\s*'(\\d\\.[^']+)'[\\s\\S]*project:\\s*'drupal'/"
         )
     );
@@ -45,9 +45,7 @@ class DrupalAdapter implements AdapterInterface
     public function appendDetectionCriteria(Finder $finder)
     {
         $finder->name('system.info')
-            ->contains('project = "drupal"')
-            ->name('system.info.yaml')
-            ->contains("project: 'drupal'");
+            ->name('system.info.yml');
 
         return $finder;
     }
@@ -67,7 +65,7 @@ class DrupalAdapter implements AdapterInterface
             return new System($this->getName(), $path);
         }
 
-        if ($file->getFilename() == "system.info.yaml" && stripos($file->getContents(), "'project: 'drupal'") !== false) {
+        if ($file->getFilename() == "system.info.yml" && stripos($file->getContents(), "project: 'drupal'") !== false) {
             $path = new \SplFileInfo(dirname(dirname(dirname($file->getPath()))));
 
             return new System($this->getName(), $path);
@@ -94,7 +92,7 @@ class DrupalAdapter implements AdapterInterface
             }
 
             if (!is_readable($versionFile)) {
-                throw new \RuntimeException(sprintf("Unreadable version file %s", $versionFile));
+                continue; // @codeCoverageIgnore
             }
 
             preg_match($version['regex'], file_get_contents($versionFile), $matches);

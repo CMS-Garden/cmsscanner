@@ -29,8 +29,7 @@ class WordpressAdapter implements AdapterInterface
      */
     public function appendDetectionCriteria(Finder $finder)
     {
-        $finder->name('version.php')
-            ->contains('$wp_version =');
+        $finder->name('version.php');
 
         return $finder;
     }
@@ -69,7 +68,7 @@ class WordpressAdapter implements AdapterInterface
         $versionFile = $path . "/wp-includes/version.php";
 
         if (!file_exists($versionFile) || !is_readable($versionFile)) {
-            return null;
+            return null; // @codeCoverageIgnore
         }
 
         preg_match("/\\\$wp_version\\s*=\\s*'([^']+)'/", file_get_contents($versionFile), $matches);
