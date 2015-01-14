@@ -124,4 +124,3 @@ This results in a report file like this:
 It's also possible to pass a file that contains a 0-byte separated list of paths:
 
 	cmsscanner.phar cmsscanner:detect --readfromfile /absolute/path/to/file
-	
