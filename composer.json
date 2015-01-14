@@ -7,7 +7,7 @@
         "cms"
     ],
     "homepage": "http://www.cms-garden.org/",
-    "license": "GNU GENERAL PUBLIC LICENSE Version 2",
+    "license": "GPL-3.0",
     "authors": [
         {
             "name": "David Jardin",
