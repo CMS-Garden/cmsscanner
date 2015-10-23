@@ -222,6 +222,9 @@ class DetectCommand extends AbstractDetectionCommand
 
                 $table = new Table($output);
                 $table->setHeaders(array('Version', '# Installations'));
+                uksort($cmsStats['versions'], function($a, $b) {
+                    return version_compare($a[0], $b[0]);
+                });
 
                 foreach ($cmsStats['versions'] as $version => $amount) {
                     $table->addRow(array($version, $amount));
