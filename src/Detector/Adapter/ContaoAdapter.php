@@ -27,7 +27,11 @@ class ContaoAdapter implements AdapterInterface
      * @var array
      */
     protected $versions = array(
-        array(
+        array( // Contao 2.x
+            'filename' => '/system/constants.php',
+	    'regexp' => '/define\\(\'VERSION\', \'(.+)\'\\)/'
+        ),
+        array( // Contao 3.x
             'filename' => '/system/config/constants.php',
             'regexp' => '/define\\(\'VERSION\', \'(.+)\'\\)/'
         ),
@@ -59,7 +63,13 @@ class ContaoAdapter implements AdapterInterface
         if ($fileName !== "constants.php" ) {
             return false;
 	}
-        $path = new \SplFileInfo(dirname($file->getPathInfo()->getPath()));
+	if ( basename($file->getPath()) === 'system' ) {
+	    // Contao 2.x
+	    $path = new \SplFileInfo($file->getPathInfo()->getPath());
+	} else {
+	    $path = new \SplFileInfo(dirname($file->getPathInfo()->getPath()));
+	}
+	var_dump($path);
 
         // Return result if working
         return new System($this->getName(), $path);
