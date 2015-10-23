@@ -63,13 +63,15 @@ class ContaoAdapter implements AdapterInterface
         if ($fileName !== "constants.php" ) {
             return false;
 	}
+	if (stripos($file->getContents(), 'Contao') === false) {
+	    return false;
+	}
 	if ( basename($file->getPath()) === 'system' ) {
 	    // Contao 2.x
 	    $path = new \SplFileInfo($file->getPathInfo()->getPath());
 	} else {
 	    $path = new \SplFileInfo(dirname($file->getPathInfo()->getPath()));
 	}
-	var_dump($path);
 
         // Return result if working
         return new System($this->getName(), $path);
