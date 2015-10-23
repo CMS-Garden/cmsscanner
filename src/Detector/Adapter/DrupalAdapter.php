@@ -21,7 +21,7 @@ use Symfony\Component\Finder\SplFileInfo;
 class DrupalAdapter implements AdapterInterface
 {
     /**
-     * Joomla has changed the way how the version number is stored multiple times, so we need this comprehensive array
+     * Drupal has changed the way how the version number is stored multiple times, so we need this comprehensive array
      * @var array
      */
     private $versions = array(
@@ -75,7 +75,7 @@ class DrupalAdapter implements AdapterInterface
     }
 
     /**
-     * determine version of a Joomla installation within a specified path
+     * determine version of a Drupal installation within a specified path
      *
      * @param   \SplFileInfo  $path  directory where the system is installed
      *
