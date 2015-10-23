@@ -56,13 +56,16 @@ class PrestashopAdapter implements AdapterInterface
     public function detectSystem(SplFileInfo $file)
     {
         $fileName = $file->getFilename();
-        if ($fileName !== "settings.inc.php" ) {
+
+        if ($fileName !== "settings.inc.php") {
             return false;
-	}
-	if (stripos($file->getContents(), '_PS_VERSION_') === false) {
-            return false;
-	}
-	$path = new \SplFileInfo($file->getPathInfo()->getPath());
+        }
+
+        if (stripos($file->getContents(), '_PS_VERSION_') === false) {
+                return false;
+        }
+
+        $path = new \SplFileInfo($file->getPathInfo()->getPath());
 
         // Return result if working
         return new System($this->getName(), $path);
@@ -77,20 +80,24 @@ class PrestashopAdapter implements AdapterInterface
      */
     public function detectVersion(\SplFileInfo $path)
     {
-         foreach ($this->versions as $version) {
-            $sysEnvBuilder = $path->getRealPath() . $version['filename'];
-            if (!file_exists($sysEnvBuilder)) {
+        foreach ($this->versions as $version) {
+            $versionFile = $path->getRealPath() . $version['filename'];
+
+            if (!file_exists($versionFile)) {
                 continue;
             }
-            if (!is_readable($sysEnvBuilder)) {
-                throw new \RuntimeException(sprintf("Unreadable version information file %s", $sysEnvBuilder));
-	    }
-	    if (preg_match($version['regexp'], file_get_contents($sysEnvBuilder), $matches)) {
+
+            if (!is_readable($versionFile)) {
+                throw new \RuntimeException(sprintf("Unreadable version information file %s", $versionFile));
+            }
+
+            if (preg_match($version['regexp'], file_get_contents($versionFile), $matches)) {
                 if (count($matches) > 1) {
                     return $matches[1];
                 }
             }
         }
+
         // this must not happen usually
         return null;
     }

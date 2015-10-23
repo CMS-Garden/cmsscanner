@@ -29,7 +29,7 @@ class ContaoAdapter implements AdapterInterface
     protected $versions = array(
         array( // Contao 2.x
             'filename' => '/system/constants.php',
-	    'regexp' => '/define\\(\'VERSION\', \'(.+)\'\\)/'
+            'regexp' => '/define\\(\'VERSION\', \'(.+)\'\\)/'
         ),
         array( // Contao 3.x
             'filename' => '/system/config/constants.php',
@@ -60,18 +60,20 @@ class ContaoAdapter implements AdapterInterface
     public function detectSystem(SplFileInfo $file)
     {
         $fileName = $file->getFilename();
-        if ($fileName !== "constants.php" ) {
+        if ($fileName !== "constants.php") {
             return false;
-	}
-	if (stripos($file->getContents(), 'Contao') === false) {
-	    return false;
-	}
-	if ( basename($file->getPath()) === 'system' ) {
-	    // Contao 2.x
-	    $path = new \SplFileInfo($file->getPathInfo()->getPath());
-	} else {
-	    $path = new \SplFileInfo(dirname($file->getPathInfo()->getPath()));
-	}
+        }
+
+        if (stripos($file->getContents(), 'Contao') === false) {
+            return false;
+        }
+
+        if (basename($file->getPath()) === 'system') {
+            // Contao 2.x
+            $path = new \SplFileInfo($file->getPathInfo()->getPath());
+        } else {
+            $path = new \SplFileInfo(dirname($file->getPathInfo()->getPath()));
+        }
 
         // Return result if working
         return new System($this->getName(), $path);
@@ -86,20 +88,24 @@ class ContaoAdapter implements AdapterInterface
      */
     public function detectVersion(\SplFileInfo $path)
     {
-         foreach ($this->versions as $version) {
-            $sysEnvBuilder = $path->getRealPath() . $version['filename'];
-            if (!file_exists($sysEnvBuilder)) {
+        foreach ($this->versions as $version) {
+            $versionFile = $path->getRealPath() . $version['filename'];
+
+            if (!file_exists($versionFile)) {
                 continue;
             }
-            if (!is_readable($sysEnvBuilder)) {
-                throw new \RuntimeException(sprintf("Unreadable version information file %s", $sysEnvBuilder));
-	    }
-	    if (preg_match($version['regexp'], file_get_contents($sysEnvBuilder), $matches)) {
+
+            if (!is_readable($versionFile)) {
+                throw new \RuntimeException(sprintf("Unreadable version information file %s", $versionFile));
+            }
+
+            if (preg_match($version['regexp'], file_get_contents($versionFile), $matches)) {
                 if (count($matches) > 1) {
                     return $matches[1];
                 }
             }
         }
+
         // this must not happen usually
         return null;
     }

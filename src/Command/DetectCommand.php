@@ -110,10 +110,8 @@ class DetectCommand extends AbstractDetectionCommand
 
         // Iterate through results
         foreach ($finder as $file) {
-
             // Iterate through system adapters
             foreach ($this->adapters as $adapterName => $adapter) {
-
                 // Pass the search result to the system adapter to verify the result
                 if (!$system = $adapter->detectSystem($file)) {
                     // search result doesn't match with system

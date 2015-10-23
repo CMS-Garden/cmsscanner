@@ -27,7 +27,10 @@ class AbstractDetectionCommandTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         // Create mock of abstract class AbstractDetectionCommand to test concrete methods in there
-        $this->object = $this->getMockForAbstractClass('Cmsgarden\Cmsscanner\Command\AbstractDetectionCommand', array("Commandname"));
+        $this->object = $this->getMockForAbstractClass(
+            'Cmsgarden\Cmsscanner\Command\AbstractDetectionCommand',
+            array("Commandname")
+        );
     }
 
     public function testConstructorAddsAllAdapters()

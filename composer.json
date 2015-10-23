@@ -22,7 +22,8 @@
         "herrera-io/phar-update": "1.*"
     },
     "require-dev": {
-        "phpunit/phpunit": "4.1.*"
+        "phpunit/phpunit": "4.1.*",
+        "squizlabs/php_codesniffer": "2.x"
     },
     "autoload": {
         "psr-4": {

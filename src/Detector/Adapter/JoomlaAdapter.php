@@ -104,7 +104,8 @@ class JoomlaAdapter implements AdapterInterface
             return false;
         }
 
-        if (stripos($file->getContents(), "JConfig") === false && stripos($file->getContents(), 'mosConfig') === false) {
+        if (stripos($file->getContents(), "JConfig") === false
+            && stripos($file->getContents(), 'mosConfig') === false) {
             return false;
         }
 
