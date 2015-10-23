@@ -8,28 +8,28 @@
 
 namespace Cmsgarden\Cmsscanner\Tests\Adapters;
 
-use Cmsgarden\Cmsscanner\Detector\Adapter\JoomlaAdapter;
+use Cmsgarden\Cmsscanner\Detector\Adapter\ContaoAdapter;
 use Symfony\Component\Finder\Finder;
 
 /**
- * Class JoomlaAdapterTest
+ * Class ContaoAdapterTest
  * @package Cmsgarden\Cmsscanner\Tests\Adapters
  *
  * @since   1.0.0
  */
-class JoomlaAdapterTest extends \PHPUnit_Framework_TestCase
+class ContaoAdapterTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var JoomlaAdapter */
+    /** @var ContaoAdapter */
     public $object;
 
     public function setUp()
     {
-        $this->object = new JoomlaAdapter();
+        $this->object = new ContaoAdapter();
     }
 
     public function testCorrectNameIsReturned()
     {
-        $this->assertEquals('Joomla', $this->object->getName());
+        $this->assertEquals('Contao', $this->object->getName());
     }
 
     public function testSystemsAreDetected()
@@ -58,18 +58,10 @@ class JoomlaAdapterTest extends \PHPUnit_Framework_TestCase
             $results[$system->version] = $system;
         }
 
-        $this->assertCount(10, $results);
-        $this->assertEquals(5, $falseCount);
-        $this->assertArrayHasKey('', $results);
-        $this->assertArrayHasKey('1.0.11', $results);
-        $this->assertArrayHasKey('1.5.25', $results);
-        $this->assertArrayHasKey('1.6.6', $results);
-        $this->assertArrayHasKey('1.7.3', $results);
-        $this->assertArrayHasKey('2.5.24', $results);
-        $this->assertArrayHasKey('3.0.5', $results);
-        $this->assertArrayHasKey('3.1.1', $results);
-        $this->assertArrayHasKey('3.2.0', $results);
-        $this->assertArrayHasKey('3.3.4', $results);
+        $this->assertCount(2, $results);
+        $this->assertEquals(15, $falseCount);
+        $this->assertArrayHasKey('2.10', $results);
+        $this->assertArrayHasKey('3.1', $results);
         $this->assertInstanceOf('Cmsgarden\Cmsscanner\Detector\System', current($results));
     }
 }
