@@ -12,6 +12,7 @@ use Cmsgarden\Cmsscanner\Detector\Adapter\AdapterInterface;
 use Cmsgarden\Cmsscanner\Detector\Adapter\ContaoAdapter;
 use Cmsgarden\Cmsscanner\Detector\Adapter\DrupalAdapter;
 use Cmsgarden\Cmsscanner\Detector\Adapter\JoomlaAdapter;
+use Cmsgarden\Cmsscanner\Detector\Adapter\PrestashopAdapter;
 use Cmsgarden\Cmsscanner\Detector\Adapter\Typo3CmsAdapter;
 use Cmsgarden\Cmsscanner\Detector\Adapter\WordpressAdapter;
 use Symfony\Component\Console\Command\Command;
@@ -36,11 +37,12 @@ abstract class AbstractDetectionCommand extends Command
         parent::__construct($name);
 
         $this
-            ->addAdapter(new JoomlaAdapter())
             ->addAdapter(new ContaoAdapter())
-            ->addAdapter(new WordpressAdapter())
             ->addAdapter(new DrupalAdapter())
+            ->addAdapter(new JoomlaAdapter())
+            ->addAdapter(new PrestashopAdapter())
             ->addAdapter(new Typo3CmsAdapter())
+            ->addAdapter(new WordpressAdapter())
         ;
     }
 
