@@ -22,5 +22,11 @@
         "sha1": "a9af69fdd57aea65ebe51c1f71f509d314c88467",
         "url": "http://cms-garden.github.io/cmsscanner/downloads/cmsscanner-0.3.0.phar",
         "version": "0.3.0"
+    },
+    {
+        "name": "cmsscanner.phar",
+        "sha1": "e23d3e0761e5c1a3e2519944a78f0695466df350",
+        "url": "http://cms-garden.github.io/cmsscanner/downloads/cmsscanner-0.4.0.phar",
+        "version": "0.4.0"
     }
 ]
