@@ -2,12 +2,13 @@
 
 # CMS-Garden CMSScanner
 
-This tool is developed by the CMS-Garden project. It's designed to scan a local filesystem for installations of the well known FOSS CMS systems that are part of the [CMS-Garden Project](www.cms-garden.org):
+This tool is developed by the CMS-Garden project. It's designed to scan a local filesystem for installations of the well known FOSS CMS systems that are part of the [CMS-Garden Project](http://www.cms-garden.org/):
 
-* Joomla
+* Contao
 * Drupal
-* WordPress
+* Joomla
 * TYPO3 CMS
+* WordPress
 
 It is designed to work on Linux, OS X and FreeBSD.
 
