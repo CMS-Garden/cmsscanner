@@ -9,6 +9,7 @@ This tool is developed by the CMS-Garden project. It's designed to scan a local 
 * Joomla
 * TYPO3 CMS
 * WordPress
+* Prestashop
 
 It is designed to work on Linux, OS X and FreeBSD.
 
@@ -20,7 +21,7 @@ For available options, try running:
 
 1. Download the current version of CMSScanner as a phar archive:
 
-	`wget http://cms-garden.github.io/cmsscanner/downloads/cmsscanner-0.3.0.phar && mv cmsscanner-0.3.0.phar cmsscanner.phar`
+	`wget http://cms-garden.github.io/cmsscanner/downloads/cmsscanner-0.4.0.phar && mv cmsscanner-0.4.0.phar cmsscanner.phar`
 
 2. Make it executable
 
