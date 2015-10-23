@@ -39,32 +39,44 @@ class SystemTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException PHPUnit_Framework_Error
-     *
      * @return void
      */
     public function testConstructorRequiresRefusesStringAsPath()
     {
+        if (version_compare(PHP_VERSION, '7.0.0') >= 0) {
+            $this->setExpectedException("TypeError");
+        } else {
+            $this->setExpectedException("PHPUnit_Framework_Error");
+        }
+
         new System("heregoesthename", "/tmp");
     }
 
     /**
-     * @expectedException PHPUnit_Framework_Error
-     *
      * @return void
      */
     public function testConstructorRequiresRefusesIntAsPath()
     {
+        if (version_compare(PHP_VERSION, '7.0.0') >= 0) {
+            $this->setExpectedException("TypeError");
+        } else {
+            $this->setExpectedException("PHPUnit_Framework_Error");
+        }
+
         new System("heregoesthename", 3);
     }
 
     /**
-     * @expectedException PHPUnit_Framework_Error
-     *
      * @return void
      */
     public function testConstructorRequiresRefusesArrayAsPath()
     {
+        if (version_compare(PHP_VERSION, '7.0.0') >= 0) {
+            $this->setExpectedException("TypeError");
+        } else {
+            $this->setExpectedException("PHPUnit_Framework_Error");
+        }
+
         new System("heregoesthename", array("/"));
     }
 

@@ -16,7 +16,7 @@ matrix:
 script:
   - composer selfupdate
   - composer install
-  - phpunit --configuration phpunit.xml
+  - ./vendor/bin/phpunit --configuration phpunit.xml
   - ./vendor/bin/phpcs --standard=PSR2 src tests/suites
 
 branches:
