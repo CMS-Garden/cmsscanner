@@ -8,8 +8,6 @@
 
 namespace Cmsgarden\Cmsscanner\Detector;
 
-use Symfony\Component\Finder\SplFileInfo;
-
 /**
  * Class Module
  *
@@ -27,7 +25,7 @@ class Module
     public $name;
 
     /**
-     * @var SplFileInfo The path of the module.
+     * @var string The path of the module.
      */
     public $path;
 
@@ -39,11 +37,11 @@ class Module
     /**
      * Ctor.
      *
-     * @param string       $name    The name of the module.
-     * @param SplFileInfo $path    The path of the module.
-     * @param string       $version The version of the module.
+     * @param string $name    The name of the module.
+     * @param string $path    The path of the module.
+     * @param string $version The version of the module.
      */
-    public function __construct($name, SplPathInfo $path, $version)
+    public function __construct($name, $path, $version)
     {
         $this->name    = $name;
         $this->path    = $path;
