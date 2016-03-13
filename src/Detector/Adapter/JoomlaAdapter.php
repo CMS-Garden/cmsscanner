@@ -216,10 +216,10 @@ class JoomlaAdapter implements AdapterInterface
         $version = null;
         $content = file_get_contents($file);
         if (preg_match('/<name>(.*)<\/name>/', $content, $matches)) {
-            $name = strip_tags($matches[0]);
+            $name = $matches[1];
         }
         if (preg_match('/<version>(.*)<\/version>/', $content, $matches)) {
-            $version = strip_tags($matches[0]);
+            $version = $matches[1];
         }
         return array('name' => $name, 'version' => $version);
     }
