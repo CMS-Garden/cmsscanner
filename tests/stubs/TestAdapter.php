@@ -31,6 +31,11 @@ class TestAdapter implements AdapterInterface
         return null;
     }
 
+    public function detectModules(\SplFileInfo $path)
+    {
+        // TODO: Implement detectModules() method.
+    }
+
     public function getName()
     {
         return 'Test';
