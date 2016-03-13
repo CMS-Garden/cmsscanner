@@ -47,7 +47,7 @@ class DetectCommand extends AbstractDetectionCommand
                 'modules',
                 null,
                 InputOption::VALUE_NONE,
-                'If set, the detector will try to determine the modules/extensions/plugins/components with their version'
+                'If set, the detector will try to determine the modules/extensions/plugins etc. with their version'
             )
             ->addOption(
                 'versions',
@@ -275,16 +275,16 @@ class DetectCommand extends AbstractDetectionCommand
         // we need this to convert the \SplFileInfo object into a normal path string
         // and the modules to a format which can be json encoded
         array_walk($results, function (&$result) {
-                $modules = array();
-                foreach ($result->getModules() as $module) {
-                    $modules[] = $module->toArray();
-                }
-                $result = array(
-                    'name' => $result->getName(),
-                    'version' => $result->getVersion(),
-                    'path' => $result->getPath()->getRealPath(),
-                    'modules' => $modules
-                );
+            $modules = array();
+            foreach ($result->getModules() as $module) {
+                $modules[] = $module->toArray();
+            }
+            $result = array(
+              'name' => $result->getName(),
+              'version' => $result->getVersion(),
+              'path' => $result->getPath()->getRealPath(),
+              'modules' => $modules
+            );
         });
 
         if (file_put_contents($path, json_encode($results)) === false) {
