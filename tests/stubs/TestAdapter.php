@@ -23,7 +23,7 @@ class TestAdapter implements AdapterInterface
 
     public function detectSystem(SplFileInfo $file)
     {
-        return new System("TestSystem", new SplFileInfo(__FILE__));
+        return new System("TestSystem", new \SplFileInfo(__FILE__));
     }
 
     public function detectVersion(\SplFileInfo $path)
