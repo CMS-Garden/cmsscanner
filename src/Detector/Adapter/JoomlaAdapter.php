@@ -182,10 +182,19 @@ class JoomlaAdapter implements AdapterInterface
         $modules = array();
         foreach ($this->modulePaths as $mpath) {
             $mpath = sprintf('%s/%s/*', $path->getRealPath(), $mpath);
-            foreach (array_filter(glob($mpath), 'is_dir') as $dir) {
-                $infoFile = sprintf('%s/%s.xml', $dir, pathinfo($dir, PATHINFO_FILENAME));
+            foreach (array_filter(glob($mpath, GLOB_ONLYDIR)) as $dir) {
+                $pathTpl = '%s/%s.xml';
+                $infoFile = sprintf($pathTpl, $dir, pathinfo($dir, PATHINFO_FILENAME));
+                $fallbackInfoFile = sprintf($pathTpl, $dir, substr(strpos($filename, '_'), strlen($filename)));
+                $info = null;
+
                 if (file_exists($infoFile)) {
                     $info = $this->parseXMLInfoFile($infoFile);
+                } elseif (file_exists($fallbackInfoFile)) {
+                    $info = $this->parseXMLInfoFile($fallbackInfoFile);
+                }
+
+                if ($info !== null) {
                     $modules[] = new Module($info['name'], $dir, $info['version']);
                 }
             }
@@ -203,8 +212,9 @@ class JoomlaAdapter implements AdapterInterface
      */
     private function parseXMLInfoFile($file)
     {
-        $name = $version = NULL;
-        $content = file_get_contents($file);;
+        $name = null;
+        $version = null;
+        $content = file_get_contents($file);
         if (preg_match('/<name>(.*)<\/name>/', $content, $matches)) {
             $name = strip_tags($matches[0]);
         }
