@@ -273,11 +273,17 @@ class DetectCommand extends AbstractDetectionCommand
     protected function writeReport(array $results, $path)
     {
         // we need this to convert the \SplFileInfo object into a normal path string
-        array_walk($results, function (&$result, $key) {
+        // and the modules to a format which can be json encoded
+        array_walk($results, function (&$result) {
+                $modules = array();
+                foreach ($result->getModules() as $module) {
+                    $modules[] = $module->toArray();
+                }
                 $result = array(
-                    "name" => $result->getName(),
-                    "version" => $result->getVersion(),
-                    "path" => $result->getPath()->getRealPath()
+                    'name' => $result->getName(),
+                    'version' => $result->getVersion(),
+                    'path' => $result->getPath()->getRealPath(),
+                    'modules' => $modules
                 );
         });
 
