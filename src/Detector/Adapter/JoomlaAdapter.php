@@ -183,11 +183,15 @@ class JoomlaAdapter implements AdapterInterface
         foreach ($this->modulePaths as $mpath) {
             $mpath = sprintf('%s/%s/*', $path->getRealPath(), $mpath);
             foreach (array_filter(glob($mpath), 'is_dir') as $dir) {
-                $infoFile = sprintf('%s/%s.xml', $dir, pathinfo($mpath, PATHINFO_FILENAME));
-                $info = $this->parseXMLInfoFile($infoFile);
-                $modules[] = new Module($info['name'], $dir, $info['version']);
+                $infoFile = sprintf('%s/%s.xml', $dir, pathinfo($dir, PATHINFO_FILENAME));
+                if (file_exists($infoFile)) {
+                    $info = $this->parseXMLInfoFile($infoFile);
+                    $modules[] = new Module($info['name'], $dir, $info['version']);
+                }
             }
         }
+
+        return $modules;
     }
 
     /**
@@ -199,10 +203,14 @@ class JoomlaAdapter implements AdapterInterface
      */
     private function parseXMLInfoFile($file)
     {
-        // avoid XML parser cause of performance, use RegEx instead
-        $content = file_get_contents($file);
-        $name = preg_match_all('/<name>(.*)<\/name>/', $content);
-        $version = preg_match_all('/<version>(.*)<\/version>/', $content);
+        $name = $version = NULL;
+        $content = file_get_contents($file);;
+        if (preg_match('/<name>(.*)<\/name>/', $content, $matches)) {
+            $name = strip_tags($matches[0]);
+        }
+        if (preg_match('/<version>(.*)<\/version>/', $content, $matches)) {
+            $version = strip_tags($matches[0]);
+        }
         return array('name' => $name, 'version' => $version);
     }
 
