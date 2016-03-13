@@ -43,6 +43,15 @@ interface AdapterInterface
     public function detectVersion(\SplFileInfo $path);
 
     /**
+     * Detect modules/extensions including version of an installed system.
+     *
+     * @param \SplFileInfo $path Path of the installed system.
+     *
+     * @return null|array A list of the installed modules/extensions with their versions.
+     */
+    public function detectModules(\SplFileInfo $path);
+
+    /**
      * Name of the system
      *
      * @return string

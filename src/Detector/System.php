@@ -31,6 +31,11 @@ class System
      */
     public $path = null;
 
+    /**
+     * @var array The list of the modules
+     */
+    public $modules = array();
+
     public function __construct($name, \SplFileInfo $path)
     {
         $this->setName($name);
@@ -95,5 +100,27 @@ class System
     public function setVersion($version)
     {
         $this->version = $version;
+    }
+
+    /**
+     * Get the installed modules.
+     *
+     * @return Module[] The installed modules.
+     */
+    public function getModules()
+    {
+        return $this->modules;
+    }
+
+    /**
+     * Add a module.
+     *
+     * @param Module $module The module to add.
+     *
+     * @return void
+     */
+    public function addModule(Module $module)
+    {
+        $this->modules[] = $module;
     }
 }

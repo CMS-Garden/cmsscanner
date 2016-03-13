@@ -44,6 +44,12 @@ class DetectCommand extends AbstractDetectionCommand
                 'If set, the detector will limit the directory recursion to the specified level'
             )
             ->addOption(
+                'modules',
+                null,
+                InputOption::VALUE_NONE,
+                'If set, the detector will try to determine the modules/extensions/plugins/components with their version'
+            )
+            ->addOption(
                 'versions',
                 null,
                 InputOption::VALUE_NONE,
@@ -121,6 +127,11 @@ class DetectCommand extends AbstractDetectionCommand
                 // If enabled, try to determine the used CMS version
                 if ($input->getOption('versions')) {
                     $system->version = $adapter->detectVersion($system->getPath());
+                }
+
+                // If enabled, try to determine the used modules/extensions/plugins/components of the CMS
+                if ($input->getOption('modules')) {
+                    $system->modules = $adapter->detectModules($system->getPath());
                 }
 
                 // Append successful result to array

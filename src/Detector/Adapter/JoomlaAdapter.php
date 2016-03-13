@@ -9,6 +9,7 @@
 namespace Cmsgarden\Cmsscanner\Detector\Adapter;
 
 use Cmsgarden\Cmsscanner\Detector\System;
+use Cmsgarden\Cmsscanner\Detector\Module;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo;
 
@@ -75,6 +76,16 @@ class JoomlaAdapter implements AdapterInterface
             "regex" => "/\\\$RELEASE\\s*=\\s*'3\\.4';[\\s\\S]*\\\$DEV_LEVEL\\s*=\\s*'([^']+)'/",
             "minor" => "3.4."
         )
+    );
+
+    private $modulePaths = array(
+        'components',
+        'modules',
+        'plugins',
+        'templates',
+        'administrator/components',
+        'administrator/templates',
+        'administrator/modules'
     );
 
     /**
@@ -161,6 +172,38 @@ class JoomlaAdapter implements AdapterInterface
         }
 
         return null;
+    }
+
+    /**
+     * @InheritDoc
+     */
+    public function detectModules(\SplFileInfo $path)
+    {
+        $modules = array();
+        foreach ($this->modulePaths as $mpath) {
+            $mpath = sprintf('%s/%s/*', $path->getRealPath(), $mpath);
+            foreach (array_filter(glob($mpath), 'is_dir') as $dir) {
+                $infoFile = sprintf('%s/%s.xml', $dir, pathinfo($mpath, PATHINFO_FILENAME));
+                $info = $this->parseXMLInfoFile($infoFile);
+                $modules[] = new Module($info['name'], $dir, $info['version']);
+            }
+        }
+    }
+
+    /**
+     * Parse an XML info file.
+     *
+     * @param string $file Full file path of the xml info file.
+     *
+     * @return array The data of the XML file.
+     */
+    private function parseXMLInfoFile($file)
+    {
+        // avoid XML parser cause of performance, use RegEx instead
+        $content = file_get_contents($file);
+        $name = preg_match_all('/<name>(.*)<\/name>/', $content);
+        $version = preg_match_all('/<version>(.*)<\/version>/', $content);
+        return array('name' => $name, 'version' => $version);
     }
 
     /***

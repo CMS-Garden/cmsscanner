@@ -107,6 +107,15 @@ class DrupalAdapter implements AdapterInterface
         return null;
     }
 
+    /**
+     * @InheritDoc
+     */
+    public function detectModules(\SplFileInfo $path)
+    {
+        // TODO implement this function
+        return null;
+    }
+
     /***
      * @return string
      */

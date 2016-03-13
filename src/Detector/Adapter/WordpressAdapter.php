@@ -81,6 +81,15 @@ class WordpressAdapter implements AdapterInterface
     }
 
     /**
+     * @InheritDoc
+     */
+    public function detectModules(\SplFileInfo $path)
+    {
+        // TODO implement this function
+        return null;
+    }
+
+    /**
      * @return string
      */
     public function getName()
