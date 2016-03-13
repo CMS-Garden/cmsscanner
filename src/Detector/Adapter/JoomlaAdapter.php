@@ -78,14 +78,23 @@ class JoomlaAdapter implements AdapterInterface
         )
     );
 
-    private $modulePaths = array(
+    private $componentPaths = array(
         'components',
+        'administrator/components'
+    );
+
+    private $modulePaths = array(
         'modules',
-        'plugins',
-        'templates',
-        'administrator/components',
-        'administrator/templates',
         'administrator/modules'
+    );
+
+    private $pluginPaths = array(
+        'plugins'
+    );
+
+    private $templatePaths = array(
+        'templates',
+        'administrator/templates'
     );
 
     /**
@@ -180,27 +189,63 @@ class JoomlaAdapter implements AdapterInterface
     public function detectModules(\SplFileInfo $path)
     {
         $modules = array();
-        foreach ($this->modulePaths as $mpath) {
-            $mpath = sprintf('%s/%s/*', $path->getRealPath(), $mpath);
-            foreach (array_filter(glob($mpath, GLOB_ONLYDIR)) as $dir) {
-                $pathTpl = '%s/%s.xml';
-                $infoFile = sprintf($pathTpl, $dir, pathinfo($dir, PATHINFO_FILENAME));
-                $fallbackInfoFile = sprintf($pathTpl, $dir, substr(strpos($filename, '_'), strlen($filename)));
-                $info = null;
 
+        foreach ($this->modulePaths as $mpath) {
+            foreach (glob(sprintf('%s/%s/*', $path->getRealPath(), $mpath), GLOB_ONLYDIR) as $dir) {
+                $infoFile = sprintf('%s/%s.xml', $dir, pathinfo($dir, PATHINFO_FILENAME));
                 if (file_exists($infoFile)) {
                     $info = $this->parseXMLInfoFile($infoFile);
-                } elseif (file_exists($fallbackInfoFile)) {
-                    $info = $this->parseXMLInfoFile($fallbackInfoFile);
-                }
-
-                if ($info !== null) {
                     $modules[] = new Module($info['name'], $dir, $info['version']);
                 }
             }
         }
 
+        $this->detectComponents($path, $modules);
+        $this->detectPlugins($path, $modules);
+        $this->detectTemplates($path, $modules);
+
         return $modules;
+    }
+
+    private function detectComponents(\SplFileInfo $path, array &$modules)
+    {
+        foreach ($this->componentPaths as $cpath) {
+            foreach (glob(sprintf('%s/%s/*', $path->getRealPath(), $cpath), GLOB_ONLYDIR) as $dir) {
+                $filename = pathinfo($dir, PATHINFO_FILENAME);
+                $filename = substr($filename, strpos($filename, '_') + 1);
+                $infoFile = sprintf('%s/%s.xml', $dir, $filename);
+                if (file_exists($infoFile)) {
+                    $info = $this->parseXMLInfoFile($infoFile);
+                    $modules[] = new Module($info['name'], $dir, $info['version']);
+                }
+            }
+        }
+    }
+
+    private function detectPlugins(\SplFileInfo $path, array &$modules)
+    {
+        foreach ($this->pluginPaths as $ppath) {
+            foreach (glob(sprintf('%s/%s/*/*', $path->getRealPath(), $ppath), GLOB_ONLYDIR) as $dir) {
+                $infoFile = sprintf('%s/%s.xml', $dir, pathinfo($dir, PATHINFO_FILENAME));
+                if (file_exists($infoFile)) {
+                    $info = $this->parseXMLInfoFile($infoFile);
+                    $modules[] = new Module($info['name'], $dir, $info['version']);
+                }
+            }
+        }
+    }
+
+    private function detectTemplates(\SplFileInfo $path, array &$modules)
+    {
+        foreach ($this->templatePaths as $tpath) {
+            foreach (glob(sprintf('%s/%s/*', $path->getRealPath(), $tpath), GLOB_ONLYDIR) as $dir) {
+                $infoFile = sprintf('%s/templateDetails.xml', $dir);
+                if (file_exists($infoFile)) {
+                    $info = $this->parseXMLInfoFile($infoFile);
+                    $modules[] = new Module($info['name'], $dir, $info['version']);
+                }
+            }
+        }
     }
 
     /**
