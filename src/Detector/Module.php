@@ -47,4 +47,18 @@ class Module
         $this->path    = $path;
         $this->version = $version;
     }
+
+    /**
+     * Convert object to assoc array.
+     *
+     * @return array The data of the object as array.
+     */
+    public function toArray()
+    {
+        return array(
+            'name' => $this->name,
+            'version' => $this->version,
+            'path' => $this->path
+        );
+    }
 }
