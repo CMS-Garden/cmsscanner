@@ -170,10 +170,10 @@ class DrupalAdapter implements AdapterInterface
               $info_file = dirname($file->uri). '/' . $file->name . $options['infoFile']
             )) {
                 if (preg_match('/project' . $options['keySeperator'] . ' (.+)/', file_get_contents($info_file), $matches) &&
-                  preg_match('/version' . $options['keySeperator'] . ' (.+)/', file_get_contents($info_file), $verMatches)
+                  preg_match('/version' . $options['keySeperator'] . '(.+' . $versionComp . '\.x-.+)/', file_get_contents($info_file), $verMatches)
                 ) {
-                    $project = trim($matches[1], '"');
-                    $version = trim($verMatches[1], '"');
+                    $project = trim($matches[1], '"\' ');
+                    $version = trim($verMatches[1], '"\' ');
                     if ($project != 'drupal') {
                         $modules[$project] = new Module($project, dirname($file->uri), $version);
                     }
@@ -224,7 +224,7 @@ class DrupalAdapter implements AdapterInterface
         }
         return $files;
     }
-    
+
     /***
      * @return string
      */
