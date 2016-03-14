@@ -54,6 +54,7 @@ class DrupalAdapterTest extends \PHPUnit_Framework_TestCase
             }
 
             $system->version = $this->object->detectVersion($system->getPath());
+            $system->modules = $this->object->detectModules($system->getPath());
 
             // Append successful result to array
             $results[$system->version] = $system;
@@ -62,9 +63,14 @@ class DrupalAdapterTest extends \PHPUnit_Framework_TestCase
         $this->assertCount(4, $results);
         $this->assertEquals(1, $falseCount);
         $this->assertArrayHasKey('', $results);
+        $this->assertCount(0, $results['']->modules);
         $this->assertArrayHasKey('6.34', $results);
+        $this->assertCount(0, $results['6.34']->modules);
         $this->assertArrayHasKey('7.33', $results);
+        $this->assertCount(3, $results['7.33']->modules);
         $this->assertArrayHasKey('8.0.0-beta3', $results);
+        $this->assertCount(1, $results['8.0.0-beta3']->modules);
+
         $this->assertInstanceOf('Cmsgarden\Cmsscanner\Detector\System', current($results));
     }
 }
