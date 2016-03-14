@@ -36,6 +36,9 @@ class DrupalAdapter implements AdapterInterface
         )
     );
 
+    /** @var string Major version of Drupal 7, 8 etc. */
+    private $majorVersion;
+
     /**
      * Drupal has, depending on the version either a file called system.info or system.info.yaml
      *
@@ -113,105 +116,126 @@ class DrupalAdapter implements AdapterInterface
      */
     public function detectModules(\SplFileInfo $path)
     {
-        $version = $this->detectVersion($path);
-        $versionComp = substr($version, 0, 1);
-        $searchDirs = array(
-          'modules/*',
-          'profiles/*',
-          'sites/*/modules/*',
-          'sites/*/themes/*',
-        );
-        $moduleMask = '/^[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*\.module$/';
-        $options = array(
-          'keySeperator' => ':',
-          'infoFile' => '.info.yml'
-        );
+        $this->majorVersion = substr($this->detectVersion($path), 0, 1);
+        $mask = '/^[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*\.info\.yml$/';
+        $seperator = ':';
+        if ((int) $this->majorVersion < 8) {
+            $seperator = ' =';
+            $mask = '/^[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*\.info$/';
 
-        if ((int) $versionComp < 8) {
-            $options = array(
-              'keySeperator' => ' =',
-              'infoFile' => '.info'
-            );
-            $searchDirs = array(
-              'modules/*',
-              'profiles/*/*',
-              'sites/all/modules/*',
-              'sites/all/themes/*',
-              'sites/*/modules/*',
-              'sites/*/themes/*',
-            );
         }
-        $files = array();
-        foreach ($searchDirs as $searchDir) {
-            $searchDirPattern = $path . '/' . $searchDir;
-            foreach (glob($searchDirPattern, GLOB_ONLYDIR) as $dir) {
-                $files_to_add = $this->findModuleFiles($dir, $moduleMask);
-                foreach (array_intersect_key($files_to_add, $files) as $file_key => $file) {
-                    // If it has no info file, then we just behave liberally and accept the
-                    // new resource on the list for merging.
-                    if (file_exists(
-                      $info_file = dirname($file->uri). '/' . $file->name . $options['infoFile']
-                    )) {
-                        if (preg_match('/core' . $options['keySeperator'] . ' (.+)/', file_get_contents($info_file), $matches)) {
-                            if ($matches[1] !== $versionComp . '.x') {
-                                unset($files_to_add[$file->name]);
-                            }
-                        }
-                    }
-
-
-                }
-                $files = array_merge($files, $files_to_add);
-            }
-        }
+        $files = $this->collectFiles($path, $mask, $seperator);
         $modules = array();
         foreach ($files as $file) {
-            if (file_exists(
-              $info_file = dirname($file->uri). '/' . $file->name . $options['infoFile']
-            )) {
-                if (preg_match('/project' . $options['keySeperator'] . ' (.+)/', file_get_contents($info_file), $matches) &&
-                  preg_match('/version' . $options['keySeperator'] . '(.+' . $versionComp . '\.x-.+)/', file_get_contents($info_file), $verMatches)
-                ) {
-                    $project = trim($matches[1], '"\' ');
-                    $version = trim($verMatches[1], '"\' ');
-                    if ($project != 'drupal') {
-                        $modules[$project] = new Module($project, dirname($file->uri), $version);
-                    }
+            $contents = file_get_contents($file->uri);
+            if (preg_match('/project' . $seperator . ' (.+)/', $contents, $matches) &&
+              preg_match('/version' . $seperator . '(.+' . $this->majorVersion . '\.x-.+)/', $contents, $verMatches)
+            ) {
+                $project = trim($matches[1], '"\' ');
+                $version = trim($verMatches[1], '"\' ');
+                // Skip core modules and dev-version.
+                if ($project != 'drupal' && strrpos($version, '-dev', -1) === false) {
+                    $modules[$project] = new Module($project, dirname($file->uri), $version);
                 }
             }
-
         }
         return $modules;
     }
 
+    /**
+     * Returns all possible directories where contrib module/theme can be stored.
+     *
+     * @param string $path The path from cli.
+     *
+     * @return array
+     *   An array of existing directories.
+     */
+    protected function getSearchDirectories($path)
+    {
+        $searchDirs = array(
+          'modules/*',
+          'themes/*',
+          'profiles/*/*',
+          'sites/*/themes/*',
+          'sites/*/modules/*',
+        );
+        $dirs = array();
+        foreach ($searchDirs as $searchDir) {
+            $searchDirPattern = $path.'/'.$searchDir;
+            foreach (glob($searchDirPattern, GLOB_ONLYDIR) as $dir) {
+                $dirs[] = $dir;
+            }
+        }
+        return $dirs;
+    }
+
+    /**
+     * Collects all info files.
+     *
+     * @param string $path The path from cli.
+     * @param string $mask The info file mask.
+     * @param string $seperator The key/value seperator in the info file.
+     *
+     * @return array
+     */
+    protected function collectFiles($path, $mask, $seperator)
+    {
+        $files = array();
+        foreach ($this->getSearchDirectories($path) as $dir) {
+            $files_to_add = $this->findFiles($dir, $mask);
+            foreach ($files_to_add as $file_key => $file) {
+                if ($this->checkCoreValueInInfoFile($file, $seperator)) {
+                    $files[] = $file;
+                }
+            }
+        }
+        return $files;
+    }
+
+    /**
+     * Checks that the core is in proper version.
+     *
+     * @param \stdClass $file The current info file.
+     * @param string $seperator The key/value seperator in the info file.
+     */
+    protected function checkCoreValueInInfoFile($file, $seperator)
+    {
+        if (preg_match('/core'.$seperator.'(.+)/', file_get_contents($file->uri), $matches)) {
+            $version = trim($matches[1], '"\' ');
+            if ($version === $this->majorVersion . '.x') {
+                return true;
+            }
+        }
+        return false;
+    }
 
     /**
      * Find all files based on the mask.
      *
-     * @param string $dir The subdirectory name in which the files are found. For example, 'modules' will search in sub-directories of the top-level /modules directory, sub-directories of /sites/all/modules/, etc.
+     * @param string $dir The subdirectory name in which the files are found.
+     *    For example, 'modules' will search in sub-directories of the top-level /modules directory,
+     *    sub-directories of /sites/all/modules/, etc.
      * @param string $mask The preg_match() regular expression for the files to find.
      *
      * @return array
-     *   An associative array of file objects, keyed on the chosen key. Each element in the array is an object containing file information, with properties:
+     *   An associative array of file objects, keyed with the name of file
+     *   without the extension. Each element in the array is an object containing file information,
+     *   with properties:
      *    - uri: Full URI of the file.
      *    - filename: File name.
      *    - name: Name of file without the extension.
      */
-    protected function findModuleFiles($dir, $mask) {
+    protected function findFiles($dir, $mask)
+    {
         $files = array();
         if (is_dir($dir) && $handle = opendir($dir)) {
             while (false !== ($filename = readdir($handle))) {
-                if (!preg_match('/(\.\.?|CVS|tests)$/', $filename) && $filename[0] != '.') {
+                if (!preg_match('/(\.\.?|CVS|test(s)?)$/i', $filename) && $filename[0] != '.') {
                     $uri = "$dir/$filename";
                     if (is_dir($uri)) {
                         // Give priority to files in this folder by merging them in after any subdirectory files.
-                        $files = array_merge(
-                          $this->findModuleFiles($uri, $mask),
-                          $files
-                        );
-                    }
-                    elseif (preg_match($mask, $filename)) {
-
+                        $files = array_merge($this->findFiles($uri, $mask), $files);
+                    } elseif (preg_match($mask, $filename)) {
                         $file = new \stdClass();
                         $file->uri = $uri;
                         $file->filename = $filename;
