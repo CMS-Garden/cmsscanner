@@ -11,6 +11,7 @@ namespace Cmsgarden\Cmsscanner\Detector\Adapter;
 use Cmsgarden\Cmsscanner\Detector\System;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo;
+use Cmsgarden\Cmsscanner\Detector\Module;
 
 /**
  * Class Typo3CmsAdapter
@@ -111,8 +112,17 @@ class Typo3CmsAdapter implements AdapterInterface
      */
     public function detectModules(\SplFileInfo $path)
     {
-        // TODO implement this function
-        return array();
+        $modules = array();
+        $EXT_KEY = 'dummy';
+        $finder = new Finder();
+
+        $finder->name('ext_emconf.php');
+        foreach ($finder->in($path->getRealPath()) as $config) {
+            include $config->getRealPath();
+            $modules[] = new Module($EM_CONF[$EXT_KEY]['title'], $config->getRealPath(), $EM_CONF[$EXT_KEY]['version']);
+        }
+
+        return $modules;
     }
 
     /***
