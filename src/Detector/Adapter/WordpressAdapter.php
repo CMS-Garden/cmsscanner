@@ -86,7 +86,7 @@ class WordpressAdapter implements AdapterInterface
     public function detectModules(\SplFileInfo $path)
     {
         // TODO implement this function
-        return null;
+        return array();
     }
 
     /**

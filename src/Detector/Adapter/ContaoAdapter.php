@@ -116,7 +116,7 @@ class ContaoAdapter implements AdapterInterface
     public function detectModules(\SplFileInfo $path)
     {
         // TODO implement this function
-        return null;
+        return array();
     }
 
     /***
