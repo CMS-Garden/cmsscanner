@@ -8,6 +8,7 @@
 
 namespace Cmsgarden\Cmsscanner\Detector\Adapter;
 
+use Cmsgarden\Cmsscanner\Detector\Module;
 use Cmsgarden\Cmsscanner\Detector\System;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo;
@@ -30,6 +31,20 @@ class ContaoAdapter implements AdapterInterface
         '/system/constants.php',
         '/system/config/constants.php',
         '/vendor/contao/core-bundle/Resources/contao/config/constants.php',
+    );
+
+    private static $coreModules = array(
+        'backend',
+        'frontend',
+        'core',
+        'calendar',
+        'comments',
+        'devtools',
+        'faq',
+        'listing',
+        'news',
+        'newsletter',
+        'repository',
     );
 
     /**
@@ -135,8 +150,13 @@ class ContaoAdapter implements AdapterInterface
      */
     public function detectModules(\SplFileInfo $path)
     {
-        // TODO implement this function
-        return array();
+        $modules = array();
+
+        $this->detectContaoModules($path, $modules);
+        $this->detectComposerModules($path->getPathname() . '/composer/vendor', $modules);
+        $this->detectComposerModules($path->getPathname() . '/vendor', $modules);
+
+        return $modules;
     }
 
     /***
@@ -145,5 +165,78 @@ class ContaoAdapter implements AdapterInterface
     public function getName()
     {
         return 'Contao';
+    }
+
+    /**
+     * Finds all Contao modules in system/modules folder
+     *
+     * @param \SplFileInfo $path
+     * @param Module[]     $modules
+     *
+     * @throws \InvalidArgumentException
+     */
+    private function detectContaoModules(\SplFileInfo $path, array &$modules)
+    {
+        $finder = Finder::create()
+            ->directories()
+            ->depth(0)
+            ->in($path->getPathname() . '/system/modules')
+        ;
+
+        /** @var SplFileInfo $dir */
+        foreach ($finder as $dir) {
+            if (in_array($dir->getBasename(), static::$coreModules, true)) {
+                continue;
+            }
+
+            $modules[] = new Module($dir->getBasename(), $dir->getPathname(), '');
+        }
+    }
+
+    /**
+     * @param string   $vendorDir
+     * @param Module[] $modules
+     */
+    private function detectComposerModules($vendorDir, array &$modules)
+    {
+        $installedJson = $vendorDir . '/composer/installed.json';
+
+        if (!file_exists($installedJson)) {
+            return;
+        }
+
+        $bundles = json_decode(file_get_contents($installedJson), true);
+
+        foreach ($bundles as $bundle) {
+            if ('contao-bundle' === $bundle['type']) {
+                $modules[] = $this->createModuleFromBundle($vendorDir, $bundle);
+                continue;
+            }
+
+            if ('contao-module' !== $bundle['type']
+                && 'legacy-contao-module' !== $bundle['type']
+            ) {
+                continue;
+            }
+
+            // Try to guess if the bundle was installed in system/modules
+            list($vendor, $name) = explode('/', $bundle['name']);
+
+            foreach ($modules as $module) {
+                if ($name === $module->name
+                    || (strpos($name, 'contao-') === 0 && substr($name, 7) === $module->name)
+                ) {
+                    $module->version = $bundle['version'];
+                    continue(2);
+                }
+            }
+
+            $modules[] = $this->createModuleFromBundle($vendorDir, $bundle);
+        }
+    }
+
+    private function createModuleFromBundle($vendorDir, array $bundle)
+    {
+        return $modules[] = new Module($bundle['name'], $vendorDir . '/' . $bundle['name'], $bundle['version']);
     }
 }
