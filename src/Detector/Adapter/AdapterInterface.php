@@ -8,6 +8,7 @@
 
 namespace Cmsgarden\Cmsscanner\Detector\Adapter;
 
+use Cmsgarden\Cmsscanner\Detector\Module;
 use Cmsgarden\Cmsscanner\Detector\System;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo;
@@ -47,7 +48,7 @@ interface AdapterInterface
      *
      * @param \SplFileInfo $path Path of the installed system.
      *
-     * @return null|array A list of the installed modules/extensions with their versions.
+     * @return null|Module[] A list of the installed modules/extensions with their versions.
      */
     public function detectModules(\SplFileInfo $path);
 
