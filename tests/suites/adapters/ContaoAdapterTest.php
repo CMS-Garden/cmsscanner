@@ -16,6 +16,8 @@ use Symfony\Component\Finder\Finder;
  * @package Cmsgarden\Cmsscanner\Tests\Adapters
  *
  * @since   1.0.0
+ *
+ * @author Andreas Schempp <https://github.com/aschempp>
  */
 class ContaoAdapterTest extends \PHPUnit_Framework_TestCase
 {
@@ -58,10 +60,11 @@ class ContaoAdapterTest extends \PHPUnit_Framework_TestCase
             $results[$system->version] = $system;
         }
 
-        $this->assertCount(2, $results);
+        $this->assertCount(3, $results);
         $this->assertEquals(15, $falseCount);
-        $this->assertArrayHasKey('2.10', $results);
-        $this->assertArrayHasKey('3.1', $results);
+        $this->assertArrayHasKey('2.10.4', $results);
+        $this->assertArrayHasKey('3.1.0', $results);
+        $this->assertArrayHasKey('4.1.1', $results);
         $this->assertInstanceOf('Cmsgarden\Cmsscanner\Detector\System', current($results));
     }
 }

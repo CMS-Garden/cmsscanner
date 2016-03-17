@@ -18,24 +18,32 @@ use Symfony\Component\Finder\SplFileInfo;
  *
  * @since   1.0.0
  * @author Anton Dollmaier <ad@aditsystems.de>
+ * @author Andreas Schempp <https://github.com/aschempp>
  */
 class ContaoAdapter implements AdapterInterface
 {
-
     /**
-     * Version detection information for Contao
+     * Possible files to detect a Contao version
      * @var array
      */
-    protected $versions = array(
-        array( // Contao 2.x
-            'filename' => '/system/constants.php',
-            'regexp' => '/define\\(\'VERSION\', \'(.+)\'\\)/'
-        ),
-        array( // Contao 3.x
-            'filename' => '/system/config/constants.php',
-            'regexp' => '/define\\(\'VERSION\', \'(.+)\'\\)/'
-        ),
+    private $paths = array(
+        '/system/constants.php',
+        '/system/config/constants.php',
+        '/vendor/contao/core-bundle/Resources/contao/config/constants.php',
     );
+
+    /**
+     * Regular expression to read the Contao version from constants.php
+     * @var string
+     */
+    private $versionRegexp = '/define\\(\'VERSION\', \'(\d\.\d{1,2})\'\\)/';
+
+    /**
+     * Regular expression to read the Contao build from constants.php
+     * @var string
+     */
+    private $buildRegexp = '/define\\(\'BUILD\', \'(\d)\'\\)/';
+
 
     /**
      * Contao has a file called constants.php that can be used to search for working installations
@@ -47,6 +55,7 @@ class ContaoAdapter implements AdapterInterface
     public function appendDetectionCriteria(Finder $finder)
     {
         $finder->name('constants.php');
+
         return $finder;
     }
 
@@ -59,8 +68,7 @@ class ContaoAdapter implements AdapterInterface
      */
     public function detectSystem(SplFileInfo $file)
     {
-        $fileName = $file->getFilename();
-        if ($fileName !== "constants.php") {
+        if ("constants.php" !== $file->getFilename()) {
             return false;
         }
 
@@ -68,15 +76,19 @@ class ContaoAdapter implements AdapterInterface
             return false;
         }
 
-        if (basename($file->getPath()) === 'system') {
-            // Contao 2.x
-            $path = new \SplFileInfo($file->getPathInfo()->getPath());
-        } else {
-            $path = new \SplFileInfo(dirname($file->getPathInfo()->getPath()));
+        foreach ($this->paths as $version) {
+            $path   = $file->getPathname();
+            $length = strlen($version) * -1;
+
+            if (substr($path, $length) === $version) {
+                return new System(
+                    $this->getName(),
+                    new \SplFileInfo(substr($path, 0, $length))
+                );
+            }
         }
 
-        // Return result if working
-        return new System($this->getName(), $path);
+        return false;
     }
 
     /**
@@ -88,8 +100,8 @@ class ContaoAdapter implements AdapterInterface
      */
     public function detectVersion(\SplFileInfo $path)
     {
-        foreach ($this->versions as $version) {
-            $versionFile = $path->getRealPath() . $version['filename'];
+        foreach ($this->paths as $version) {
+            $versionFile = $path->getRealPath() . $version;
 
             if (!file_exists($versionFile)) {
                 continue;
@@ -99,9 +111,17 @@ class ContaoAdapter implements AdapterInterface
                 throw new \RuntimeException(sprintf("Unreadable version information file %s", $versionFile));
             }
 
-            if (preg_match($version['regexp'], file_get_contents($versionFile), $matches)) {
-                if (count($matches) > 1) {
-                    return $matches[1];
+            $fileContents = file_get_contents($versionFile);
+            $version       = null;
+            $build         = null;
+
+            if (preg_match($this->versionRegexp, $fileContents, $matches) && count($matches) > 1) {
+                $version = $matches[1];
+
+                if (preg_match($this->buildRegexp, $fileContents, $matches) && count($matches) > 1) {
+                    $build = $matches[1];
+
+                    return $version . '.' . $build;
                 }
             }
         }
