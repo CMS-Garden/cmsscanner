@@ -26,7 +26,7 @@ class ContaoAdapter implements AdapterInterface
      * Possible files to detect a Contao version
      * @var array
      */
-    private $paths = array(
+    private static $paths = array(
         '/system/constants.php',
         '/system/config/constants.php',
         '/vendor/contao/core-bundle/Resources/contao/config/constants.php',
@@ -76,7 +76,7 @@ class ContaoAdapter implements AdapterInterface
             return false;
         }
 
-        foreach ($this->paths as $version) {
+        foreach (static::$paths as $version) {
             $path   = $file->getPathname();
             $length = strlen($version) * -1;
 
@@ -100,7 +100,7 @@ class ContaoAdapter implements AdapterInterface
      */
     public function detectVersion(\SplFileInfo $path)
     {
-        foreach ($this->paths as $version) {
+        foreach (static::$paths as $version) {
             $versionFile = $path->getRealPath() . $version;
 
             if (!file_exists($versionFile)) {

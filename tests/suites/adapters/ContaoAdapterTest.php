@@ -36,10 +36,12 @@ class ContaoAdapterTest extends \PHPUnit_Framework_TestCase
 
     public function testSystemsAreDetected()
     {
-        $finder = new Finder();
-        $finder->files()->in(CMSSCANNER_MOCKFILES_PATH)
+        $finder = Finder::create()
+            ->files()
+            ->in(CMSSCANNER_MOCKFILES_PATH)
             ->name('dummy.php')
-            ->name('configuration.php');
+            ->name('configuration.php')
+        ;
 
         $finder = $this->object->appendDetectionCriteria($finder);
 
