@@ -47,7 +47,7 @@ interface AdapterInterface
      *
      * @param \SplFileInfo $path Path of the installed system.
      *
-     * @return null|array A list of the installed modules/extensions with their versions.
+     * @return Module[] A list of the installed modules/extensions with their versions.
      */
     public function detectModules(\SplFileInfo $path);
 
