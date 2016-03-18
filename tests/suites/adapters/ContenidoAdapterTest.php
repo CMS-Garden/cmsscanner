@@ -91,3 +91,4 @@ class ContenidoAdapterTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('Cmsgarden\Cmsscanner\Detector\System', current($results));
     }
 }
+

@@ -8,12 +8,12 @@
 
 namespace Cmsgarden\Cmsscanner\Detector\Adapter;
 
-
 use Cmsgarden\Cmsscanner\Detector\System;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo;
 
-class ContenidoAdapter implements AdapterInterface {
+class ContenidoAdapter implements AdapterInterface
+{
 
     private $versions = array(
         array(
