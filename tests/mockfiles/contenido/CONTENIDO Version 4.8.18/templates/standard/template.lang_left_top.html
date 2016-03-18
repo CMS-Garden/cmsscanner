@@ -1,0 +1,73 @@
+<html>
+<head>
+    <title></title>
+    <meta http-equiv="expires" content="0">
+    <meta http-equiv="cache-control" content="no-cache">
+    <meta http-equiv="pragma" content="no-cache">
+    <link rel="stylesheet" type="text/css" href="styles/contenido.css">
+    <script type="text/javascript" src="scripts/contenidoConfig.js"></script>
+    <script type="text/javascript" src="scripts/messageBox.js.php?contenido={SID}"></script>
+
+    <script language="javascript">
+        var sid = "{SID}";
+        box = new messageBox("", "", "", 0, 0);
+        var iLanguagecount = -1;
+
+        function resizeFrame()
+        {
+            parent.parent.frameResize.resizeTopLeftFrame(document.getElementById('top_left_container').offsetHeight+1);
+        }
+
+        function languageNewConfirm() {
+            if (iLanguagecount == 0) {
+                langNewLanguage();
+            } else {
+                var dropList = document.getElementById("editclient");
+                var selectedIndex = dropList.selectedIndex;
+                var targetclient = dropList.options[selectedIndex].innerHTML;
+                box.confirm('i18n("Create language") '+targetclient, 'i18n("Do you really want to create a new language?")', 'langNewLanguage()')
+            }
+        }
+
+        function langNewLanguage()
+        {
+            var element = document.getElementById("editclient");
+            var targetclient = element.value;
+            url  = "";
+            url += "main.php?area=lang_edit";
+            url += "&action=lang_newlanguage";
+            url += "&frame=4";
+            url += "&targetclient="+targetclient;
+            url += "&contenido=" + sid;
+            parent.parent.frames["right"].frames["right_bottom"].location.href = url;
+        }
+
+        function langChangeClient()
+        {
+            var element = document.getElementsByTagName("SELECT");
+            url  = "";
+            url += "main.php?area=lang";
+            url += "&frame=2";
+            url += "&targetclient="+element[0].value
+            url += "&contenido=" + sid;
+            parent.parent.frames["left"].frames["left_bottom"].location.href = url;
+        }
+    </script>
+</head>
+
+<body onLoad="resizeFrame();" bgcolor="#FFFFFF" leftmargin="0" topmargin="0" marginwidth="0" marginheight="0">
+
+<div id="top_left_container" style="border: 1px solid #B3B3B3; padding:5px 0 5px 16px; margin-top:1px">
+    {NEWLANG}
+    <div style="clear:both">{CLIENTSELECT}</div>
+</div>
+
+</body>
+<!--
+template.lang_left_top
+
+i18n("Create language")
+i18n("Do you really want to create a new language?")
+
+-->
+</html>

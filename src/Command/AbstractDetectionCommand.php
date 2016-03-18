@@ -10,6 +10,7 @@ namespace Cmsgarden\Cmsscanner\Command;
 
 use Cmsgarden\Cmsscanner\Detector\Adapter\AdapterInterface;
 use Cmsgarden\Cmsscanner\Detector\Adapter\ContaoAdapter;
+use Cmsgarden\Cmsscanner\Detector\Adapter\ContenidoAdapter;
 use Cmsgarden\Cmsscanner\Detector\Adapter\DrupalAdapter;
 use Cmsgarden\Cmsscanner\Detector\Adapter\JoomlaAdapter;
 use Cmsgarden\Cmsscanner\Detector\Adapter\PrestashopAdapter;
@@ -38,6 +39,7 @@ abstract class AbstractDetectionCommand extends Command
 
         $this
             ->addAdapter(new ContaoAdapter())
+            ->addAdapter(new ContenidoAdapter())
             ->addAdapter(new DrupalAdapter())
             ->addAdapter(new JoomlaAdapter())
             ->addAdapter(new PrestashopAdapter())
