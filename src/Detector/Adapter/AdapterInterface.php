@@ -8,6 +8,7 @@
 
 namespace Cmsgarden\Cmsscanner\Detector\Adapter;
 
+use Cmsgarden\Cmsscanner\Detector\Module;
 use Cmsgarden\Cmsscanner\Detector\System;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo;
