@@ -75,6 +75,11 @@ class JoomlaAdapter implements AdapterInterface
             "file" => "/libraries/cms/version/version.php",
             "regex" => "/\\\$RELEASE\\s*=\\s*'3\\.4';[\\s\\S]*\\\$DEV_LEVEL\\s*=\\s*'([^']+)'/",
             "minor" => "3.4."
+        ),
+        array(
+            "file" => "/libraries/cms/version/version.php",
+            "regex" => "/RELEASE\\s*=\\s*'3\\.5';[\\s\\S]*const\\s*DEV_LEVEL\\s*=\\s*'([^']+)'/",
+            "minor" => "3.5."
         )
     );
 

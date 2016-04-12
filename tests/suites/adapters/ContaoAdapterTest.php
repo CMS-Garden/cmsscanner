@@ -63,7 +63,7 @@ class ContaoAdapterTest extends \PHPUnit_Framework_TestCase
         }
 
         $this->assertCount(3, $results);
-        $this->assertEquals(15, $falseCount);
+        $this->assertEquals(17, $falseCount);
         $this->assertArrayHasKey('2.10.4', $results);
         $this->assertArrayHasKey('3.1.0', $results);
         $this->assertArrayHasKey('4.1.1', $results);
