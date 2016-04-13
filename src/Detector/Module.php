@@ -35,17 +35,24 @@ class Module
     public $version;
 
     /**
+     * @var string The type of the module.
+     */
+    public $type;
+
+    /**
      * Ctor.
      *
      * @param string $name    The name of the module.
      * @param string $path    The path of the module.
      * @param string $version The version of the module.
+     * @param string $type    The type of the module.
      */
-    public function __construct($name, $path, $version)
+    public function __construct($name, $path, $version, $type = null)
     {
         $this->name    = $name;
         $this->path    = $path;
         $this->version = $version;
+        $this->type    = $type;
     }
 
     /**
@@ -58,7 +65,8 @@ class Module
         return array(
             'name' => $this->name,
             'version' => $this->version,
-            'path' => $this->path
+            'path' => $this->path,
+            'type' => $this->type
         );
     }
 }
