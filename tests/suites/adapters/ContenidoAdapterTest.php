@@ -54,7 +54,6 @@ class ContenidoAdapterTest extends \PHPUnit_Framework_TestCase
         $falseCount = 0;
 
         foreach ($finder as $file) {
-
             $system = $this->object->detectSystem($file);
 
             if ($system == false) {

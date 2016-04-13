@@ -119,20 +119,24 @@ class DrupalAdapter implements AdapterInterface
         $this->majorVersion = substr($this->detectVersion($path), 0, 1);
         $mask = '/^[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*\.info\.yml$/';
         $seperator = ':';
+
         if ((int) $this->majorVersion < 8) {
             $seperator = ' =';
             $mask = '/^[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*\.info$/';
-
         }
+
         $files = $this->collectFiles($path, $mask, $seperator);
         $modules = array();
+
         foreach ($files as $file) {
             $contents = file_get_contents($file->uri);
+
             if (preg_match('/project' . $seperator . ' (.+)/', $contents, $matches) &&
               preg_match('/version' . $seperator . '(.+' . $this->majorVersion . '\.x-.+)/', $contents, $verMatches)
             ) {
                 $project = trim($matches[1], '"\' ');
                 $version = trim($verMatches[1], '"\' ');
+
                 // Skip core modules and dev-version.
                 if ($project != 'drupal' && strrpos($version, '-dev', -1) === false) {
                     $modules[$project] = new Module($project, dirname($file->uri), $version);
@@ -159,13 +163,17 @@ class DrupalAdapter implements AdapterInterface
           'sites/*/themes/*',
           'sites/*/modules/*',
         );
+
         $dirs = array();
+
         foreach ($searchDirs as $searchDir) {
             $searchDirPattern = $path.'/'.$searchDir;
+
             foreach (glob($searchDirPattern, GLOB_ONLYDIR) as $dir) {
                 $dirs[] = $dir;
             }
         }
+
         return $dirs;
     }
 
@@ -181,14 +189,17 @@ class DrupalAdapter implements AdapterInterface
     protected function collectFiles($path, $mask, $seperator)
     {
         $files = array();
+
         foreach ($this->getSearchDirectories($path) as $dir) {
             $files_to_add = $this->findFiles($dir, $mask);
+
             foreach ($files_to_add as $file_key => $file) {
                 if ($this->checkCoreValueInInfoFile($file, $seperator)) {
                     $files[] = $file;
                 }
             }
         }
+
         return $files;
     }
 
@@ -197,15 +208,19 @@ class DrupalAdapter implements AdapterInterface
      *
      * @param \stdClass $file The current info file.
      * @param string $seperator The key/value seperator in the info file.
+     *
+     * @return boolean
      */
     protected function checkCoreValueInInfoFile($file, $seperator)
     {
         if (preg_match('/core'.$seperator.'(.+)/', file_get_contents($file->uri), $matches)) {
             $version = trim($matches[1], '"\' ');
+
             if ($version === $this->majorVersion . '.x') {
                 return true;
             }
         }
+
         return false;
     }
 
@@ -228,10 +243,12 @@ class DrupalAdapter implements AdapterInterface
     protected function findFiles($dir, $mask)
     {
         $files = array();
+
         if (is_dir($dir) && $handle = opendir($dir)) {
             while (false !== ($filename = readdir($handle))) {
                 if (!preg_match('/(\.\.?|CVS|test(s)?)$/i', $filename) && $filename[0] != '.') {
                     $uri = "$dir/$filename";
+
                     if (is_dir($uri)) {
                         // Give priority to files in this folder by merging them in after any subdirectory files.
                         $files = array_merge($this->findFiles($uri, $mask), $files);
@@ -244,6 +261,7 @@ class DrupalAdapter implements AdapterInterface
                     }
                 }
             }
+
             closedir($handle);
         }
         return $files;

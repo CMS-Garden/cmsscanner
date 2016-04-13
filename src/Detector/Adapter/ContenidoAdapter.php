@@ -108,7 +108,6 @@ class ContenidoAdapter implements AdapterInterface
     {
 
         foreach ($this->versions as $version) {
-
             if (in_array($file->getFilename(), $version)) {
 
                 $path = new \SplFileInfo($file->getPath());
@@ -116,7 +115,6 @@ class ContenidoAdapter implements AdapterInterface
                 // Return result if working
                 return new System($this->getName(), $path);
             }
-
         }
 
         return false;
@@ -133,7 +131,6 @@ class ContenidoAdapter implements AdapterInterface
     {
         // Iterate through version patterns
         foreach ($this->versions as $version) {
-
             $versionFile = $path->getRealPath() . DIRECTORY_SEPARATOR . $version['file'];
 
             if (!file_exists($versionFile)) {
@@ -145,7 +142,6 @@ class ContenidoAdapter implements AdapterInterface
             }
 
             if (array_key_exists('regex', $version)) {
-
                 preg_match($version['regex'], file_get_contents($versionFile), $matches);
 
                 if (!count($matches)) {
@@ -153,9 +149,7 @@ class ContenidoAdapter implements AdapterInterface
                 }
 
                 return $version['version'];
-
             }
-
         }
 
         return null;
