@@ -123,6 +123,29 @@ This results in a report file like this:
 	   }
 	]
 
+
+### Detect used modules and append them to report:
+
+	cmsscanner.phar cmsscanner:detect --report=/tmp/cmsreport.json --versions --modules /var/www
+
+Output:
+
+	[  
+	   {  
+		  "name":"Joomla",
+		  "version":"3.4.6",
+		  "path":"\/var\/www\/joomla",
+		  "modules":[  
+			 {
+				"name":"mod_articles_archive",
+				"version":"3.0.0",
+				"path":"\/var\/www\/joomla\/modules\/mod_articles_archive",
+				"type":"module"
+			 }
+		  ]
+		}
+	]
+
 ### Read paths from an input file
 It's also possible to pass a file that contains a 0-byte separated list of paths:
 
