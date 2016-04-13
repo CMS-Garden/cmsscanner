@@ -2,7 +2,7 @@
 /**
  * @package    CMSScanner
  * @copyright  Copyright (C) 2014 CMS-Garden.org
- * @license    GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @license    MIT <https://tldrlegal.com/license/mit-license>
  * @link       http://www.cms-garden.org
  */
 
@@ -159,6 +159,15 @@ class ContenidoAdapter implements AdapterInterface
         }
 
         return null;
+    }
+
+    /**
+     * @InheritDoc
+     */
+    public function detectModules(\SplFileInfo $path)
+    {
+        // TODO implement this function
+        return array();
     }
 
     /**
