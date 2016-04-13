@@ -106,10 +106,9 @@ class ContenidoAdapter implements AdapterInterface
      */
     public function detectSystem(SplFileInfo $file)
     {
-
         foreach ($this->versions as $version) {
-            if (in_array($file->getFilename(), $version)) {
 
+            if (in_array($file->getFilename(), $version)) {
                 $path = new \SplFileInfo($file->getPath());
 
                 // Return result if working
