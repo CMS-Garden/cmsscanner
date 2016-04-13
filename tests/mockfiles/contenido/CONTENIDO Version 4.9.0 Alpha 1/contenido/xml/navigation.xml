@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!-- CONTENIDO XML language file -->
+<language>
+    <navigation>
+        <content>
+            <main>Content</main>
+            <article>
+                <main>Articles</main>
+                <overview>Overview</overview>
+                <editor>Editor</editor>
+                <properties>Properties</properties>
+                <configuration>Configuration</configuration>
+                <preview>Preview</preview>
+            </article>
+            <structure>
+                <main>Category</main>
+                <overview>Overview</overview>
+            </structure>
+            <upload>
+                <main>File Manager</main>
+                <overview>Overview</overview>
+                <edit>Edit</edit>
+                <fileupload>Upload Files</fileupload>
+            </upload>
+        </content>
+        <style>
+            <main>Style</main>
+            <layouts>
+                <main>Layouts</main>
+                <edit>Edit</edit>
+                <preview>Preview</preview>
+                <history>History</history>
+            </layouts>
+            <modules>
+                <main>Modules</main>
+                <edit>Edit</edit>
+                <history>History</history>
+                <translation>Translation</translation>
+                <template>Template</template>
+                <style>CSS</style>
+                <script>Script</script>
+                <import-export>Import/Export</import-export>
+            </modules>
+            <templates>
+                <main>Templates</main>
+                <edit>Edit</edit>
+                <conf>Preconfiguration</conf>
+                <visual>Visual edit</visual>
+            </templates>
+            <styleeditor>
+                <main>CSS Editor</main>
+                <file>File</file>
+                <history>History</history>
+            </styleeditor>
+            <jseditor>
+                <main>Script Editor</main>
+                <file>File</file>
+                <history>History</history>
+            </jseditor>
+            <tpleditor>
+                <main>Module Templates</main>
+                <file>File</file>
+                <history>History</history>
+            </tpleditor>
+        </style>
+        <statistic>
+            <main>Statistics</main>
+            <hits>Hits</hits>
+        </statistic>
+        <administration>
+            <main>Administration</main>
+            <users>
+                <main>Users</main>
+                <userproperties>Properties</userproperties>
+                <areas>Areas</areas>
+                <layout>Layouts</layout>
+                <content>Content</content>
+                <module>Modules</module>
+                <template>Templates</template>
+                <structure>Categories</structure>
+            </users>
+            <groups>
+                <main>Groups</main>
+                <members>Members</members>
+                <overview>Properties</overview>
+                <areas>Areas</areas>
+                <layout>Layouts</layout>
+                <content>Content</content>
+                <module>Modules</module>
+                <template>Templates</template>
+                <structure>Categories</structure>
+            </groups>
+            <languages>Languages</languages>
+            <plugins>Plugins</plugins>
+            <clients>
+                <main>Clients</main>
+                <clientproperties>Properties</clientproperties>
+                <clientartspec>Article specifications</clientartspec>
+                <clientsettings>Client settings</clientsettings>
+            </clients>
+            <logs>Logs</logs>
+            <debug>Debug</debug>
+            <system>
+                <main>System</main>
+                <syssettings>Expert settings</syssettings>
+                <sysvalues>System variables</sysvalues>
+                <configuration>System settings</configuration>
+                <purge>Purge</purge>
+                <syserrorreport>Error report</syserrorreport>
+            </system>
+            <frontend>
+                <main>Frontend</main>
+            </frontend>
+        </administration>
+        <mycontenido>
+            <main>My CONTENIDO</main>
+            <overview>Overview</overview>
+            <recentarticles>Recently edited articles</recentarticles>
+            <todolist>Reminder List</todolist>
+            <settings>Settings</settings>
+        </mycontenido>
+        <extra>
+            <main>Extras</main>
+            <mailing>Mailing</mailing>
+        </extra>
+        <info>Info</info>
+        <login>Login</login>
+    </navigation>
+</language>

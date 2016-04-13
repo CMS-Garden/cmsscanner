@@ -1,0 +1,332 @@
+<html>
+<head>
+    <title></title>
+    <meta http-equiv="expires" content="0">
+    <meta http-equiv="cache-control" content="no-cache">
+    <meta http-equiv="pragma" content="no-cache">
+    <script type="text/javascript" src="scripts/rowMark.js"></script>
+    <script type="text/javascript" src="scripts/str_overview.js"></script>
+    <link rel="stylesheet" type="text/css" href="styles/contenido.css" />
+    <script type="text/javascript" src="scripts/messageBox.js.php?contenido={SID}"></script>
+    <script type="text/javascript" src="scripts/addImageTags.js"></script>
+    <link rel="stylesheet" type="text/css" href="styles/tip_balloon.css" />
+    <link rel="stylesheet" type="text/css" href="styles/str_overview.css" />
+    <script type="text/javascript">
+        /* Session-ID */
+        var sid = "{SID}";
+        var area = "{AREA}";
+        var frame = "{FRAME}";
+
+        /* Create messageBox instance */
+        box = new messageBox("", "", "", 0, 0);
+
+        /* Function for setting Workflow */
+        function setWorkflow(idcat, idSelect) {
+            url  = 'main.php?area='+area+'';
+            url += '&action=workflow_cat_assign';
+            url += '&frame='+frame;
+            url += '&modidcat=' + idcat;
+            url += '&'+idSelect+'=' + document.getElementById(idSelect).value;
+            url += '&contenido=' + sid;
+
+            window.location.href = url;
+        }
+
+        /* Function for cancel moving a tree */
+        function cancelMoveTree( idcat ) {
+            if ( idcat > 0 ) {
+                url  = 'main.php?area='+area+'';
+                url += '&action=str_movesubtree';
+                url += '&frame='+frame;
+                url += '&idcat=' + idcat;
+                url += '&parentid_new=0';
+                url += '&contenido=' + sid;
+
+                window.location.href = url;
+            }
+        }
+
+        /* Inserts Worflow Select Box into Category row */
+        function printWorkflowSelect (idcat, selected) {
+            var script = document.getElementById ('wf'+idcat);
+            var parent = script.parentNode;
+
+            var sTemplate = '{PLUGIN_WORKFLOW}';
+            sTemplate = sTemplate.replace(/{IDCAT}/g, idcat);
+            var block = document.createElement('span');
+            block.innerHTML = sTemplate;
+            block.firstChild.value = selected;
+
+            parent.removeChild(script);
+            parent.appendChild(block);
+        }
+
+        /* Function for deleting categories */
+        function deleteStr(idcat, idparent) {
+            url  = 'main.php?area=str';
+            url += '&action=str_deletecat';
+            url += '&frame=4';
+            url += '&idcat=' + idcat;
+            url += '&parentid=' + idparent;
+            url += '&contenido=' + sid;
+
+            window.location.href = url;
+        }
+
+        /* Function for duplicating categories */
+        function duplicateCategory(idcat, idparent) {
+            url  = 'main.php?area=str';
+            url += '&action=str_duplicate';
+            url += '&frame=4';
+            url += '&idcat=' + idcat;
+            url += '&parentid=' + idparent;
+            url += '&contenido=' + sid;
+
+            window.location.href = url;
+        }
+
+        function confDupl (idcat, idparent, sName) {
+            sMessage = '{DUPLICATE_MESSAGE}';
+            sMessage = sMessage.replace(/%s/g, sName);
+            box.confirm('i18n("Duplicate category")', sMessage, 'duplicateCategory('+idcat+', '+idparent+')');
+        }
+
+        function confDel (idcat, idparent, sName) {
+            sMessage = '{DELETE_MESSAGE}';
+            sMessage = sMessage.replace(/%s/g, sName);
+            box.confirm('i18n("Delete category")', sMessage, 'deleteStr('+idcat+','+idparent+')');
+        }
+
+        /* Set imagepath and Translations in str_overview.js */
+        initStrOverview('{CON_IMAGES}', 'i18n("Make online")',
+                'i18n("Make offline")', 'i18n("Protect category")',
+                'i18n("Unprotect category")', 'i18n("Form error")',
+                'i18n("Field category name is empty").', 'i18n("Please select a new Position for new category").');
+
+        var docEl = (
+                typeof document.compatMode != "undefined" &&
+                document.compatMode        != "BackCompat"
+        )? "documentElement" : "body";
+
+    </script>
+</head>
+
+<body style="margin:10px">
+<script type="text/javascript" src="scripts/wz_tooltip.js"></script>
+<script type="text/javascript" src="scripts/tip_balloon.js"></script>
+<!-- catnewlayer -->
+<div id="cat_edit" class="cat_new_layer">
+    <form style="margin:0px" name="newtree" method="post" action="{HREF_ACTION}" onsubmit="return checkForm();">
+        <div class="cat_spacer"></div>
+        {INPUT_ACTION_NEW}
+        {INPUT_SESSION}
+
+        <div class="cat_label">i18n("Category")</div>
+        <div class="cat_input">{INPUT_CATNAME_NEW}</div>
+        <div class="cat_icon">
+            {MAKEVISIBLE_BUTTON_NEW}
+            {INPUT_VISIBLE}
+        </div>
+        <div class="cat_icon_text" id="visible_label">i18n("Make online")</div>
+        <div class="cat_end_row"></div>
+
+        <div class="cat_label">i18n("Alias")</div>
+        <div class="cat_input">{INPUT_ALIAS_NEW}</div>
+        <div class="cat_icon">
+            {MAKEPUBLIC_BUTTON_NEW}
+            {INPUT_PUBLIC}
+        </div>
+        <div class="cat_icon_text" id="public_label">i18n("Protect category")</div>
+        <div class="cat_end_row"></div>
+
+        <div class="cat_label">&nbsp;</div>
+        <div class="cat_input">&nbsp;</div>
+        <div class="cat_icon">
+            {TEMPLATE_BUTTON_NEW}
+            {INPUT_TEMPLATE}
+        </div>
+        <div class="cat_icon_text">i18n("Configure category")</div>
+        <div class="cat_end_row"></div>
+
+        <div style = "display:{PERMISSION_NEWTREE_DISPLAY}">
+            <div class="cat_label">&nbsp;</div>
+            <div class="cat_input">&nbsp;</div>
+            <div class="cat_icon">
+                <input type="checkbox" name="is_tree"  value="0" id="is_tree" onclick="refreshStatus();" {PERMISSION_NEWTREE}>
+            </div>
+            <div class="cat_icon_text" id="public_label">i18n("Category is a tree")</div>
+            <div class="cat_end_row"></div>
+        </div>
+
+        <div style = "display:{PERMISSION_NEWCAT_DISPLAY}">
+            <div class="cat_label">&nbsp;</div>
+            <div class="cat_large">
+                <p style="margin:0; padding:0; margin-bottom: 5px;">i18n("Position of category")</p>
+                {CATEGORY_SELECT}
+            </div>
+            <div class="cat_end_row"></div>
+        </div>
+
+        <div class="cat_spacer"></div>
+
+        <div style="text-align:right; padding-right:15px;">
+            <a href="javascript:hideNewForm()"><img src="{CON_IMAGES}but_cancel.gif" id="cat_new_cancel" style="vertical-align:middle" border="0"></a>
+            &nbsp;
+            <input type="image" id="cat_new_submit" src="{CON_IMAGES}but_ok.gif">
+        </div>
+
+        <div class="cat_spacer"></div>
+    </form>
+</div>
+
+<!-- hidelayer for catnewlayer -->
+<div id="cat_new_layer_disable" class="cat_new_layer_disable" style="background-color:transparent">
+    <img src="{CON_IMAGES}spacer.gif" id="cat_new_layer_disable_image">
+</div>
+
+<!-- layer for template selection when a new category is created -->
+<div id="cat_set_template_layer" class="cat_set_template">
+    <div class="cat_spacer"></div>
+    <div class="cat_label">i18n("Template")</div>
+    <div class="cat_input" style="width:100px;">{SELECT_TEMPLATE}</div>
+    <div class="cat_end_row"></div>
+
+    <div class="cat_spacer"></div>
+
+    <div style="text-align:right; padding-right:15px;">
+        <a href="javascript:hideTemplateSelect()"><img src="{CON_IMAGES}but_cancel.gif" style="vertical-align:middle" border="0"></a>
+        &nbsp;
+        <img style="vertical-align:middle" src="{CON_IMAGES}but_ok.gif" onmouseover="this.style.cursor='pointer'" onclick="hideTemplateSelect(1);">
+    </div>
+
+    <div class="cat_spacer"></div>
+</div>
+
+<!-- Begin listing of existing categories -->
+<table  cellspacing="0" id="category_list">
+    <tr class="textg_medium">
+        <td colspan="{SUM_COLUMNS}" id="cat_navbar">
+            {NEWCAT}
+            <span style="padding-left:15px;">&nbsp;</span>
+            {COLLAPSE_ALL}
+            <span style="padding-left:15px;">&nbsp;</span>
+            {EXPAND_ALL}
+            <span style="padding-left:15px;">&nbsp;</span>
+            {CANCEL_MOVE_TREE}
+            <span style="padding-left:5px;">&nbsp;</span>
+        </td>
+    </tr>
+    <tr>
+        <td height="10" colspan="{SUM_COLUMNS}"></td>
+    </tr>
+    <tr>
+        <td colspan="2" class="header" style="border-left: 1px solid #B3B3B3">
+            <span class="overview_dist_left">i18n("Category")</span>
+        </td>
+        <td class="header">
+            i18n("Alias")
+        </td>
+        <td class="header">
+            i18n("Template")
+        </td>
+        <td class="header" colspan="8">
+            i18n("Actions")
+        </td>
+        {ADDITIONALHEADERS}
+    </tr>
+    <!-- layer for inline editing of existing categories -->
+    <tr style="background-color: {BGCOLOR_EDIT};" id="cat_inline_layer">
+        <form name="renamecategory" method="post" action="{ACTION_EDIT_URL}">
+            {INPUT_ACTION_EDIT}
+            {INPUT_IDCAT}
+            {INPUT_SESSION}
+
+            <td class="str-style-a" valign="middle">&nbsp;</td>
+            <td colspan="{SUM_COLUMNS_EDIT}" class="str-style-c" style="padding-left:15px; vertical-align:middle;">
+
+                <span id="cat_name">i18n("Categoryname") &nbsp; {INPUT_CATNAME_EDIT}<span style="padding-left:15px;">&nbsp;</span></span>
+
+                {LABEL_ALIAS_NAME}
+                {INPUT_ALIAS_EDIT}
+                <span style="padding-left:15px;">&nbsp;</span>
+
+                <span id="tpl_cfg"><a href="{TEMPLATE_URL}" id="tplcfg_href"><img src="images/template_properties.gif" title="i18n("Configure category")" alt="i18n("Configure category")" border="0" style="vertical-align:middle"> &nbsp; i18n("Configure category")</a><span style="padding-left:15px;">&nbsp;</span></span>
+
+                <a href="{HREF_CANCEL}"><img src="{SRC_CANCEL}" style="vertical-align:middle" border="0"></a>
+                &nbsp;
+                <input style="vertical-align:middle" type="image" src="{SRC_OK}">
+            </td>
+        </form>
+    </tr>
+    <!-- BEGIN:BLOCK -->
+    <tr id="cat_{CATID}_row" class="text_medium" style="background-color: {BGCOLOR};{HEIGTH}" {MOUSEOVER}>
+        <td width="3" class="str-style-a" valign="middle">&nbsp;</td>
+        <td {DIRECTION} class="{BORDER_CLASS}" style="padding-left:{INDENT};" valign="middle" {SHOW_MOUSEOVER_CATEGORY}>{COLLAPSE_CATEGORY_NAME}</td>
+        <td class="{BORDER_CLASS}" valign="middle" {SHOW_MOUSEOVER_ALIAS}>{ALIAS}</td>
+        <td width="30"  class="{BORDER_CLASS}" {SHOW_MOUSEOVER}><span class="overview_dist_right">{TPLNAME}</span></td>
+        <td width="25">{RENAMEBUTTON}</td>
+        <td width="25">{VISIBLEBUTTON}</td>
+        <td width="25">{PUBLICBUTTON}</td>
+        <td width="25">{UPBUTTON}</td>
+        <td width="25">{DOWNBUTTON}</td>
+        <td width="25">{MOVEBUTTON}</td>
+        <td width="25">{DUPLICATEBUTTON}</td>
+        <td width="25"  class="{BORDER_CLASS}">{DELETEBUTTON}</td>
+        {ADDITIONALCOLUMNS}
+    </tr>
+    <!-- END:BLOCK -->
+</table>
+<script type="text/javascript">
+    var dataArray = new Array();
+    {JS_DATA}
+
+    aTranslations = new Object();
+    aTranslations['but_todo.gif'] = 'i18n("Edit category")';
+    aTranslations['online.gif'] = 'i18n("Make offline")';
+    aTranslations['offline.gif'] = 'i18n("Make online")';
+    aTranslations['folder_delock.gif'] = 'i18n("Protect category")';
+    aTranslations['folder_lock.gif'] = 'i18n("Unprotect category")';
+    aTranslations['delete.gif'] = 'i18n("Delete category")';
+    aTranslations['folder_moveup.gif'] = 'i18n("Move category up")';
+    aTranslations['folder_movedown.gif'] = 'i18n("Move category down")';
+    aTranslations['but_move_subtree_main.gif'] = 'i18n("Move tree")';
+    aTranslations['but_move_subtree_target.gif'] = 'i18n("Place tree here")';
+    aTranslations['but_move_subtree.gif'] = 'i18n("Move tree")';
+    aTranslations['delete_inact.gif'] = 'i18n("One or more subtrees and one or more articles are existing, unable to delete.")';
+    aTranslations['delete_inact_h.gif'] = 'i18n("One or more subtrees are existing, unable to delete")';
+    aTranslations['delete_inact_g.gif'] = 'i18n("One or more articles are existing, unable to delete")';
+    aTranslations['folder_duplicate.gif'] = 'i18n("Duplicate category")';
+    aTranslations['pfeil_runter.gif'] = '{PLUGIN_WORKFLOW_TRANSLATION}';
+
+    setImageTags(aTranslations);
+</script>
+</body>
+<!--
+template.str_overview
+
+i18n("Make offline")
+i18n("Form error")
+i18n("Field category name is empty")
+i18n("Category is a tree")
+i18n("Position of category")
+i18n("Category")
+i18n("Alias")
+i18n("Template")
+i18n("Actions")
+i18n("Categoryname")
+i18n("Configure category")
+i18n("Edit category")
+i18n("Make online")
+i18n("Protect category")
+i18n("Unprotect category")
+i18n("Delete category")
+i18n("Move category up")
+i18n("Move category down")
+i18n("Place tree here")
+i18n("Move tree")
+i18n("One or more subtrees and one or more articles are existing, unable to delete.")
+i18n("One or more articles are existing, unable to delete")
+i18n("Duplicate category")
+
+-->
+</html>
