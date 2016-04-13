@@ -93,9 +93,7 @@ class JoomlaAdapter implements AdapterInterface
         'administrator/modules'
     );
 
-    private $pluginPaths = array(
-        'plugins'
-    );
+    private $pluginPath = 'plugins';
 
     private $templatePaths = array(
         'templates',
@@ -198,9 +196,10 @@ class JoomlaAdapter implements AdapterInterface
         foreach ($this->modulePaths as $mpath) {
             foreach (glob(sprintf('%s/%s/*', $path->getRealPath(), $mpath), GLOB_ONLYDIR) as $dir) {
                 $infoFile = sprintf('%s/%s.xml', $dir, pathinfo($dir, PATHINFO_FILENAME));
+
                 if (file_exists($infoFile)) {
                     $info = $this->parseXMLInfoFile($infoFile);
-                    $modules[] = new Module($info['name'], $dir, $info['version']);
+                    $modules[] = new Module($info['name'], $dir, $info['version'], 'module');
                 }
             }
         }
@@ -212,6 +211,12 @@ class JoomlaAdapter implements AdapterInterface
         return $modules;
     }
 
+    /**
+     * detects installed joomla components
+     *
+     * @param \SplFileInfo $path
+     * @param array        $modules
+     */
     private function detectComponents(\SplFileInfo $path, array &$modules)
     {
         foreach ($this->componentPaths as $cpath) {
@@ -219,35 +224,66 @@ class JoomlaAdapter implements AdapterInterface
                 $filename = pathinfo($dir, PATHINFO_FILENAME);
                 $filename = substr($filename, strpos($filename, '_') + 1);
                 $infoFile = sprintf('%s/%s.xml', $dir, $filename);
+
                 if (file_exists($infoFile)) {
                     $info = $this->parseXMLInfoFile($infoFile);
-                    $modules[] = new Module($info['name'], $dir, $info['version']);
+                    $modules[] = new Module($info['name'], $dir, $info['version'], 'component');
                 }
             }
         }
     }
 
+    /**
+     * detects installed joomla plugins
+     *
+     * @param \SplFileInfo $path
+     * @param array        $modules
+     */
     private function detectPlugins(\SplFileInfo $path, array &$modules)
     {
-        foreach ($this->pluginPaths as $ppath) {
-            foreach (glob(sprintf('%s/%s/*/*', $path->getRealPath(), $ppath), GLOB_ONLYDIR) as $dir) {
-                $infoFile = sprintf('%s/%s.xml', $dir, pathinfo($dir, PATHINFO_FILENAME));
-                if (file_exists($infoFile)) {
-                    $info = $this->parseXMLInfoFile($infoFile);
-                    $modules[] = new Module($info['name'], $dir, $info['version']);
-                }
+        $foundPlugin = false;
+
+        // search for plugins in Joomla > 1.5 first
+        foreach (glob(sprintf('%s/%s/*/*', $path->getRealPath(), $this->pluginPath), GLOB_ONLYDIR) as $dir) {
+            $infoFile = sprintf('%s/%s.xml', $dir, pathinfo($dir, PATHINFO_FILENAME));
+
+            if (file_exists($infoFile)) {
+                $info = $this->parseXMLInfoFile($infoFile);
+                $modules[] = new Module($info['name'], $dir, $info['version'], 'plugin');
+
+                $foundPlugin = true;
+            }
+        }
+
+        // skip legacy plugin search if first step had been succesful
+        if ($foundPlugin) {
+            return;
+        }
+
+        // search for plugins in Joomla 1.5
+        foreach (glob(sprintf('%s/%s/*/*.xml', $path->getRealPath(), $this->pluginPath)) as $infoFile) {
+            if (file_exists($infoFile)) {
+                $info = $this->parseXMLInfoFile($infoFile);
+                $modules[] = new Module($info['name'], dirname($infoFile), $info['version'], 'plugin');
             }
         }
     }
 
+    /**
+     * detects installed joomla templates
+     *
+     * @param \SplFileInfo $path
+     * @param array        $modules
+     */
     private function detectTemplates(\SplFileInfo $path, array &$modules)
     {
         foreach ($this->templatePaths as $tpath) {
             foreach (glob(sprintf('%s/%s/*', $path->getRealPath(), $tpath), GLOB_ONLYDIR) as $dir) {
                 $infoFile = sprintf('%s/templateDetails.xml', $dir);
+
                 if (file_exists($infoFile)) {
                     $info = $this->parseXMLInfoFile($infoFile);
-                    $modules[] = new Module($info['name'], $dir, $info['version']);
+                    $modules[] = new Module($info['name'], $dir, $info['version'], 'template');
                 }
             }
         }
@@ -265,12 +301,15 @@ class JoomlaAdapter implements AdapterInterface
         $name = null;
         $version = null;
         $content = file_get_contents($file);
+
         if (preg_match('/<name>(.*)<\/name>/', $content, $matches)) {
             $name = $matches[1];
         }
+
         if (preg_match('/<version>(.*)<\/version>/', $content, $matches)) {
             $version = $matches[1];
         }
+
         return array('name' => $name, 'version' => $version);
     }
 
