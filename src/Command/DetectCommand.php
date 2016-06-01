@@ -93,7 +93,7 @@ class DetectCommand extends AbstractDetectionCommand
         }
 
         foreach ($paths as $path) {
-            $finder->in($path);
+            $finder->in($path)->followLinks();
         }
 
         // Limit search to recursion level
