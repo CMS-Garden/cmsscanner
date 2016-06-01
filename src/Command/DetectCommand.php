@@ -81,7 +81,7 @@ class DetectCommand extends AbstractDetectionCommand
         $finder = new Finder();
 
         // Search for files in the directory specified in the CLI argument
-        $finder->files();
+        $finder->files()->followLinks();
 
         // Get paths to scan in; Either from file or from the CLI arguments
         if ($input->getOption('readfromfile')) {
