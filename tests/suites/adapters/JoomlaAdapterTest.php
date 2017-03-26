@@ -102,19 +102,6 @@ class JoomlaAdapterTest extends \PHPUnit_Framework_TestCase
             $this->assertEquals('unitplate', $modules[3]->name);
             $this->assertEquals('template', $modules[3]->type);
             $this->assertEquals('1.0.0', $modules[3]->version);
-
-            $comAdminFound = false;
-
-            foreach ($modules as $module)
-            {
-                // Lets make sure the com_admin is not added
-                if ($module->name === 'com_admin')
-                {
-                    $comAdminFound = true;
-                }
-            }
-
-            $this->assertEquals(false, $comAdminFound);
         }
     }
 }
