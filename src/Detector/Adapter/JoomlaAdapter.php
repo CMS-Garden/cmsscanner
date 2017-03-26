@@ -249,20 +249,16 @@ class JoomlaAdapter implements AdapterInterface
         'beez',
         'ja_purity',
         'rhuk_milkyway',
-        'system',
         // Backend
         'khepri',
-        'system',
         // 2.5
         // Frontend
         'atomic',
         'beez_20',
         'beez5',
-        'system',
         // Backend
         'bluestork',
         'hathor',
-        'system',
         // 3.x
         // Frontend
         'beez3',
