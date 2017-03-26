@@ -1,14 +1,15 @@
 <?php
 /**
  * @package    CMSScanner
- * @copyright  Copyright (C) 2014 CMS-Garden.org
- * @license    GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @copyright  Copyright (C) 2016 CMS-Garden.org
+ * @license    MIT <https://tldrlegal.com/license/mit-license>
  * @link       http://www.cms-garden.org
  */
 
 namespace Cmsgarden\Cmsscanner\Detector\Adapter;
 
 use Cmsgarden\Cmsscanner\Detector\System;
+use Cmsgarden\Cmsscanner\Detector\Module;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo;
 
@@ -74,7 +75,29 @@ class JoomlaAdapter implements AdapterInterface
             "file" => "/libraries/cms/version/version.php",
             "regex" => "/\\\$RELEASE\\s*=\\s*'3\\.4';[\\s\\S]*\\\$DEV_LEVEL\\s*=\\s*'([^']+)'/",
             "minor" => "3.4."
+        ),
+        array(
+            "file" => "/libraries/cms/version/version.php",
+            "regex" => "/RELEASE\\s*=\\s*'3\\.5';[\\s\\S]*const\\s*DEV_LEVEL\\s*=\\s*'([^']+)'/",
+            "minor" => "3.5."
         )
+    );
+
+    private $componentPaths = array(
+        'components',
+        'administrator/components'
+    );
+
+    private $modulePaths = array(
+        'modules',
+        'administrator/modules'
+    );
+
+    private $pluginPath = 'plugins';
+
+    private $templatePaths = array(
+        'templates',
+        'administrator/templates'
     );
 
     /**
@@ -161,6 +184,133 @@ class JoomlaAdapter implements AdapterInterface
         }
 
         return null;
+    }
+
+    /**
+     * @InheritDoc
+     */
+    public function detectModules(\SplFileInfo $path)
+    {
+        $modules = array();
+
+        foreach ($this->modulePaths as $mpath) {
+            foreach (glob(sprintf('%s/%s/*', $path->getRealPath(), $mpath), GLOB_ONLYDIR) as $dir) {
+                $infoFile = sprintf('%s/%s.xml', $dir, pathinfo($dir, PATHINFO_FILENAME));
+
+                if (file_exists($infoFile)) {
+                    $info = $this->parseXMLInfoFile($infoFile);
+                    $modules[] = new Module($info['name'], $dir, $info['version'], 'module');
+                }
+            }
+        }
+
+        $this->detectComponents($path, $modules);
+        $this->detectPlugins($path, $modules);
+        $this->detectTemplates($path, $modules);
+
+        return $modules;
+    }
+
+    /**
+     * detects installed joomla components
+     *
+     * @param \SplFileInfo $path
+     * @param array        $modules
+     */
+    private function detectComponents(\SplFileInfo $path, array &$modules)
+    {
+        foreach ($this->componentPaths as $cpath) {
+            foreach (glob(sprintf('%s/%s/*', $path->getRealPath(), $cpath), GLOB_ONLYDIR) as $dir) {
+                $filename = pathinfo($dir, PATHINFO_FILENAME);
+                $filename = substr($filename, strpos($filename, '_') + 1);
+                $infoFile = sprintf('%s/%s.xml', $dir, $filename);
+
+                if (file_exists($infoFile)) {
+                    $info = $this->parseXMLInfoFile($infoFile);
+                    $modules[] = new Module($info['name'], $dir, $info['version'], 'component');
+                }
+            }
+        }
+    }
+
+    /**
+     * detects installed joomla plugins
+     *
+     * @param \SplFileInfo $path
+     * @param array        $modules
+     */
+    private function detectPlugins(\SplFileInfo $path, array &$modules)
+    {
+        $foundPlugin = false;
+
+        // search for plugins in Joomla > 1.5 first
+        foreach (glob(sprintf('%s/%s/*/*', $path->getRealPath(), $this->pluginPath), GLOB_ONLYDIR) as $dir) {
+            $infoFile = sprintf('%s/%s.xml', $dir, pathinfo($dir, PATHINFO_FILENAME));
+
+            if (file_exists($infoFile)) {
+                $info = $this->parseXMLInfoFile($infoFile);
+                $modules[] = new Module($info['name'], $dir, $info['version'], 'plugin');
+
+                $foundPlugin = true;
+            }
+        }
+
+        // skip legacy plugin search if first step had been succesful
+        if ($foundPlugin) {
+            return;
+        }
+
+        // search for plugins in Joomla 1.5
+        foreach (glob(sprintf('%s/%s/*/*.xml', $path->getRealPath(), $this->pluginPath)) as $infoFile) {
+            if (file_exists($infoFile)) {
+                $info = $this->parseXMLInfoFile($infoFile);
+                $modules[] = new Module($info['name'], dirname($infoFile), $info['version'], 'plugin');
+            }
+        }
+    }
+
+    /**
+     * detects installed joomla templates
+     *
+     * @param \SplFileInfo $path
+     * @param array        $modules
+     */
+    private function detectTemplates(\SplFileInfo $path, array &$modules)
+    {
+        foreach ($this->templatePaths as $tpath) {
+            foreach (glob(sprintf('%s/%s/*', $path->getRealPath(), $tpath), GLOB_ONLYDIR) as $dir) {
+                $infoFile = sprintf('%s/templateDetails.xml', $dir);
+
+                if (file_exists($infoFile)) {
+                    $info = $this->parseXMLInfoFile($infoFile);
+                    $modules[] = new Module($info['name'], $dir, $info['version'], 'template');
+                }
+            }
+        }
+    }
+
+    /**
+     * Parse an XML info file.
+     *
+     * @param string $file Full file path of the xml info file.
+     *
+     * @return array The data of the XML file.
+     */
+    private function parseXMLInfoFile($file)
+    {
+        $name = null;
+        $version = null;
+        $content = file_get_contents($file);
+
+        if (preg_match('/<name>(.*)<\/name>/', $content, $matches)) {
+            $name = $matches[1];
+        }
+
+        if (preg_match('/<version>(.*)<\/version>/', $content, $matches)) {
+            $version = $matches[1];
+        }
+
+        return array('name' => $name, 'version' => $version);
     }
 
     /***

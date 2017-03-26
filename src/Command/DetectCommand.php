@@ -1,8 +1,8 @@
 <?php
 /**
  * @package    CMSScanner
- * @copyright  Copyright (C) 2014 CMS-Garden.org
- * @license    GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @copyright  Copyright (C) 2016 CMS-Garden.org
+ * @license    MIT <https://tldrlegal.com/license/mit-license>
  * @link       http://www.cms-garden.org
  */
 
@@ -42,6 +42,12 @@ class DetectCommand extends AbstractDetectionCommand
                 null,
                 InputOption::VALUE_REQUIRED,
                 'If set, the detector will limit the directory recursion to the specified level'
+            )
+            ->addOption(
+                'modules',
+                null,
+                InputOption::VALUE_NONE,
+                'If set, the detector will try to determine the modules/extensions/plugins etc. with their version'
             )
             ->addOption(
                 'versions',
@@ -120,6 +126,11 @@ class DetectCommand extends AbstractDetectionCommand
                 // If enabled, try to determine the used CMS version
                 if ($input->getOption('versions')) {
                     $system->version = $adapter->detectVersion($system->getPath());
+                }
+
+                // If enabled, try to determine the used modules/extensions/plugins/components of the CMS
+                if ($input->getOption('modules')) {
+                    $system->modules = $adapter->detectModules($system->getPath());
                 }
 
                 // Append successful result to array
@@ -261,12 +272,18 @@ class DetectCommand extends AbstractDetectionCommand
     protected function writeReport(array $results, $path)
     {
         // we need this to convert the \SplFileInfo object into a normal path string
-        array_walk($results, function (&$result, $key) {
-                $result = array(
-                    "name" => $result->getName(),
-                    "version" => $result->getVersion(),
-                    "path" => $result->getPath()->getRealPath()
-                );
+        // and the modules to a format which can be json encoded
+        array_walk($results, function (&$result) {
+            $modules = array();
+            foreach ($result->getModules() as $module) {
+                $modules[] = $module->toArray();
+            }
+            $result = array(
+              'name' => $result->getName(),
+              'version' => $result->getVersion(),
+              'path' => $result->getPath()->getRealPath(),
+              'modules' => $modules
+            );
         });
 
         if (file_put_contents($path, json_encode($results)) === false) {

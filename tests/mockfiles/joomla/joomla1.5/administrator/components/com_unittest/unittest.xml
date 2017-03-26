@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install type="component" version="1.5.0">
+	<name>Unittest</name>
+	<creationDate>01/01/2015</creationDate>
+	<author>CMS Garden</author>
+	<authorEmail>info@cms-garden.org</authorEmail>
+	<authorUrl>http://www.cms-garden.org</authorUrl>
+	<copyright>CMS Garden</copyright>
+	<license>MIT</license>
+	<version>1.0.0</version>
+	<description>Test Component</description>
+	
+	<files folder="site">
+		<folder>models</folder>
+		<folder>views</folder>
+		
+		<filename>unittest.php</filename>
+		<filename>controller.php</filename>
+		<filename>index.html</filename>	
+	</files>
+</install>

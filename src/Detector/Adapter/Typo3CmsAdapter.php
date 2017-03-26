@@ -1,8 +1,8 @@
 <?php
 /**
  * @package    CMSScanner
- * @copyright  Copyright (C) 2014 CMS-Garden.org
- * @license    GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @copyright  Copyright (C) 2016 CMS-Garden.org
+ * @license    MIT <https://tldrlegal.com/license/mit-license>
  * @link       http://www.cms-garden.org
  */
 
@@ -11,6 +11,7 @@ namespace Cmsgarden\Cmsscanner\Detector\Adapter;
 use Cmsgarden\Cmsscanner\Detector\System;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo;
+use Cmsgarden\Cmsscanner\Detector\Module;
 
 /**
  * Class Typo3CmsAdapter
@@ -104,6 +105,24 @@ class Typo3CmsAdapter implements AdapterInterface
         // if the script comes here your TYPO3 environment is broken somehow
         // e.g. broken typo3_src symlink or the like
         return null;
+    }
+
+    /**
+     * @InheritDoc
+     */
+    public function detectModules(\SplFileInfo $path)
+    {
+        $modules = array();
+        $_EXTKEY = 'dummy';
+        $finder = new Finder();
+
+        $finder->name('ext_emconf.php');
+        foreach ($finder->in($path->getRealPath()) as $config) {
+            include $config->getRealPath();
+            $modules[] = new Module($EM_CONF[$_EXTKEY]['title'], $config->getRealPath(), $EM_CONF[$_EXTKEY]['version']);
+        }
+
+        return $modules;
     }
 
     /***

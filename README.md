@@ -5,6 +5,7 @@
 This tool is developed by the CMS-Garden project. It's designed to scan a local filesystem for installations of the well known FOSS CMS systems that are part of the [CMS-Garden Project](http://www.cms-garden.org/):
 
 * Contao
+* CONTENIDO
 * Drupal
 * Joomla
 * TYPO3 CMS
@@ -120,6 +121,29 @@ This results in a report file like this:
 		  "version":"6.14",
 		  "path":"\/var\/www\/drupal-6.14"
 	   }
+	]
+
+
+### Detect used modules and append them to report:
+
+	cmsscanner.phar cmsscanner:detect --report=/tmp/cmsreport.json --versions --modules /var/www
+
+Output:
+
+	[  
+	   {  
+		  "name":"Joomla",
+		  "version":"3.4.6",
+		  "path":"\/var\/www\/joomla",
+		  "modules":[  
+			 {
+				"name":"mod_articles_archive",
+				"version":"3.0.0",
+				"path":"\/var\/www\/joomla\/modules\/mod_articles_archive",
+				"type":"module"
+			 }
+		  ]
+		}
 	]
 
 ### Read paths from an input file

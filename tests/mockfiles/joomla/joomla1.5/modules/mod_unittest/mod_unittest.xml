@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install type="module" version="1.5.0">
+	<name>UnitTests</name>
+	<creationDate>01/01/2015</creationDate>
+	<author>CMS Garden</author>
+	<authorEmail>info@cms-garden.org</authorEmail>
+	<authorUrl>http://www.cms-garden.org</authorUrl>
+	<copyright>CMS Garden</copyright>
+	<license>MIT</license>
+	<version>1.0.0</version>
+	<description>Test Module</description>
+	<files>
+		<filename module="mod_unittest">mod_unittest.php</filename>
+		<folder>tmpl</folder>
+		<filename>helper.php</filename>
+		<filename>index.html</filename>
+	</files>
+	<params group="advanced">
+		<param name="cache" type="list" default="1" label="Caching" description="Select whether to cache the content of this module">
+			<option value="1">Use global</option>
+			<option value="0">No caching</option>
+		</param>
+		<param name="cache_time" type="text" default="900" label="Cache Time" description="The time before the module is recached" />
+	</params>
+</install>

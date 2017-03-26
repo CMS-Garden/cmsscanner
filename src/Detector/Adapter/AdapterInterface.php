@@ -1,13 +1,14 @@
 <?php
 /**
  * @package    CMSScanner
- * @copyright  Copyright (C) 2014 CMS-Garden.org
- * @license    GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @copyright  Copyright (C) 2016 CMS-Garden.org
+ * @license    MIT <https://tldrlegal.com/license/mit-license>
  * @link       http://www.cms-garden.org
  */
 
 namespace Cmsgarden\Cmsscanner\Detector\Adapter;
 
+use Cmsgarden\Cmsscanner\Detector\Module;
 use Cmsgarden\Cmsscanner\Detector\System;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo;
@@ -41,6 +42,15 @@ interface AdapterInterface
      * @return null|string
      */
     public function detectVersion(\SplFileInfo $path);
+
+    /**
+     * Detect modules/extensions including version of an installed system.
+     *
+     * @param \SplFileInfo $path Path of the installed system.
+     *
+     * @return Module[] A list of the installed modules/extensions with their versions.
+     */
+    public function detectModules(\SplFileInfo $path);
 
     /**
      * Name of the system
