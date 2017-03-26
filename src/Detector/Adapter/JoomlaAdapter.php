@@ -119,7 +119,7 @@ class JoomlaAdapter implements AdapterInterface
         'com_users',
         'com_wrapper',
         'com_fields',
-        // Components 
+        // Components
         // Backend only
         'com_admin',
         'com_cache',
