@@ -92,9 +92,9 @@ class ContaoAdapterTest extends \PHPUnit_Framework_TestCase
     {
         $expected = array(
             array(
-                'name'    => 'dcawizard',
-                'path'    => '/contao/contao3/system/modules/dcawizard',
-                'version' => '1.0.0',
+                'name'    => 'z_custom',
+                'path'    => '/contao/contao3/system/modules/z_custom',
+                'version' => '',
             ),
             array(
                 'name'    => 'folderpage',
@@ -102,9 +102,9 @@ class ContaoAdapterTest extends \PHPUnit_Framework_TestCase
                 'version' => '1.2.4',
             ),
             array(
-                'name'    => 'z_custom',
-                'path'    => '/contao/contao3/system/modules/z_custom',
-                'version' => '',
+                'name'    => 'dcawizard',
+                'path'    => '/contao/contao3/system/modules/dcawizard',
+                'version' => '1.0.0',
             ),
             array(
                 'name'    => 'terminal42/notification_center',
