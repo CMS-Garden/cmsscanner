@@ -13,6 +13,9 @@
 Thumbs.db
 Desktop.ini
 
+# Visual Studio Code
+.vscode
+
 # PHPStorm
 .idea/
 
