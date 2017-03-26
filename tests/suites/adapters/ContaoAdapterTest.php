@@ -14,6 +14,7 @@ use Symfony\Component\Finder\Finder;
 
 /**
  * Class ContaoAdapterTest
+ * 
  * @package Cmsgarden\Cmsscanner\Tests\Adapters
  *
  * @since   1.0.0
