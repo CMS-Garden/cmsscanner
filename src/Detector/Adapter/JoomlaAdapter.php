@@ -27,77 +27,77 @@ class JoomlaAdapter implements AdapterInterface
     private $versions = array(
         array(
             "file" => "/includes/version.php",
-            "regex" => "/\\\?RELEASE\\s*=\\s*'1\\.0';[\\s\\S]*\\\$DEV_LEVEL\\s*=\\s*'([^']+)'/",
+            "regex" => "/\\\$?RELEASE\\s*=\\s*'1\\.0';[\\s\\S]*\\\$?DEV_LEVEL\\s*=\\s*'([^']+)'/",
             "minor" => "1.0."
         ),
         array(
             "file" => "/libraries/joomla/version.php",
-            "regex" => "/\\\?RELEASE\\s*=\\s*'1\\.5';[\\s\\S]*\\\$DEV_LEVEL\\s*=\\s*'([^']+)'/",
+            "regex" => "/\\\$?RELEASE\\s*=\\s*'1\\.5';[\\s\\S]*\\\$?DEV_LEVEL\\s*=\\s*'([^']+)'/",
             "minor" => "1.5."
         ),
         array(
             "file" => "/libraries/joomla/version.php",
-            "regex" => "/\\\?RELEASE\\s*=\\s*'1\\.6';[\\s\\S]*\\\$DEV_LEVEL\\s*=\\s*'([^']+)'/",
+            "regex" => "/\\\$?RELEASE\\s*=\\s*'1\\.6';[\\s\\S]*\\\$?DEV_LEVEL\\s*=\\s*'([^']+)'/",
             "minor" => "1.6."
         ),
         array(
             "file" => "/includes/version.php",
-            "regex" => "/\\\?RELEASE\\s*=\\s*'1\\.7';[\\s\\S]*\\\$DEV_LEVEL\\s*=\\s*'([^']+)'/",
+            "regex" => "/\\\$?RELEASE\\s*=\\s*'1\\.7';[\\s\\S]*\\\$?DEV_LEVEL\\s*=\\s*'([^']+)'/",
             "minor" => "1.7."
         ),
         array(
             "file" => "/libraries/cms/version/version.php",
-            "regex" => "/\\\?RELEASE\\s*=\\s*'2\\.5';[\\s\\S]*\\\?DEV_LEVEL\\s*=\\s*'([^']+)'/",
+            "regex" => "/\\\$?RELEASE\\s*=\\s*'2\\.5';[\\s\\S]*\\\$?DEV_LEVEL\\s*=\\s*'([^']+)'/",
             "minor" => "2.5."
         ),
         array(
             "file" => "/libraries/cms/version/version.php",
-            "regex" => "/\\\?RELEASE\\s*=\\s*'3\\.0';[\\s\\S]*\\\?DEV_LEVEL\\s*=\\s*'([^']+)'/",
+            "regex" => "/\\\$?RELEASE\\s*=\\s*'3\\.0';[\\s\\S]*\\\$?DEV_LEVEL\\s*=\\s*'([^']+)'/",
             "minor" => "3.0."
         ),
         array(
             "file" => "/libraries/cms/version/version.php",
-            "regex" => "/\\\?RELEASE\\s*=\\s*'3\\.1';[\\s\\S]*\\\?DEV_LEVEL\\s*=\\s*'([^']+)'/",
+            "regex" => "/\\\$?RELEASE\\s*=\\s*'3\\.1';[\\s\\S]*\\\$?DEV_LEVEL\\s*=\\s*'([^']+)'/",
             "minor" => "3.1."
         ),
         array(
             "file" => "/libraries/cms/version/version.php",
-            "regex" => "/\\\?RELEASE\\s*=\\s*'3\\.2';[\\s\\S]*\\\?DEV_LEVEL\\s*=\\s*'([^']+)'/",
+            "regex" => "/\\\$?RELEASE\\s*=\\s*'3\\.2';[\\s\\S]*\\\$?DEV_LEVEL\\s*=\\s*'([^']+)'/",
             "minor" => "3.2."
         ),
         array(
             "file" => "/libraries/cms/version/version.php",
-            "regex" => "/\\\?RELEASE\\s*=\\s*'3\\.3';[\\s\\S]*\\\?DEV_LEVEL\\s*=\\s*'([^']+)'/",
+            "regex" => "/\\\$?RELEASE\\s*=\\s*'3\\.3';[\\s\\S]*\\\$?DEV_LEVEL\\s*=\\s*'([^']+)'/",
             "minor" => "3.3."
         ),
         array(
             "file" => "/libraries/cms/version/version.php",
-            "regex" => "/\\\?RELEASE\\s*=\\s*'3\\.4';[\\s\\S]*\\\?DEV_LEVEL\\s*=\\s*'([^']+)'/",
+            "regex" => "/\\\$?RELEASE\\s*=\\s*'3\\.4';[\\s\\S]*\\\$?DEV_LEVEL\\s*=\\s*'([^']+)'/",
             "minor" => "3.4."
         ),
         array(
             "file" => "/libraries/cms/version/version.php",
-            "regex" => "/\\\?RELEASE\\s*=\\s*'3\\.5';[\\s\\S]*\\\?DEV_LEVEL\\s*=\\s*'([^']+)'/",
+            "regex" => "/\\\$?RELEASE\\s*=\\s*'3\\.5';[\\s\\S]*\\\$?DEV_LEVEL\\s*=\\s*'([^']+)'/",
             "minor" => "3.5."
         ),
         array(
             "file" => "/libraries/cms/version/version.php",
-            "regex" => "/\\\?RELEASE\\s*=\\s*'3\\.6';[\\s\\S]*\\\?DEV_LEVEL\\s*=\\s*'([^']+)'/",
+            "regex" => "/\\\$?RELEASE\\s*=\\s*'3\\.6';[\\s\\S]*\\\$?DEV_LEVEL\\s*=\\s*'([^']+)'/",
             "minor" => "3.6."
         ),
         array(
             "file" => "/libraries/cms/version/version.php",
-            "regex" => "/\\\?RELEASE\\s*=\\s*'3\\.7';[\\s\\S]*\\\?DEV_LEVEL\\s*=\\s*'([^']+)'/",
+            "regex" => "/\\\$?RELEASE\\s*=\\s*'3\\.7';[\\s\\S]*\\\$?DEV_LEVEL\\s*=\\s*'([^']+)'/",
             "minor" => "3.7."
         ),
         array(
             "file" => "/libraries/cms/version/version.php",
-            "regex" => "/\\\?RELEASE\\s*=\\s*'3\\.8';[\\s\\S]*\\\?DEV_LEVEL\\s*=\\s*'([^']+)'/",
+            "regex" => "/\\\$?RELEASE\\s*=\\s*'3\\.8';[\\s\\S]*\\\$?DEV_LEVEL\\s*=\\s*'([^']+)'/",
             "minor" => "3.8."
         ),
         array(
             "file" => "/libraries/cms/version/version.php",
-            "regex" => "/\\\?RELEASE\\s*=\\s*'4\\.0';[\\s\\S]*\\\?DEV_LEVEL\\s*=\\s*'([^']+)'/",
+            "regex" => "/\\\$?RELEASE\\s*=\\s*'4\\.0';[\\s\\S]*\\\$?DEV_LEVEL\\s*=\\s*'([^']+)'/",
             "minor" => "4.0."
         ),
     );
