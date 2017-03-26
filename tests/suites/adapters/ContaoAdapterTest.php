@@ -92,24 +92,28 @@ class ContaoAdapterTest extends \PHPUnit_Framework_TestCase
     {
         $expected = array(
             array(
-                'name'    => 'dcawizard',
-                'path'    => '/contao/contao3/system/modules/dcawizard',
-                'version' => '1.0.0',
+                'name'    => 'z_custom',
+                'path'    => '/contao/contao3/system/modules/z_custom',
+                'version' => '',
+                'type'    => '',
             ),
             array(
                 'name'    => 'folderpage',
                 'path'    => '/contao/contao3/system/modules/folderpage',
                 'version' => '1.2.4',
+                'type'    => '',
             ),
             array(
-                'name'    => 'z_custom',
-                'path'    => '/contao/contao3/system/modules/z_custom',
-                'version' => '',
+                'name'    => 'dcawizard',
+                'path'    => '/contao/contao3/system/modules/dcawizard',
+                'version' => '1.0.0',
+                'type'    => '',
             ),
             array(
                 'name'    => 'terminal42/notification_center',
                 'path'    => '/contao/contao3/composer/vendor/terminal42/notification_center',
                 'version' => '1.3.2',
+                'type'    => '',
             ),
         );
 
@@ -117,13 +121,20 @@ class ContaoAdapterTest extends \PHPUnit_Framework_TestCase
             new \SplFileInfo(CMSSCANNER_MOCKFILES_PATH . '/contao/contao3')
         );
 
-        $this->assertCount(count($expected), $actual);
+        $actual = json_decode(json_encode($actual), true);
 
-        foreach ($actual as $i => $module) {
-            $this->assertInstanceOf('Cmsgarden\Cmsscanner\Detector\Module', $module);
-            $this->assertEquals($expected[$i]['name'], $module->name);
-            $this->assertEquals(CMSSCANNER_MOCKFILES_PATH . $expected[$i]['path'], $module->path);
-            $this->assertEquals($expected[$i]['version'], $module->version);
+        foreach ($actual as $i => $value) {
+            $actual[$i] = str_replace(dirname(dirname(__DIR__)) . '/mockfiles', '', $value);
         }
+
+        $this->assertEquals(
+            $actual,
+            $expected,
+            $message = '',
+            $delta = 0.0,
+            $maxDepth = 10,
+            $canonicalize = true,
+            $ignoreCase = false
+        );
     }
 }
