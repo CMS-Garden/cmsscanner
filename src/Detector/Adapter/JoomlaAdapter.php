@@ -175,6 +175,7 @@ class JoomlaAdapter implements AdapterInterface
         'mod_title',
         'mod_toolbar',
         'mod_version',
+        'com_associations',
         // Plugins
         // authentication
         'plg_authentication_cookie',
@@ -192,6 +193,8 @@ class JoomlaAdapter implements AdapterInterface
         'plg_content_pagebreak',
         'plg_content_pagenavigation',
         'plg_content_vote',
+        'plg_content_fields',
+        'plg_content_geshi',
         // editors
         'plg_editors_codemirror',
         'plg_editors_none',
@@ -202,8 +205,27 @@ class JoomlaAdapter implements AdapterInterface
         'plg_editors-xtd_module',
         'plg_editors-xtd_pagebreak',
         'plg_editors-xtd_readmore',
+        'plg_editors-xtd_contact',
+        'plg_editors-xtd_fields',
+        'plg_editors-xtd_menu',
         // extension
         'plg_extension_joomla',
+        // fields
+        'plg_fields_calendar',
+        'plg_fields_checkboxes',
+        'plg_fields_color',
+        'plg_fields_editor',
+        'plg_fields_imagelist',
+        'plg_fields_integer',
+        'plg_fields_list',
+        'plg_fields_media',
+        'plg_fields_radio',
+        'plg_fields_sql',
+        'plg_fields_text',
+        'plg_fields_textarea',
+        'plg_fields_url',
+        'plg_fields_user',
+        'plg_fields_usergrouplist',
         // finder
         'plg_finder_categories',
         'plg_finder_contacts',
@@ -214,9 +236,11 @@ class JoomlaAdapter implements AdapterInterface
         'plg_installer_folderinstaller',
         'plg_installer_packageinstaller',
         'plg_installer_urlinstaller',
+        'plg_installer_webinstaller',
         // quickicon
         'plg_quickicon_extensionupdate',
         'plg_quickicon_joomlaupdate',
+        'plg_quickicon_phpversioncheck',
         // search
         'plg_search_categories',
         'plg_search_contacts',
@@ -226,6 +250,7 @@ class JoomlaAdapter implements AdapterInterface
         // system
         'plg_system_cache',
         'plg_system_debug',
+        'plg_system_fields',
         'plg_system_highlight',
         'plg_system_languagecode',
         'plg_system_languagefilter',
