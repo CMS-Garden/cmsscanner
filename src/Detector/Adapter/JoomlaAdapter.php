@@ -100,6 +100,180 @@ class JoomlaAdapter implements AdapterInterface
         'administrator/templates'
     );
 
+    protected $coreExtensions = array(
+        // Components
+        'com_ajax',
+        'com_banners',
+        'com_config',
+        'com_contact',
+        'com_content',
+        'com_contenthistory',
+        'com_finder',
+        'com_mailto',
+        'com_media',
+        'com_modules',
+        'com_newsfeeds',
+        'com_search',
+        'com_tags',
+        'com_users',
+        'com_wrapper',
+        // Components with only Backend
+        'com_admin',
+        'com_cache',
+        'com_categories',
+        'com_checkin',
+        'com_cpanel',
+        'com_installer',
+        'com_joomlaupdate',
+        'com_languages',
+        'com_login',
+        'com_plugins',
+        'com_postinstall',
+        'com_redirect',
+        'com_templates',
+        'com_menus',
+        'com_messages',
+        // Modules
+        'mod_articles_archive',
+        'mod_articles_categories',
+        'mod_articles_category',
+        'mod_articles_latest',
+        'mod_articles_news',
+        'mod_articles_popular',
+        'mod_banners',
+        'mod_breadcrumbs',
+        'mod_custom',
+        'mod_feed',
+        'mod_finder',
+        'mod_footer',
+        'mod_languages',
+        'mod_login',
+        'mod_menu',
+        'mod_random_image',
+        'mod_related_items',
+        'mod_search',
+        'mod_stats',
+        'mod_syndicate',
+        'mod_tags_popular',
+        'mod_tags_similar',
+        'mod_users_latest',
+        'mod_whosonline',
+        'mod_wrapper',
+        // weitere unter Administrator/modules
+        'mod_latest',
+        'mod_logged',
+        'mod_multilangstatus',
+        'mod_popular',
+        'mod_quickicon',
+        'mod_stats_admin',
+        'mod_status',
+        'mod_submenu',
+        'mod_title',
+        'mod_toolbar',
+        'mod_version',
+        // Plugins
+        // authentication
+        'plg_authentication_cookie',
+        'plg_authentication_gmail',
+        'plg_authentication_joomla',
+        'plg_authentication_ldap',
+        // captcha
+        'plg_captcha_recaptcha',
+        // content
+        'plg_content_contact',
+        'plg_content_emailcloak',
+        'plg_content_finder',
+        'plg_content_joomla',
+        'plg_content_loadmodule',
+        'plg_content_pagebreak',
+        'plg_content_pagenavigation',
+        'plg_content_vote',
+        // editors
+        'plg_editors_codemirror',
+        'plg_editors_none',
+        'plg_editors_tinymce',
+        // editors-xtd
+        'plg_editors-xtd_article',
+        'plg_editors-xtd_image',
+        'plg_editors-xtd_module',
+        'plg_editors-xtd_pagebreak',
+        'plg_editors-xtd_readmore',
+        // extension
+        'plg_extension_joomla',
+        // finder
+        'plg_finder_categories',
+        'plg_finder_contacts',
+        'plg_finder_content',
+        'plg_finder_newsfeeds',
+        'plg_finder_tags',
+        // installer
+        'plg_installer_folderinstaller',
+        'plg_installer_packageinstaller',
+        'plg_installer_urlinstaller',
+        // quickicon
+        'plg_quickicon_extensionupdate',
+        'plg_quickicon_joomlaupdate',
+        // search
+        'plg_search_categories',
+        'plg_search_contacts',
+        'plg_search_content',
+        'plg_search_newsfeeds',
+        'plg_search_tags',
+        // system
+        'plg_system_cache',
+        'plg_system_debug',
+        'plg_system_highlight',
+        'plg_system_languagecode',
+        'plg_system_languagefilter',
+        'plg_system_log',
+        'plg_system_logout',
+        'plg_system_p3p',
+        'plg_system_redirect',
+        'plg_system_remember',
+        'plg_system_sef',
+        'plg_system_stats',
+        'plg_system_updatenotification',
+        // twofactorauth
+        'plg_twofactorauth_totp',
+        'plg_twofactorauth_yubikey',
+        // user
+        'plg_user_contactcreator',
+        'plg_user_joomla',
+        'plg_user_profile',
+        // Templates
+        // 1.5
+        // Frontend
+        'tpl_beez',
+        'tpl_ja_purity',
+        'tpl_rhuk_milkyway',
+        'tpl_system',
+        // Backend
+        'tpl_khepri',
+        'tpl_system',
+        // 2.5
+        // Frontend
+        'tpl_atomic',
+        'tpl_beez_20',
+        'tpl_beez5',
+        'tpl_system',
+        // Backend
+        'tpl_bluestork',
+        'tpl_hathor',
+        'tpl_system',
+        // 3.x
+        // Frontend
+        'beez3',
+        'protostar',
+        // Backend
+        'hathor',
+        'isis',
+        // 4.0
+        // Frontend
+        'Aurora',
+        // Backend
+        'Atun',
+    );
+
     /**
      * Joomla has a file called configuration.php that can be used to search for working installations
      *
@@ -208,7 +382,14 @@ class JoomlaAdapter implements AdapterInterface
         $this->detectPlugins($path, $modules);
         $this->detectTemplates($path, $modules);
 
-print_r($modules);
+        // Remove the Core Extensions form the return array
+        foreach ($modules as $key => $module)
+        {
+            if (in_array($module->name, $this->coreExtensions))
+            {
+                unset($modules[$key]);
+            }
+        }
 
         return $modules;
     }
@@ -305,7 +486,7 @@ print_r($modules);
         $content = file_get_contents($file);
 
         if (preg_match('/<name>(.*)<\/name>/', $content, $matches)) {
-            $name = $matches[1];
+            $name = strtolower($matches[1]);
         }
 
         if (preg_match('/<version>(.*)<\/version>/', $content, $matches)) {
