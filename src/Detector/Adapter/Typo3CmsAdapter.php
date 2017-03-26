@@ -126,11 +126,11 @@ class Typo3CmsAdapter implements AdapterInterface
             }
 
             if (!count($version)) {
-                $version = 'unknown';
+                $version[1] = 'unknown';
             }
 
             if (!count($type)) {
-                $type = 'unknown';
+                $type[1] = 'unknown';
             }
 
             $modules[] = new Module($titel[1], $config->getRealPath(), $version[1], $type[1]);
