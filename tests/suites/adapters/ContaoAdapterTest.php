@@ -84,46 +84,4 @@ class ContaoAdapterTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('z_custom', $modules[0]->name);
         $this->assertEquals(CMSSCANNER_MOCKFILES_PATH . '/contao/contao2/system/modules/z_custom', $modules[0]->path);
     }
-
-    /**
-     * Tests that Contao 3 modules are correctly detected
-     */
-    public function testContao3Modules()
-    {
-        $expected = array(
-            array(
-                'name'    => 'dcawizard',
-                'path'    => '/contao/contao3/system/modules/dcawizard',
-                'version' => '1.0.0',
-            ),
-            array(
-                'name'    => 'folderpage',
-                'path'    => '/contao/contao3/system/modules/folderpage',
-                'version' => '1.2.4',
-            ),
-            array(
-                'name'    => 'z_custom',
-                'path'    => '/contao/contao3/system/modules/z_custom',
-                'version' => '',
-            ),
-            array(
-                'name'    => 'terminal42/notification_center',
-                'path'    => '/contao/contao3/composer/vendor/terminal42/notification_center',
-                'version' => '1.3.2',
-            ),
-        );
-
-        $actual = $this->object->detectModules(
-            new \SplFileInfo(CMSSCANNER_MOCKFILES_PATH . '/contao/contao3')
-        );
-
-        $this->assertCount(count($expected), $actual);
-
-        foreach ($actual as $i => $module) {
-            $this->assertInstanceOf('Cmsgarden\Cmsscanner\Detector\Module', $module);
-            $this->assertEquals($expected[$i]['name'], $module->name);
-            $this->assertEquals(CMSSCANNER_MOCKFILES_PATH . $expected[$i]['path'], $module->path);
-            $this->assertEquals($expected[$i]['version'], $module->version);
-        }
-    }
 }
