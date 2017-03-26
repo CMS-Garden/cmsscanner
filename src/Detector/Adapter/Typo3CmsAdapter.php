@@ -113,13 +113,22 @@ class Typo3CmsAdapter implements AdapterInterface
     public function detectModules(\SplFileInfo $path)
     {
         $modules = array();
-        $_EXTKEY = 'dummy';
         $finder = new Finder();
 
         $finder->name('ext_emconf.php');
         foreach ($finder->in($path->getRealPath()) as $config) {
-            include $config->getRealPath();
-            $modules[] = new Module($EM_CONF[$_EXTKEY]['title'], $config->getRealPath(), $EM_CONF[$_EXTKEY]['version']);
+            preg_match("/\'title\'\s*?\=\>\s*?'([^']+)/", file_get_contents($config->getRealPath()), $titel);
+            preg_match("/\'version\'\s*?\=\>\s*?'([^']+)/", file_get_contents($config->getRealPath()), $version);
+
+            if (!count($titel)) {
+                continue;
+            }
+
+            if (!count($version)) {
+                continue;
+            }
+
+            $modules[] = new Module($titel, $config->getRealPath(), $version);
         }
 
         return $modules;
