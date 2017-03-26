@@ -24,83 +24,15 @@ class JoomlaAdapter implements AdapterInterface
      * Joomla has changed the way how the version number is stored multiple times, so we need this comprehensive array
      * @var array
      */
-    private $versions = array(
-        array(
-            "file" => "/includes/version.php",
-            "regex" => "/\\\$?RELEASE\\s*=\\s*'1\\.0';[\\s\\S]*\\\$?DEV_LEVEL\\s*=\\s*'([^']+)'/",
-            "minor" => "1.0."
-        ),
-        array(
-            "file" => "/libraries/joomla/version.php",
-            "regex" => "/\\\$?RELEASE\\s*=\\s*'1\\.5';[\\s\\S]*\\\$?DEV_LEVEL\\s*=\\s*'([^']+)'/",
-            "minor" => "1.5."
-        ),
-        array(
-            "file" => "/libraries/joomla/version.php",
-            "regex" => "/\\\$?RELEASE\\s*=\\s*'1\\.6';[\\s\\S]*\\\$?DEV_LEVEL\\s*=\\s*'([^']+)'/",
-            "minor" => "1.6."
-        ),
-        array(
-            "file" => "/includes/version.php",
-            "regex" => "/\\\$?RELEASE\\s*=\\s*'1\\.7';[\\s\\S]*\\\$?DEV_LEVEL\\s*=\\s*'([^']+)'/",
-            "minor" => "1.7."
-        ),
-        array(
-            "file" => "/libraries/cms/version/version.php",
-            "regex" => "/\\\$?RELEASE\\s*=\\s*'2\\.5';[\\s\\S]*\\\$?DEV_LEVEL\\s*=\\s*'([^']+)'/",
-            "minor" => "2.5."
-        ),
-        array(
-            "file" => "/libraries/cms/version/version.php",
-            "regex" => "/\\\$?RELEASE\\s*=\\s*'3\\.0';[\\s\\S]*\\\$?DEV_LEVEL\\s*=\\s*'([^']+)'/",
-            "minor" => "3.0."
-        ),
-        array(
-            "file" => "/libraries/cms/version/version.php",
-            "regex" => "/\\\$?RELEASE\\s*=\\s*'3\\.1';[\\s\\S]*\\\$?DEV_LEVEL\\s*=\\s*'([^']+)'/",
-            "minor" => "3.1."
-        ),
-        array(
-            "file" => "/libraries/cms/version/version.php",
-            "regex" => "/\\\$?RELEASE\\s*=\\s*'3\\.2';[\\s\\S]*\\\$?DEV_LEVEL\\s*=\\s*'([^']+)'/",
-            "minor" => "3.2."
-        ),
-        array(
-            "file" => "/libraries/cms/version/version.php",
-            "regex" => "/\\\$?RELEASE\\s*=\\s*'3\\.3';[\\s\\S]*\\\$?DEV_LEVEL\\s*=\\s*'([^']+)'/",
-            "minor" => "3.3."
-        ),
-        array(
-            "file" => "/libraries/cms/version/version.php",
-            "regex" => "/\\\$?RELEASE\\s*=\\s*'3\\.4';[\\s\\S]*\\\$?DEV_LEVEL\\s*=\\s*'([^']+)'/",
-            "minor" => "3.4."
-        ),
-        array(
-            "file" => "/libraries/cms/version/version.php",
-            "regex" => "/\\\$?RELEASE\\s*=\\s*'3\\.5';[\\s\\S]*\\\$?DEV_LEVEL\\s*=\\s*'([^']+)'/",
-            "minor" => "3.5."
-        ),
-        array(
-            "file" => "/libraries/cms/version/version.php",
-            "regex" => "/\\\$?RELEASE\\s*=\\s*'3\\.6';[\\s\\S]*\\\$?DEV_LEVEL\\s*=\\s*'([^']+)'/",
-            "minor" => "3.6."
-        ),
-        array(
-            "file" => "/libraries/cms/version/version.php",
-            "regex" => "/\\\$?RELEASE\\s*=\\s*'3\\.7';[\\s\\S]*\\\$?DEV_LEVEL\\s*=\\s*'([^']+)'/",
-            "minor" => "3.7."
-        ),
-        array(
-            "file" => "/libraries/cms/version/version.php",
-            "regex" => "/\\\$?RELEASE\\s*=\\s*'3\\.8';[\\s\\S]*\\\$?DEV_LEVEL\\s*=\\s*'([^']+)'/",
-            "minor" => "3.8."
-        ),
-        array(
-            "file" => "/libraries/cms/version/version.php",
-            "regex" => "/\\\$?RELEASE\\s*=\\s*'4\\.0';[\\s\\S]*\\\$?DEV_LEVEL\\s*=\\s*'([^']+)'/",
-            "minor" => "4.0."
-        ),
-    );
+    private $version = array(
+            "files" => array(
+                "/includes/version.php",
+                "/libraries/joomla/version.php",
+                "/libraries/cms/version/version.php",
+            ),
+            "regex_release" => "/\\\$?RELEASE\s*=\s*'([\d.]+)';/",
+            "regex_devlevel" => "/\\\$?DEV_LEVEL\s*=\s*'([^']+)';/",
+        );
 
     /**
      * Joomla has a file called configuration.php that can be used to search for working installations
@@ -165,24 +97,36 @@ class JoomlaAdapter implements AdapterInterface
     public function detectVersion(\SplFileInfo $path)
     {
         // Iterate through version patterns
-        foreach ($this->versions as $version) {
-            $versionFile = $path->getRealPath() . $version['file'];
+        foreach ($this->version['files'] as $file)
+        {
+            $versionFile = $path->getRealPath() . $file;
 
-            if (!file_exists($versionFile)) {
+            if (!file_exists($versionFile))
+            {
                 continue;
             }
 
-            if (!is_readable($versionFile)) {
+            if (!is_readable($versionFile))
+            {
                 continue; // @codeCoverageIgnore
             }
 
-            preg_match($version['regex'], file_get_contents($versionFile), $matches);
+            //$fileContent = file_get_contents($versionFile);
 
-            if (!count($matches)) {
+            preg_match($this->version['regex_release'], file_get_contents($versionFile), $release);
+            preg_match($this->version['regex_devlevel'], file_get_contents($versionFile), $devlevel);
+
+            if (!count($release))
+            {
                 continue;
             }
 
-            return $version['minor'] . $matches[1];
+            if (!count($devlevel))
+            {
+                return $release[1] . '.x';
+            }
+
+            return $release[1] . '.' . $devlevel[1];
         }
 
         return null;
