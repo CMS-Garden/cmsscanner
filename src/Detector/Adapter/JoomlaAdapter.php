@@ -416,7 +416,7 @@ class JoomlaAdapter implements AdapterInterface
             }
         }
 
-        return $modules;
+        return array_values($modules);
     }
 
     /**
