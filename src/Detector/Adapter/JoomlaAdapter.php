@@ -408,10 +408,10 @@ class JoomlaAdapter implements AdapterInterface
         $this->detectTemplates($path, $modules);
 
         // Remove the Core Extensions form the return array
-        foreach ($modules as $key => $module)
-        {
-            if (in_array($module->name, $this->coreExtensions))
-            {
+        foreach ($modules as $key => $module) {
+            $moduleName = strtolower($module->name);
+
+            if (in_array($moduleName, $this->coreExtensions)) {
                 unset($modules[$key]);
             }
         }
@@ -511,7 +511,7 @@ class JoomlaAdapter implements AdapterInterface
         $content = file_get_contents($file);
 
         if (preg_match('/<name>(.*)<\/name>/', $content, $matches)) {
-            $name = strtolower($matches[1]);
+            $name = $matches[1];
         }
 
         if (preg_match('/<version>(.*)<\/version>/', $content, $matches)) {
