@@ -119,19 +119,34 @@ class Typo3CmsAdapter implements AdapterInterface
         foreach ($finder->in($path->getRealPath()) as $config) {
             preg_match("/\'title\'\s*?\=\>\s*?'([^']+)/", file_get_contents($config->getRealPath()), $titel);
             preg_match("/\'version\'\s*?\=\>\s*?'([^']+)/", file_get_contents($config->getRealPath()), $version);
+            preg_match("/\'category\'\s*?\=\>\s*?'([^']+)/", file_get_contents($config->getRealPath()), $type);
 
             if (!count($titel)) {
                 continue;
             }
 
             if (!count($version)) {
-                continue;
+                $version = 'unknown';
             }
 
-            $modules[] = new Module($titel, $config->getRealPath(), $version);
+            if (!count($type)) {
+                $type = 'unknown';
+            }
+
+            $modules[] = new Module($titel[1], $config->getRealPath(), $version[1], $type[1]);
         }
 
-        return $modules;
+        // Remove the Core Extensions form the return array
+        foreach ($modules as $key => $module) {
+            // Remove real path
+            $module->path = str_replace($path->getRealPath(), '', $module->path);
+
+            if (strpos($module->path, '/typo3/sysext') === 0) {
+                unset($modules[$key]);
+            }
+        }
+
+        return array_values($modules);
     }
 
     /***
