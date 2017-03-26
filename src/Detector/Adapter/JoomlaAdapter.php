@@ -97,30 +97,25 @@ class JoomlaAdapter implements AdapterInterface
     public function detectVersion(\SplFileInfo $path)
     {
         // Iterate through version files
-        foreach ($this->version['files'] as $file)
-        {
+        foreach ($this->version['files'] as $file) {
             $versionFile = $path->getRealPath() . $file;
 
-            if (!file_exists($versionFile))
-            {
+            if (!file_exists($versionFile)) {
                 continue;
             }
 
-            if (!is_readable($versionFile))
-            {
+            if (!is_readable($versionFile)) {
                 continue; // @codeCoverageIgnore
             }
 
             preg_match($this->version['regex_release'], file_get_contents($versionFile), $release);
             preg_match($this->version['regex_devlevel'], file_get_contents($versionFile), $devlevel);
 
-            if (!count($release))
-            {
+            if (!count($release)) {
                 continue;
             }
 
-            if (!count($devlevel))
-            {
+            if (!count($devlevel)) {
                 return $release[1] . '.x';
             }
 
