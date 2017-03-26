@@ -102,6 +102,7 @@ class JoomlaAdapter implements AdapterInterface
 
     protected $coreExtensions = array(
         // Components
+        // Frontend
         'com_ajax',
         'com_banners',
         'com_config',
@@ -117,7 +118,8 @@ class JoomlaAdapter implements AdapterInterface
         'com_tags',
         'com_users',
         'com_wrapper',
-        // Components with only Backend
+        // Components 
+        // Backend only
         'com_admin',
         'com_cache',
         'com_categories',
@@ -134,6 +136,7 @@ class JoomlaAdapter implements AdapterInterface
         'com_menus',
         'com_messages',
         // Modules
+        // Frontend
         'mod_articles_archive',
         'mod_articles_categories',
         'mod_articles_category',
@@ -159,7 +162,7 @@ class JoomlaAdapter implements AdapterInterface
         'mod_users_latest',
         'mod_whosonline',
         'mod_wrapper',
-        // weitere unter Administrator/modules
+        // Backend only
         'mod_latest',
         'mod_logged',
         'mod_multilangstatus',
