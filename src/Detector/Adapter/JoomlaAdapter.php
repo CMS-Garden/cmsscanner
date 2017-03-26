@@ -208,6 +208,8 @@ class JoomlaAdapter implements AdapterInterface
         $this->detectPlugins($path, $modules);
         $this->detectTemplates($path, $modules);
 
+print_r($modules);
+
         return $modules;
     }
 
