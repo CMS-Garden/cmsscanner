@@ -68,7 +68,6 @@ class DetectCommand extends AbstractDetectionCommand
                 'Read \\0 separated target directories from a file, passed as the argument'
             )
         ;
-
     }
 
     /**
