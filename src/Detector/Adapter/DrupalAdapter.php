@@ -1,7 +1,7 @@
 <?php
 /**
  * @package    CMSScanner
- * @copyright  Copyright (C) 2016 CMS-Garden.org
+ * @copyright  Copyright (C) 2017 CMS-Garden.org
  * @license    MIT <https://tldrlegal.com/license/mit-license>
  * @link       http://www.cms-garden.org
  */
@@ -27,12 +27,12 @@ class DrupalAdapter implements AdapterInterface
      */
     private $versions = array(
         array(
-            "file" => "/modules/system/system.info",
-            "regex" => "/version\\s*=\\s*\"(\\d\\.[^']+)\"[\\s\\S]*project\\s*=\\s*\"drupal\"/"
+            'file' => '/modules/system/system.info',
+            'regex' => "/version\\s*=\\s*\"(\\d\\.[^']+)\"[\\s\\S]*project\\s*=\\s*\"drupal\"/"
         ),
         array(
-            "file" => "/core/modules/system/system.info.yml",
-            "regex" => "/version:\\s*'(\\d\\.[^']+)'[\\s\\S]*project:\\s*'drupal'/"
+            'file' => '/core/modules/system/system.info.yml',
+            'regex' => "/version:\\s*'(\\d\\.[^']+)'[\\s\\S]*project:\\s*'drupal'/"
         )
     );
 
@@ -63,13 +63,13 @@ class DrupalAdapter implements AdapterInterface
      */
     public function detectSystem(SplFileInfo $file)
     {
-        if ($file->getFilename() == "system.info" && stripos($file->getContents(), 'project = "drupal"') !== false) {
+        if ($file->getFilename() == 'system.info' && stripos($file->getContents(), 'project = "drupal"') !== false) {
             $path = new \SplFileInfo(dirname(dirname($file->getPath())));
 
             return new System($this->getName(), $path);
         }
 
-        if ($file->getFilename() == "system.info.yml" && stripos($file->getContents(), "project: 'drupal'") !== false) {
+        if ($file->getFilename() == 'system.info.yml' && stripos($file->getContents(), "project: 'drupal'") !== false) {
             $path = new \SplFileInfo(dirname(dirname(dirname($file->getPath()))));
 
             return new System($this->getName(), $path);
@@ -131,15 +131,18 @@ class DrupalAdapter implements AdapterInterface
         foreach ($files as $file) {
             $contents = file_get_contents($file->uri);
 
-            if (preg_match('/project' . $seperator . ' (.+)/', $contents, $matches) &&
-              preg_match('/version' . $seperator . '(.+' . $this->majorVersion . '\.x-.+)/', $contents, $verMatches)
+            if (preg_match_all('/project' . $seperator . ' (.+)/', $contents, $matches) &&
+              preg_match_all('/version' . $seperator . '(.+' . $this->majorVersion . '\.x-.+)/', $contents, $verMatches)
             ) {
-                $project = trim($matches[1], '"\' ');
-                $version = trim($verMatches[1], '"\' ');
+                $matches = array_reverse($matches[1]);
+                $verMatches = array_reverse($verMatches[1]);
+                $project = trim($matches[0], '"\' ');
+                $version = trim($verMatches[0], '"\' ');
 
                 // Skip core modules and dev-version.
                 if ($project != 'drupal' && strrpos($version, '-dev', -1) === false) {
-                    $modules[$project] = new Module($project, dirname($file->uri), $version);
+                    $type = (strpos($file->uri, 'themes') !== false) ? 'theme' : 'module';
+                    $modules[] = new Module($project, dirname($file->uri), $version, $type);
                 }
             }
         }
@@ -173,7 +176,6 @@ class DrupalAdapter implements AdapterInterface
                 $dirs[] = $dir;
             }
         }
-
         return $dirs;
     }
 
@@ -192,7 +194,6 @@ class DrupalAdapter implements AdapterInterface
 
         foreach ($this->getSearchDirectories($path) as $dir) {
             $files_to_add = $this->findFiles($dir, $mask);
-
             foreach ($files_to_add as $file_key => $file) {
                 if ($this->checkCoreValueInInfoFile($file, $seperator)) {
                     $files[] = $file;
