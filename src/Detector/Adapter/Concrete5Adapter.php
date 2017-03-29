@@ -27,13 +27,14 @@ class Concrete5Adapter implements AdapterInterface
     protected $versions = array(
         array( //
             'filename' => '/concrete/config/version.php',
-            'regexp' => "/\\\$APP_VERSION\\s*=\\s*'([^']+)'/",
+            'regexp' => "/\\\$APP_VERSION\s*=\s*'([^']+)'/",
         ),
         array( // 8+ ??
             'filename' => '/concrete/config/concrete.php',
             'regexp' => "/'version' => '([^']+)'/",
         ),
     );
+
     /**
      * look for the version.php with a version string in it
      *
@@ -71,13 +72,13 @@ class Concrete5Adapter implements AdapterInterface
         else {
             return false;
         }
-        $path = new \SplFileInfo(dirname($file->getPath()));
+        $path = new \SplFileInfo(dirname(dirname($file->getPath())));
 
         return new System($this->getName(), $path);
     }
 
     /**
-     * determine version of a Contao installation within a specified path
+     * determine version of a Concrete5 installation within a specified path
      *
      * @param   \SplFileInfo  $path  directory where the system is installed
      *
