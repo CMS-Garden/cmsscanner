@@ -201,7 +201,6 @@ class DetectCommand extends AbstractDetectionCommand
                 $stats[$systemName]['versions'][$result->version]++;
             }
 
-            //print_r($result);
             // Increase count for this used module
             if ($moduleStats) {
                 foreach ($result->modules as $item) {
@@ -218,7 +217,7 @@ class DetectCommand extends AbstractDetectionCommand
                 }
             }
         }
-        //print_r($stats);
+
         return $stats;
     }
 
