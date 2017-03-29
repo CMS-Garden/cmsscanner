@@ -96,7 +96,11 @@ class WordpressAdapter implements AdapterInterface
         $modules = array();
         $matches = array();
 
-        foreach (glob(sprintf('%s/%s/*', $path->getRealPath(), $this->plugPath), GLOB_ONLYDIR) as $dir) {
+        $pluginsubfolders = glob(sprintf('%s/%s/*', $path->getRealPath(), $this->plugPath), GLOB_ONLYDIR);
+        $pluginmainfolder = glob(sprintf('%s/wp-content/plugins', $path->getRealPath()), GLOB_ONLYDIR);
+        $folders =  array_merge($pluginsubfolders, $pluginmainfolder);
+
+        foreach ($folders as $dir) {
             $done = false;
             if (array_key_exists($dir, $matches) === false) {
                 $matches[$dir] = array();
