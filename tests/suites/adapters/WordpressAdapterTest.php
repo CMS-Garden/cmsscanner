@@ -77,13 +77,13 @@ class WordpressAdapterTest extends \PHPUnit_Framework_TestCase
                 'name'    => 'Akismet Anti-Spam',
                 'path'    => '/wordpress/wordpress2.2/wp-content/plugins/akismet',
                 'version' => '3.3',
-                'type'    => '',
+                'type'    => 'plugin',
             ),
             array(
                 'name'    => 'Hello Dolly',
                 'path'    => '/wordpress/wordpress2.2/wp-content/plugins',
                 'version' => '1.6',
-                'type'    => '',
+                'type'    => 'plugin',
             ),
         );
 
