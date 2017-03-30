@@ -28,7 +28,7 @@ class WordpressAdapter implements AdapterInterface
     private $plugPath = 'wp-content/plugins';
 
     /**
-     * look for the version.php with a wp_version string in it
+     * Look for the version.php with a wp_version string in it
      *
      * @param   Finder  $finder  finder instance to append the criteria
      *
@@ -115,7 +115,7 @@ class WordpressAdapter implements AdapterInterface
                 preg_match('/\s*Version:\s*([\w._-]+)/', $content, $version);
 
                 if (empty($name) === false && empty($version) === false) {
-                    $modules[] = new Module($name[1], $dir, $version[1]);
+                    $modules[] = new Module($name[1], $dir, $version[1], 'plugin');
                     $done = true;
                     break;
                 } else {
@@ -127,7 +127,7 @@ class WordpressAdapter implements AdapterInterface
                         $version = null;
                     }
 
-                    $matches[$dir][] = new Module($name, $dir, $version);
+                    $matches[$dir][] = new Module($name, $dir, $version, 'plugin');
                 }
             }
 
@@ -148,7 +148,7 @@ class WordpressAdapter implements AdapterInterface
                 if ($version === null) {
                     $version = 'unknown';
                 }
-                $modules[] = new Module($name, $dir, $version);
+                $modules[] = new Module($name, $dir, $version, 'plugin');
             }
         }
         return $modules;
