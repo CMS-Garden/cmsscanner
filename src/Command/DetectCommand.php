@@ -186,6 +186,14 @@ class DetectCommand extends AbstractDetectionCommand
             }
         }
 
+        // Remove unknown result if all versions are detected
+
+        foreach ($stats as $cmsName => $stat) {
+            if ($stats[$cmsName]['versions']['Unknown'] == 0) {
+                unset($stats[$cmsName]['versions']['Unknown']);
+            }
+        }
+
         return $stats;
     }
 
