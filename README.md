@@ -78,24 +78,31 @@ It's also possible to pass multiple paths to the scanner:
 Output:
 
 	Successfully finished scan!
-	CMSScanner found 5 CMS installations!
+	CMSScanner found 7 CMS installations!
 
-	+--------+-----------------+
-	| CMS    | # Installations |
-	+--------+-----------------+
-	| Drupal | 3               |
-	+--------+-----------------+
+	+-----------+-----------------+
+	| CMS       | # Installations |
+	+-----------+-----------------+
+	| Joomla    | 6               |
+	| Drupal    | 1               |
+	+-----------+-----------------+
 
 	Version specific stats:
+	Joomla:
+	+---------+-----------------+
+	| Version | # Installations |
+	+---------+-----------------+
+	| Unknown | 4               |
+	| 1.5.26  | 1               |
+	| 2.5.27  | 1               |
+	+---------+-----------------+
 	Drupal:
 	+---------+-----------------+
 	| Version | # Installations |
 	+---------+-----------------+
-	| Unknown | 0               |
-	| 5.23    | 1               |
-	| 6.33    | 1               |
-	| 7.32    | 1               |
+	| 8.2.7   | 1               |
 	+---------+-----------------+
+
 
 ### Limit recursion depth
 By using the --depth options, it's possible to limit the recursion depth of the scan. This will increase the performance but decrease the accuracy of the scan:
