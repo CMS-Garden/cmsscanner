@@ -77,30 +77,30 @@ It's also possible to pass multiple paths to the scanner:
 
 Output:
 
-Successfully finished scan!
-CMSScanner found 5 CMS installations!
+	Successfully finished scan!
+	CMSScanner found 5 CMS installations!
 
-+--------+-----------------+
-| CMS    | # Installations |
-+--------+-----------------+
-| Joomla | 2               |
-| Drupal | 3               |
-+--------+-----------------+
+	+--------+-----------------+
+	| CMS    | # Installations |
+	+--------+-----------------+
+	| Joomla | 2               |
+	| Drupal | 3               |
+	+--------+-----------------+
 
-Version specific stats:
-Joomla:
-+---------+-----------------+
-| Version | # Installations |
-+---------+-----------------+
-| 3.6.5   | 2               |
-+---------+-----------------+
-Drupal:
-+---------+-----------------+
-| Version | # Installations |
-+---------+-----------------+
-| Unknown | 1               |
-| 8.2.7   | 2               |
-+---------+-----------------+
+	Version specific stats:
+	Joomla:
+	+---------+-----------------+
+	| Version | # Installations |
+	+---------+-----------------+
+	| 3.6.5   | 2               |
+	+---------+-----------------+
+	Drupal:
+	+---------+-----------------+
+	| Version | # Installations |
+	+---------+-----------------+
+	| Unknown | 1               |
+	| 8.2.7   | 2               |
+	+---------+-----------------+
 
 
 ### Limit recursion depth
