@@ -165,7 +165,7 @@ class DetectCommand extends AbstractDetectionCommand
             if (empty($stats[$systemName])) {
                 $stats[$systemName] = array(
                     'amount' => 0,
-                    'versions' => array("Unknown" => 0)
+                    'versions' => array(),
                 );
             }
 
@@ -174,7 +174,12 @@ class DetectCommand extends AbstractDetectionCommand
             // Increase count for this used version
             if ($versionStats) {
                 if (!$result->version) {
+                    if (!array_key_exists('Unknown', $stats[$systemName]['versions'])) {
+                        $stats[$systemName]['versions']['Unknown'] = 0;
+                    }
+
                     $stats[$systemName]['versions']['Unknown']++;
+
                     continue;
                 }
 
@@ -183,13 +188,6 @@ class DetectCommand extends AbstractDetectionCommand
                 }
 
                 $stats[$systemName]['versions'][$result->version]++;
-            }
-        }
-
-        // Remove unknown result if all versions are detected
-        foreach ($stats as $cmsName => $stat) {
-            if ($stats[$cmsName]['versions']['Unknown'] == 0) {
-                unset($stats[$cmsName]['versions']['Unknown']);
             }
         }
 
