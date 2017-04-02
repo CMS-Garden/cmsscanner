@@ -102,7 +102,6 @@ Output:
 	| 8.2.7   | 2               |
 	+---------+-----------------+
 
-
 ### Limit recursion depth
 By using the --depth options, it's possible to limit the recursion depth of the scan. This will increase the performance but decrease the accuracy of the scan:
 
