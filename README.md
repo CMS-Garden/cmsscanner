@@ -10,6 +10,7 @@ This tool is developed by the CMS-Garden project. It's designed to scan a local 
 * TYPO3 CMS
 * WordPress
 * Prestashop
+* PivotX
 
 It is designed to work on Linux, OS X and FreeBSD.
 
