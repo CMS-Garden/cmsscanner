@@ -205,7 +205,7 @@ class DetectCommand extends AbstractDetectionCommand
             if ($moduleStats) {
                 foreach ($result->modules as $item) {
                     if (!is_object($item)) {
-                        continue;
+                        $stats[$systemName]['modules']['_ModuleDetectionSupport'] = 'No Module Detection support';
                     }
 
                     if (!$item->name) {
@@ -218,6 +218,10 @@ class DetectCommand extends AbstractDetectionCommand
                     } else {
                         $stats[$systemName]['modules'][$item->name]++;
                     }
+                }
+
+                if (!isset($stats[$systemName]['modules']['_ModuleDetectionSupport'])) {
+                    $stats[$systemName]['modules']['_ModuleDetectionSupport'] = 'Module Detection supported';
                 }
             }
         }
@@ -288,6 +292,9 @@ class DetectCommand extends AbstractDetectionCommand
 
             foreach ($stats as $system => $cmsStats) {
                 $output->writeln(sprintf("%s:", $system));
+                $output->writeln(sprintf("Support: %s", $cmsStats['modules']['_ModuleDetectionSupport']));
+
+                unset($cmsStats['modules']['_ModuleDetectionSupport']);
 
                 $table = new Table($output);
                 $table->setHeaders(array('Module', '# Installations'));
