@@ -204,8 +204,7 @@ class DetectCommand extends AbstractDetectionCommand
             // Increase count for this used module
             if ($moduleStats) {
                 foreach ($result->modules as $item) {
-                    if (!is_object($item))
-                    {
+                    if (!is_object($item)) {
                         continue;
                     }
 
