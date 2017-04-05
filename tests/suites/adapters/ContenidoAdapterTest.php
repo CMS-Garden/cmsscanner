@@ -99,8 +99,7 @@ class ContenidoAdapterTest extends \PHPUnit_Framework_TestCase
 
         if ($modules === false) {
             $this->assertTrue(true);
-        }
-        else {
+        } else {
             $this->assertTrue(false);
         }
     }
