@@ -1,7 +1,7 @@
 <?php
 /**
  * @package    CMSScanner
- * @copyright  Copyright (C) 2016 CMS-Garden.org
+ * @copyright  Copyright (C) 2017 CMS-Garden.org
  * @license    MIT <https://tldrlegal.com/license/mit-license>
  * @link       http://www.cms-garden.org
  */
@@ -114,16 +114,40 @@ class Typo3CmsAdapter implements AdapterInterface
     public function detectModules(\SplFileInfo $path)
     {
         $modules = array();
-        $_EXTKEY = 'dummy';
         $finder = new Finder();
 
         $finder->name('ext_emconf.php');
         foreach ($finder->in($path->getRealPath()) as $config) {
-            include $config->getRealPath();
-            $modules[] = new Module($EM_CONF[$_EXTKEY]['title'], $config->getRealPath(), $EM_CONF[$_EXTKEY]['version']);
+            preg_match("/\'title\'\s*?\=\>\s*?'([^']+)/", file_get_contents($config->getRealPath()), $titel);
+            preg_match("/\'version\'\s*?\=\>\s*?'([^']+)/", file_get_contents($config->getRealPath()), $version);
+            preg_match("/\'category\'\s*?\=\>\s*?'([^']+)/", file_get_contents($config->getRealPath()), $type);
+
+            if (!count($titel)) {
+                continue;
+            }
+
+            if (!count($version)) {
+                $version[1] = 'unknown';
+            }
+
+            if (!count($type)) {
+                $type[1] = 'unknown';
+            }
+
+            $modules[] = new Module($titel[1], $config->getRealPath(), $version[1], $type[1]);
         }
 
-        return $modules;
+        // Remove the Core Extensions form the return array
+        foreach ($modules as $key => $module) {
+            // Remove real path
+            $module->path = str_replace($path->getRealPath(), '', $module->path);
+
+            if (strpos($module->path, '/typo3/sysext') === 0) {
+                unset($modules[$key]);
+            }
+        }
+
+        return array_values($modules);
     }
 
     /***
