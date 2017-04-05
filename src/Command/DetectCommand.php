@@ -205,7 +205,8 @@ class DetectCommand extends AbstractDetectionCommand
             if ($moduleStats) {
                 foreach ($result->modules as $item) {
                     if (!is_object($item)) {
-                        $stats[$systemName]['modules']['_ModuleDetectionSupport'] = 'No Module Detection support';
+                        $stats[$systemName]['featureSupport']['ModuleDetection']['message'] = 'No Module Detection support';
+                        $stats[$systemName]['featureSupport']['ModuleDetection']['status']  = false;
                     }
 
                     if (!$item->name) {
@@ -220,8 +221,9 @@ class DetectCommand extends AbstractDetectionCommand
                     }
                 }
 
-                if (!isset($stats[$systemName]['modules']['_ModuleDetectionSupport'])) {
-                    $stats[$systemName]['modules']['_ModuleDetectionSupport'] = 'Module Detection supported';
+                if (!isset($stats[$systemName]['featureSupport']['ModuleDetection'])) {
+                    $stats[$systemName]['featureSupport']['ModuleDetection']['message'] = 'Module Detection supported';
+                    $stats[$systemName]['featureSupport']['ModuleDetection']['status']  = true;
                 }
             }
         }
@@ -292,9 +294,11 @@ class DetectCommand extends AbstractDetectionCommand
 
             foreach ($stats as $system => $cmsStats) {
                 $output->writeln(sprintf("%s:", $system));
-                $output->writeln(sprintf("Support: %s", $cmsStats['modules']['_ModuleDetectionSupport']));
+                $output->writeln("Supported Scanner Features:");
 
-                unset($cmsStats['modules']['_ModuleDetectionSupport']);
+                foreach ($cmsStats['featureSupport'] as $supportedFeature => $values) {
+                    $output->writeln(sprintf("- %s: %s", $supportedFeature, $values['message']));
+                }
 
                 $table = new Table($output);
                 $table->setHeaders(array('Module', '# Installations'));
