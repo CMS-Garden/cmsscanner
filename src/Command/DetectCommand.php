@@ -205,8 +205,7 @@ class DetectCommand extends AbstractDetectionCommand
             if ($moduleStats) {
                 foreach ($result->modules as $item) {
                     if (!is_object($item)) {
-                        $stats[$systemName]['featureSupport']['ModuleDetection']['msg'] = 'Module Detection is not supported';
-                        $stats[$systemName]['featureSupport']['ModuleDetection']['status'] = false;
+                        $stats[$systemName]['featureSupport']['ModuleDetection'] = false;
                         continue;
                     }
 
@@ -223,8 +222,7 @@ class DetectCommand extends AbstractDetectionCommand
                 }
 
                 if (!isset($stats[$systemName]['featureSupport']['ModuleDetection'])) {
-                    $stats[$systemName]['featureSupport']['ModuleDetection']['msg'] = 'Module Detection is supported';
-                    $stats[$systemName]['featureSupport']['ModuleDetection']['status'] = true;
+                    $stats[$systemName]['featureSupport']['ModuleDetection'] = true;
                 }
             }
         }
@@ -295,13 +293,17 @@ class DetectCommand extends AbstractDetectionCommand
 
             foreach ($stats as $system => $cmsStats) {
                 $output->writeln(sprintf("%s:", $system));
-                $output->writeln("Messages:");
+                
 
                 foreach ($cmsStats['featureSupport'] as $supportedFeature => $status) {
-                    $output->writeln(sprintf("- %s: %s", $supportedFeature, $status['msg']));
+                    if ($status) {
+                        continue;
+                    }
+
+                    $output->writeln(sprintf("Unsupproted Feature: %s", $supportedFeature));
                 }
 
-                if ($cmsStats['featureSupport']['ModuleDetection']['status'] === false) {
+                if ($cmsStats['featureSupport']['ModuleDetection'] === false) {
                     continue;
                 }
 
