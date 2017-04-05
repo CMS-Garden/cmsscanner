@@ -66,16 +66,16 @@ class PrestashopAdapterTest extends \PHPUnit_Framework_TestCase
 
     public function testModulesAreDetected()
     {
-            $path = new \SplFileInfo(CMSSCANNER_MOCKFILES_PATH . '/prestashop');
+        $path = new \SplFileInfo(CMSSCANNER_MOCKFILES_PATH . '/prestashop');
 
-            // IF we implement module detection for this system we need to change the test!
-            $modules = $this->object->detectModules($path);
+        // IF we implement module detection for this system we need to change the test!
+        $modules = $this->object->detectModules($path);
 
-            if ($modules === false) {
-                $this->assertTrue(true);
-            }
-            else {
-                $this->assertTrue(false);
-            }
+        if ($modules === false) {
+            $this->assertTrue(true);
+        }
+        else {
+            $this->assertTrue(false);
+        }
     }
 }

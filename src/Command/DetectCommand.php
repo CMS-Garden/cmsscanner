@@ -334,11 +334,10 @@ class DetectCommand extends AbstractDetectionCommand
             $modules = $result->getModules();
             if ($modules === false || !is_array($modules)) {
                 $modules[] = 'No Module Detection implemented';
-            }
-            else {
+            } else {
                 foreach ($modules as $module) {
                     $modules[] = $module->toArray();
-                }       
+                }
             }
 
             $result = array(

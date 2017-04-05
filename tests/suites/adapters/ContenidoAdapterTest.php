@@ -92,16 +92,16 @@ class ContenidoAdapterTest extends \PHPUnit_Framework_TestCase
 
     public function testModulesAreDetected()
     {
-            $path = new \SplFileInfo(CMSSCANNER_MOCKFILES_PATH . '/contenido');
+        $path = new \SplFileInfo(CMSSCANNER_MOCKFILES_PATH . '/contenido');
 
-            // IF we implement module detection for this system we need to change the test!
-            $modules = $this->object->detectModules($path);
+        // IF we implement module detection for this system we need to change the test!
+        $modules = $this->object->detectModules($path);
 
-            if ($modules === false) {
-                $this->assertTrue(true);
-            }
-            else {
-                $this->assertTrue(false);
-            }
+        if ($modules === false) {
+            $this->assertTrue(true);
+        }
+        else {
+            $this->assertTrue(false);
+        }
     }
 }
