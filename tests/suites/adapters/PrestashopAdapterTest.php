@@ -71,6 +71,6 @@ class PrestashopAdapterTest extends \PHPUnit_Framework_TestCase
         // IF we implement module detection for this system we need to change the test!
         $modules = $this->object->detectModules($path);
 
-        $this->assertFalse($modules);
+        $this->assertFalse($modules[0]);
     }
 }

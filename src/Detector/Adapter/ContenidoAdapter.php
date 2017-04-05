@@ -159,7 +159,7 @@ class ContenidoAdapter implements AdapterInterface
     public function detectModules(\SplFileInfo $path)
     {
         // TODO implement this function
-        return false;
+        return array(false);
     }
 
     /**
