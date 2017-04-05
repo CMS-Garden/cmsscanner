@@ -205,8 +205,9 @@ class DetectCommand extends AbstractDetectionCommand
             if ($moduleStats) {
                 foreach ($result->modules as $item) {
                     if (!is_object($item)) {
-                        $stats[$systemName]['featureSupport']['ModuleDetection']['message'] = 'No Module Detection support';
-                        $stats[$systemName]['featureSupport']['ModuleDetection']['status']  = false;
+                        $stats[$systemName]['featureSupport']['ModuleDetection']['msg'] = 'Module Detection is not supported';
+                        $stats[$systemName]['featureSupport']['ModuleDetection']['status'] = false;
+                        continue;
                     }
 
                     if (!$item->name) {
@@ -222,8 +223,8 @@ class DetectCommand extends AbstractDetectionCommand
                 }
 
                 if (!isset($stats[$systemName]['featureSupport']['ModuleDetection'])) {
-                    $stats[$systemName]['featureSupport']['ModuleDetection']['message'] = 'Module Detection supported';
-                    $stats[$systemName]['featureSupport']['ModuleDetection']['status']  = true;
+                    $stats[$systemName]['featureSupport']['ModuleDetection']['msg'] = 'Module Detection is supported';
+                    $stats[$systemName]['featureSupport']['ModuleDetection']['status'] = true;
                 }
             }
         }
@@ -294,10 +295,14 @@ class DetectCommand extends AbstractDetectionCommand
 
             foreach ($stats as $system => $cmsStats) {
                 $output->writeln(sprintf("%s:", $system));
-                $output->writeln("Supported Scanner Features:");
+                $output->writeln("Messages:");
 
-                foreach ($cmsStats['featureSupport'] as $supportedFeature => $values) {
-                    $output->writeln(sprintf("- %s: %s", $supportedFeature, $values['message']));
+                foreach ($cmsStats['featureSupport'] as $supportedFeature => $status) {
+                    $output->writeln(sprintf("- %s: %s", $supportedFeature, $status['msg']));
+                }
+
+                if ($cmsStats['featureSupport']['ModuleDetection']['status'] === false) {
+                    continue;
                 }
 
                 $table = new Table($output);
