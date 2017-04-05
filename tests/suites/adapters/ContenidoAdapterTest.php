@@ -89,4 +89,19 @@ class ContenidoAdapterTest extends \PHPUnit_Framework_TestCase
 
         $this->assertInstanceOf('Cmsgarden\Cmsscanner\Detector\System', current($results));
     }
+
+    public function testModulesAreDetected()
+    {
+            $path = new \SplFileInfo(CMSSCANNER_MOCKFILES_PATH . '/contenido');
+
+            // IF we implement module detection for this system we need to change the test!
+            $modules = $this->object->detectModules($path);
+
+            if ($modules === false) {
+                $this->assertTrue(true);
+            }
+            else {
+                $this->assertTrue(false);
+            }
+    }
 }

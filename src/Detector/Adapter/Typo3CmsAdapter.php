@@ -52,6 +52,7 @@ class Typo3CmsAdapter implements AdapterInterface
         $finder->name('localconf.php');
         // always skip typo3temp as it may contain leftovers from functional tests
         $finder->notPath('typo3temp');
+
         return $finder;
     }
 

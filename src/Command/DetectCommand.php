@@ -275,15 +275,21 @@ class DetectCommand extends AbstractDetectionCommand
         // we need this to convert the \SplFileInfo object into a normal path string
         // and the modules to a format which can be json encoded
         array_walk($results, function (&$result) {
-            $modules = array();
-            foreach ($result->getModules() as $module) {
-                $modules[] = $module->toArray();
+            $modules = $result->getModules();
+            if ($modules === false || !is_array($modules)) {
+                $modules[] = 'No Module Detection implemented';
             }
+            else {
+                foreach ($modules as $module) {
+                    $modules[] = $module->toArray();
+                }       
+            }
+
             $result = array(
-              'name' => $result->getName(),
+              'name'    => $result->getName(),
               'version' => $result->getVersion(),
-              'path' => $result->getPath()->getRealPath(),
-              'modules' => $modules
+              'path'    => $result->getPath()->getRealPath(),
+              'modules' => $modules,
             );
         });
 
