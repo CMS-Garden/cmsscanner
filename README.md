@@ -11,6 +11,7 @@ This tool is developed by the CMS-Garden project. It's designed to scan a local 
 * TYPO3 CMS
 * WordPress
 * Prestashop
+* Alchemy CMS
 
 It is designed to work on Linux, OS X and FreeBSD.
 
@@ -98,6 +99,40 @@ Output:
 	| 7.32    | 1               |
 	+---------+-----------------+
 
+### Detect used modules/extensions:
+
+	cmsscanner.phar cmsscanner:detect --modules /var/www
+
+Output:
+
+	Successfully finished scan!
+	CMSScanner found 56 CMS installations!
+
+	+------------+-----------------+-----------+
+	| CMS        | # Installations | # Modules |
+	+------------+-----------------+-----------+
+	| Joomla     | 29              | 131       |
+	| Prestashop | 1               | 0         |
+	| Contao     | 4               | 7         |
+	| WordPress  | 7               | 2         |
+	| TYPO3 CMS  | 3               | 1         |
+	| Drupal     | 4               | 8         |
+	| Contenido  | 8               | 0         |
+	+------------+-----------------+-----------+
+
+	Module specific stats:
+	Joomla:
+	+------------------------------------+-----------------+
+	| Module                             | # Installations |
+	+------------------------------------+-----------------+
+	| JSN_UNIFORM_PLUGIN_BUTTON_TITLE    | 1               |
+	| JSN_UNIFORM_PLUGIN_CONTENT_TITLE   | 1               |
+	| JSN ImageShow Quick Icons          | 1               |
+	| PLG_SYSTEM_AKEEBAUPDATECHECK_TITLE | 3               |
+	| PLG_SYSTEM_BACKUPONUPDATE_TITLE    | 3               |
+	| Content - JSN ImageShow            | 1               |
+	...
+
 ### Limit recursion depth
 By using the --depth options, it's possible to limit the recursion depth of the scan. This will increase the performance but decrease the accuracy of the scan:
 
@@ -130,12 +165,12 @@ This results in a report file like this:
 
 Output:
 
-	[  
-	   {  
+	[
+	   {
 		  "name":"Joomla",
 		  "version":"3.4.6",
 		  "path":"\/var\/www\/joomla",
-		  "modules":[  
+		  "modules":[
 			 {
 				"name":"mod_articles_archive",
 				"version":"3.0.0",

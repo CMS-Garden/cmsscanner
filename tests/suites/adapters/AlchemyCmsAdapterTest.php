@@ -8,28 +8,29 @@
 
 namespace Cmsgarden\Cmsscanner\Tests\Adapters;
 
-use Cmsgarden\Cmsscanner\Detector\Adapter\PrestashopAdapter;
+use Cmsgarden\Cmsscanner\Detector\Adapter\AlchemyCmsAdapter;
 use Symfony\Component\Finder\Finder;
+use Symfony\Component\Finder\SplFileInfo;
 
 /**
- * Class PrestashopAdapterTest
+ * Class AlchemyCmsAdapterTest
  * @package Cmsgarden\Cmsscanner\Tests\Adapters
  *
  * @since   1.0.0
  */
-class PrestashopAdapterTest extends \PHPUnit_Framework_TestCase
+class AlchemyCmsAdapterTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var PrestashopAdapter */
+    /** @var AlchemyCmsAdapter */
     public $object;
 
     public function setUp()
     {
-        $this->object = new PrestashopAdapter();
+        $this->object = new AlchemyCmsAdapter();
     }
 
     public function testCorrectNameIsReturned()
     {
-        $this->assertEquals('Prestashop', $this->object->getName());
+        $this->assertEquals('Alchemy CMS', $this->object->getName());
     }
 
     public function testSystemsAreDetected()
@@ -37,7 +38,7 @@ class PrestashopAdapterTest extends \PHPUnit_Framework_TestCase
         $finder = new Finder();
         $finder->files()->in(CMSSCANNER_MOCKFILES_PATH)
             ->name('dummy.php')
-            ->name('configuration.php');
+            ->name('Gemfile.lock');
 
         $finder = $this->object->appendDetectionCriteria($finder);
 
@@ -59,8 +60,8 @@ class PrestashopAdapterTest extends \PHPUnit_Framework_TestCase
         }
 
         $this->assertCount(1, $results);
-        $this->assertEquals(17, $falseCount);
-        $this->assertArrayHasKey('1.6.0.14', $results);
+        $this->assertEquals(1, $falseCount);
+        $this->assertArrayHasKey('3.5.0', $results);
         $this->assertInstanceOf('Cmsgarden\Cmsscanner\Detector\System', current($results));
     }
 }
