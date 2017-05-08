@@ -122,6 +122,7 @@ class JoomlaAdapter implements AdapterInterface
         // Components
         // Backend only
         'com_admin',
+        'com_associations',
         'com_cache',
         'com_categories',
         'com_checkin',
