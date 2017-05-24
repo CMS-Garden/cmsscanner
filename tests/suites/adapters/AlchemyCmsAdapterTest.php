@@ -64,4 +64,14 @@ class AlchemyCmsAdapterTest extends \PHPUnit_Framework_TestCase
         $this->assertArrayHasKey('3.5.0', $results);
         $this->assertInstanceOf('Cmsgarden\Cmsscanner\Detector\System', current($results));
     }
+
+    public function testModulesAreDetected()
+    {
+        $path = new \SplFileInfo(CMSSCANNER_MOCKFILES_PATH . '/alchemy_cms');
+
+        // IF we implement module detection for this system we need to change the test!
+        $modules = $this->object->detectModules($path);
+
+        $this->assertFalse($modules[0]);
+    }
 }

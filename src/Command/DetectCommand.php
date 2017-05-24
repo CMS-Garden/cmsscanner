@@ -204,6 +204,11 @@ class DetectCommand extends AbstractDetectionCommand
             // Increase count for this used module
             if ($moduleStats) {
                 foreach ($result->modules as $item) {
+                    if (!is_object($item)) {
+                        $stats[$systemName]['featureSupport']['ModuleDetection'] = false;
+                        continue;
+                    }
+
                     if (!$item->name) {
                         $stats[$systemName]['modules']['Unknown'] = $stats[$systemName]['modules']['Unknown']++;
                         continue;
@@ -214,6 +219,10 @@ class DetectCommand extends AbstractDetectionCommand
                     } else {
                         $stats[$systemName]['modules'][$item->name]++;
                     }
+                }
+
+                if (!isset($stats[$systemName]['featureSupport']['ModuleDetection'])) {
+                    $stats[$systemName]['featureSupport']['ModuleDetection'] = true;
                 }
             }
         }
@@ -284,6 +293,19 @@ class DetectCommand extends AbstractDetectionCommand
 
             foreach ($stats as $system => $cmsStats) {
                 $output->writeln(sprintf("%s:", $system));
+                
+
+                foreach ($cmsStats['featureSupport'] as $supportedFeature => $status) {
+                    if ($status) {
+                        continue;
+                    }
+
+                    $output->writeln(sprintf("Unsupproted Feature: %s", $supportedFeature));
+                }
+
+                if ($cmsStats['featureSupport']['ModuleDetection'] === false) {
+                    continue;
+                }
 
                 $table = new Table($output);
                 $table->setHeaders(array('Module', '# Installations'));
@@ -331,15 +353,20 @@ class DetectCommand extends AbstractDetectionCommand
         // we need this to convert the \SplFileInfo object into a normal path string
         // and the modules to a format which can be json encoded
         array_walk($results, function (&$result) {
-            $modules = array();
-            foreach ($result->getModules() as $module) {
-                $modules[] = $module->toArray();
+            $modules = $result->getModules();
+            if ($modules === false || !is_array($modules)) {
+                $modules[] = 'No Module Detection implemented';
+            } else {
+                foreach ($modules as $module) {
+                    $modules[] = $module->toArray();
+                }
             }
+
             $result = array(
-              'name' => $result->getName(),
+              'name'    => $result->getName(),
               'version' => $result->getVersion(),
-              'path' => $result->getPath()->getRealPath(),
-              'modules' => $modules
+              'path'    => $result->getPath()->getRealPath(),
+              'modules' => $modules,
             );
         });
 

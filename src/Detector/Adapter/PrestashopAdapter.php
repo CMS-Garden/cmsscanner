@@ -108,7 +108,7 @@ class PrestashopAdapter implements AdapterInterface
     public function detectModules(\SplFileInfo $path)
     {
         // TODO implement this function
-        return array();
+        return array(false);
     }
 
     /***
