@@ -69,4 +69,42 @@ class WordpressAdapterTest extends \PHPUnit_Framework_TestCase
         $this->assertArrayHasKey('4.0', $results);
         $this->assertInstanceOf('Cmsgarden\Cmsscanner\Detector\System', current($results));
     }
+
+    public function testModulesAreDetected()
+    {
+        $expected = array(
+            array(
+                'name'    => 'Akismet Anti-Spam',
+                'path'    => '/wordpress/wordpress2.2/wp-content/plugins/akismet',
+                'version' => '3.3',
+                'type'    => 'plugin',
+            ),
+            array(
+                'name'    => 'Hello Dolly',
+                'path'    => '/wordpress/wordpress2.2/wp-content/plugins',
+                'version' => '1.6',
+                'type'    => 'plugin',
+            ),
+        );
+
+        $actual = $this->object->detectModules(
+            new \SplFileInfo(CMSSCANNER_MOCKFILES_PATH . '/wordpress/wordpress2.2')
+        );
+
+        $actual = json_decode(json_encode($actual), true);
+
+        foreach ($actual as $i => $value) {
+            $actual[$i] = str_replace(dirname(dirname(__DIR__)) . '/mockfiles', '', $value);
+        }
+
+        $this->assertEquals(
+            $actual,
+            $expected,
+            $message = '',
+            $delta = 0.0,
+            $maxDepth = 10,
+            $canonicalize = true,
+            $ignoreCase = false
+        );
+    }
 }
