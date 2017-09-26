@@ -1,8 +1,8 @@
 <?php
 /**
  * @package    CMSScanner
- * @copyright  Copyright (C) 2014 CMS-Garden.org
- * @license    GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @copyright  Copyright (C) 2017 CMS-Garden.org
+ * @license    MIT <https://tldrlegal.com/license/mit-license>
  * @link       http://www.cms-garden.org
  */
 
@@ -11,6 +11,7 @@ namespace Cmsgarden\Cmsscanner\Detector\Adapter;
 use Cmsgarden\Cmsscanner\Detector\System;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo;
+use Cmsgarden\Cmsscanner\Detector\Module;
 
 /**
  * Class WordpressAdapter
@@ -21,7 +22,13 @@ use Symfony\Component\Finder\SplFileInfo;
 class WordpressAdapter implements AdapterInterface
 {
     /**
-     * look for the version.php with a wp_version string in it
+     * The path of the plugins.
+     * @var string
+     */
+    private $plugPath = 'wp-content/plugins';
+
+    /**
+     * Look for the version.php with a wp_version string in it
      *
      * @param   Finder  $finder  finder instance to append the criteria
      *
@@ -78,6 +85,73 @@ class WordpressAdapter implements AdapterInterface
         }
 
         return null;
+    }
+
+    /**
+     * @InheritDoc
+     * This solution needs a refactoring!
+     */
+    public function detectModules(\SplFileInfo $path)
+    {
+        $modules = array();
+        $matches = array();
+
+        $pluginsubfolders = glob(sprintf('%s/%s/*', $path->getRealPath(), $this->plugPath), GLOB_ONLYDIR);
+        $pluginmainfolder = glob(sprintf('%s/wp-content/plugins', $path->getRealPath()), GLOB_ONLYDIR);
+        $folders =  array_merge($pluginsubfolders, $pluginmainfolder);
+
+        foreach ($folders as $dir) {
+            $done = false;
+            if (array_key_exists($dir, $matches) === false) {
+                $matches[$dir] = array();
+            }
+
+            foreach (glob(sprintf('%s/*.php', $dir)) as $plugin) {
+                $name = null;
+                $version = null;
+                $content = file_get_contents($plugin);
+
+                preg_match('/\s*Plugin Name:\s*(.*)/', $content, $name);
+                preg_match('/\s*Version:\s*([\w._-]+)/', $content, $version);
+
+                if (empty($name) === false && empty($version) === false) {
+                    $modules[] = new Module($name[1], $dir, $version[1], 'plugin');
+                    $done = true;
+                    break;
+                } else {
+                    if (empty($name) === true) {
+                        $name = null;
+                    }
+
+                    if (empty($version) === true) {
+                        $version = null;
+                    }
+
+                    $matches[$dir][] = new Module($name, $dir, $version, 'plugin');
+                }
+            }
+
+            if ($done === false) {
+                $name = null;
+                $version = null;
+                foreach ($matches[$dir] as $possible) {
+                    if ($possible->name !== null) {
+                        $name = $possible->name;
+                    }
+                    if ($possible->version !== null) {
+                        $version = $possible->version;
+                    }
+                }
+                if ($name === null) {
+                    $name = pathinfo($dir, PATHINFO_FILENAME);
+                }
+                if ($version === null) {
+                    $version = 'unknown';
+                }
+                $modules[] = new Module($name, $dir, $version, 'plugin');
+            }
+        }
+        return $modules;
     }
 
     /**

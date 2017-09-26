@@ -1,8 +1,8 @@
 <?php
 /**
- * @package    CMSScanner.Tests
- * @copyright  Copyright (C) 2014 CMS-Garden.org
- * @license    GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @package    CMSScanner
+ * @copyright  Copyright (C) 2017 CMS-Garden.org
+ * @license    MIT <https://tldrlegal.com/license/mit-license>
  * @link       http://www.cms-garden.org
  */
 

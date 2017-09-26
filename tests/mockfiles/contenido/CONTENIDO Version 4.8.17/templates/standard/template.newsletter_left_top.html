@@ -1,0 +1,467 @@
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="styles/contenido.css">
+    <meta http-equiv="expires" content="0">
+    <meta http-equiv="cache-control" content="no-cache">
+    <meta http-equiv="pragma" content="no-cache">
+    <script language="JavaScript" src="scripts/HTMLObj.js.php?contenido={SESSID}"></script>
+    <script language="JavaScript" src="scripts/messageBox.js.php?contenido={SESSID}"></script>
+    <script language="JavaScript" src="scripts/rowMark.js"></script>
+    <script language="JavaScript" src="scripts/contenidoConfig.js"></script>
+    <script language="JavaScript" src="scripts/infoBox.js"></script>
+    <script language="JavaScript" src="scripts/general.js"></script>
+    <script language="JavaScript" src="scripts/cfoldingrow.js"></script>
+    <script language="JavaScript" src="scripts/parameterCollector.js"></script>
+
+
+    <script language="JavaScript">
+        var sDisplay = 'table-row';
+        var bMsie = (document.all) ? true : false;
+        if (bMsie) {
+            sDisplay = 'block';
+        }
+
+        var newsletter_listoptionsform_curPage = 1
+        var dispatch_listoptionsform_curPage = 1;
+        var recipients_listoptionsform_curPage = 1;
+        var groups_listoptionsform_curPage = 1;
+
+        var sid = '{SESSID}';
+        box = new messageBox("", "", "", 0, 0);
+        var actionURL='';
+        var settingsURL='';
+        var listoptionURL='';
+        var pagingURL='';
+        var listoptionURLDisp ='';
+        var pagingURLDisp ='';
+        var	actionURLRec = '';
+        var	settingsURLRec = '';
+        var	listoptionURLRec = '';
+        var	pagingURLRec = '';
+        var	actionURLGroup = '';
+        var	listoptionURLGroup = '';
+        var	pagingURLGroup = '';
+        var purgetimeframe = {VALUE_PURGETIMEFRAME};
+
+        // save status of buttons
+        var selectedButton = '';
+
+        // Buttons and their images
+        var butNewsletter     = { imgId:'{INEWSLETTER}', containerId:'{ID_CNEWSLETTER}', imgOff:'images/newsletter_off.gif', imgOn:'images/newsletter_on.gif'};
+        var butDispatch       = { imgId:'{IDISPATCH}', containerId:'{ID_CDISPATCH}', imgOff:'images/newsletter_dispatch_off.gif', imgOn:'images/newsletter_dispatch_on.gif'};
+        var butRecipients     = { imgId:'{IRECIPIENTS}', containerId:'{ID_CRECIPIENTS}', imgOff:'images/newsletter_recipients_off.gif', imgOn:'images/newsletter_recipients_on.gif'};
+        var butRecipientgroup = { imgId:'{IRECIPIENTGROUP}', containerId:'{ID_CRECIPIENTGROUP}', imgOff:'images/newsletter_recipientgroups_off.gif', imgOn:'images/newsletter_recipientgroups_on.gif'};
+
+        var buttonArray = new Array(butNewsletter, butDispatch, butRecipients, butRecipientgroup);
+
+        function resizeFrame(arg, bIgnore)
+        {
+            if(arg == '')
+            {
+                // Fetch links and store for later usage
+                var actionLink = document.getElementById('{ACTIONLINK}');
+                var settingsLink = document.getElementById('{SETTINGSLINK}');
+                var listoptionLink = document.getElementById('{LISTOPTIONLINK}');
+                var pagingLink = document.getElementById('{PAGINGLINK}');
+                var listoptionLinkDisp = document.getElementById('{LISTOPTIONLINKDISP}');
+                var pagingLinkDisp = document.getElementById('{PAGINGLINKDISP}');
+                var actionLinkRec = document.getElementById('{ACTIONLINKREC}');
+                var settingsLinkRec = document.getElementById('{SETTINGSLINKREC}');
+                var listoptionLinkRec = document.getElementById('{LISTOPTIONLINKREC}');
+                var pagingLinkRec = document.getElementById('{PAGINGLINKREC}');
+                var actionLinkGroup = document.getElementById('{ACTIONLINKGROUP}');
+                var listoptionLinkGroup = document.getElementById('{LISTOPTIONLINKGROUP}');
+                var pagingLinkGroup = document.getElementById('{PAGINGLINKGROUP}');
+
+                if (actionLink) {
+                    actionURL = actionLink.href;
+                }
+
+                if (settingsLink) {
+                    settingsURL = settingsLink.href;
+                }
+                listoptionURL = listoptionLink.href;
+
+                if (pagingLink) {
+                    pagingURL = pagingLink.href;
+                }
+
+                listoptionURLDisp = listoptionLinkDisp.href;
+
+                if (pagingLinkDisp) {
+                    pagingURLDisp = pagingLinkDisp.href;
+                }
+
+                if (actionLinkRec) {
+                    actionURLRec = actionLinkRec.href;
+                }
+
+                settingsURLRec = settingsLinkRec.href;
+                listoptionURLRec = listoptionLinkRec.href;
+
+                if (pagingLinkRec) {
+                    pagingURLRec = pagingLinkRec.href;
+                }
+
+                if (actionLinkGroup) {
+                    actionURLGroup = actionLinkGroup.href;
+                }
+
+                listoptionURLGroup = listoptionLinkGroup.href;
+                if (pagingLinkGroup) {
+                    pagingURLGroup = pagingLinkGroup.href;
+                }
+
+                // clicking the link now calls this function
+                if (actionLink) {
+                    actionLink.href = "javascript:resizeFrame('{ACTIONLINK}')";
+                }
+                if (settingsLink) {
+                    settingsLink.href = "javascript:resizeFrame('{SETTINGSLINK}')";
+                }
+                listoptionLink.href = "javascript:resizeFrame('{LISTOPTIONLINK}')";
+                if (pagingLink) {
+                    pagingLink.href = "javascript:resizeFrame('{PAGINGLINK}')";
+                }
+                listoptionLinkDisp.href = "javascript:resizeFrame('{LISTOPTIONLINKDISP}')";
+                if (pagingLinkDisp) {
+                    pagingLinkDisp.href = "javascript:resizeFrame('{PAGINGLINKDISP}')";
+                }
+                if (actionLinkRec) {
+                    actionLinkRec.href = "javascript:resizeFrame('{ACTIONLINKREC}')";
+                }
+                settingsLinkRec.href = "javascript:resizeFrame('{SETTINGSLINKREC}')";
+                listoptionLinkRec.href = "javascript:resizeFrame('{LISTOPTIONLINKREC}')";
+                if (pagingLinkRec) {
+                    pagingLinkRec.href = "javascript:resizeFrame('{PAGINGLINKREC}')";
+                }
+                if (actionLinkGroup) {
+                    actionLinkGroup.href = "javascript:resizeFrame('{ACTIONLINKGROUP}')";
+                }
+                listoptionLinkGroup.href = "javascript:resizeFrame('{LISTOPTIONLINKGROUP}')";
+                if (pagingLinkGroup) {
+                    pagingLinkGroup.href = "javascript:resizeFrame('{PAGINGLINKGROUP}')";
+                }
+
+                // for first load set focus to newsletter
+                for(var i=0; i < buttonArray.length; i++) {
+                    if (document.getElementById(buttonArray[i].imgId)) {
+                        toggleContainer(buttonArray[i].imgId);
+                        break;
+                    }
+                }
+
+                hoverEffect('{ID_CNEWSLETTER}', 'on');
+            }
+            else if(arg == '{ACTIONLINK}')
+            {
+                window.location.href=actionURL;
+            }
+            else if(arg == '{SETTINGSLINK}')
+            {
+                window.location.href=settingsURL;
+            }
+            else if(arg == '{LISTOPTIONLINK}')
+            {
+                window.location.href=listoptionURL;
+            }
+            else if(arg == '{PAGINGLINK}' && bIgnore != 1)
+            {
+                window.location.href=pagingURL;
+            }
+            else if(arg == '{LISTOPTIONLINKDISP}')
+            {
+                window.location.href=listoptionURLDisp;
+            }
+            else if(arg == '{PAGINGLINKDISP}' && bIgnore != 1)
+            {
+                window.location.href=pagingURLDisp;
+            }
+            else if(arg == '{ACTIONLINKREC}')
+            {
+                window.location.href=actionURLRec;
+            }
+            else if(arg == '{SETTINGSLINKREC}')
+            {
+                window.location.href=settingsURLRec;
+            }
+            else if(arg == '{LISTOPTIONLINKREC}')
+            {
+                window.location.href=listoptionURLRec;
+            }
+            else if(arg == '{PAGINGLINKREC}' && bIgnore != 1)
+            {
+                window.location.href=pagingURLRec;
+            }
+            else if(arg == '{ACTIONLINKGROUP}')
+            {
+                window.location.href=actionURLGroup;
+            }
+            else if(arg == '{LISTOPTIONLINKGROUP}')
+            {
+                window.location.href=listoptionURLGroup;
+
+            }
+            else if(arg == '{PAGINGLINKGROUP}' && bIgnore != 1)
+            {
+                window.location.href=pagingURLGroup;
+            }
+
+            // resizing frame
+            window.setTimeout("parent.parent.frameResize.resizeTopLeftFrame(document.getElementById('top_left_container').offsetHeight+1)", 10);
+        }
+
+        function showSendTestMsg(lngId)
+        {
+            box.confirm("'.$sSendTestTitle.'", "'.$sSendTestDescr.'", "sendTestNewsletter(\'" + lngId + "\')");
+        }
+
+        function showDelMsg(lngId, strElement)
+        {
+            box.confirm("'.$sDelTitle.'", "'.$sDelDescr.'<b>" + strElement + "</b>", "deleteNewsletter(\'" + lngId + "\')");
+        }
+
+        /* Enabled/Disable group box */
+        function checkSelection(strValue)
+        {
+            if (strValue == "selection")
+            {
+                document.getElementById("groupselect").disabled = false;
+            }
+            else
+            {
+                document.getElementById("groupselect").disabled = true;
+            }
+        }
+
+        function toggleContainer(activeButton)
+        {
+            // remember selected
+            selectedButton = activeButton;
+
+            for(var i=0; i < buttonArray.length; i++)
+            {
+                // make selected container visible
+                if(activeButton == buttonArray[i].imgId)
+                {
+                    document.getElementById(buttonArray[i].containerId).style.display = 'block';
+                }
+                // render other containers invisible
+                else
+                {
+                    document.getElementById(buttonArray[i].containerId).style.display = 'none';
+                }
+            }
+            hoverEffect(activeButton, 'in');
+            resizeFrame(activeButton);
+        }
+
+        function hoverEffect(actButton, stat)
+        {
+            // fetch the button object
+            for(var i=0; i < buttonArray.length; i++)
+            {
+                // highlight image on enter, gray image on mouse out
+                if(buttonArray[i].imgId == actButton && actButton != selectedButton)
+                {
+                    if(stat == 'in')
+                    {
+                        document.getElementById(buttonArray[i].imgId).src=buttonArray[i].imgOn;
+                    }
+                    else
+                    {
+                        document.getElementById(buttonArray[i].imgId).src=buttonArray[i].imgOff;
+                    }
+                }
+                else if(buttonArray[i].imgId != selectedButton)
+                {
+                    if (document.getElementById(buttonArray[i].imgId)) {
+                        document.getElementById(buttonArray[i].imgId).src=buttonArray[i].imgOff;
+                    }
+                }
+            }
+        }
+
+        function reloadLeftBottomAndTransportFormVars(theform)
+        {
+            var iPage = 1;
+
+            if (theform.name == 'newsletter_listoptionsform') {
+                iPage = newsletter_listoptionsform_curPage;
+            }
+
+            if (theform.name == 'dispatch_listoptionsform') {
+                iPage = dispatch_listoptionsform_curPage;
+            }
+
+            if (theform.name == 'recipients_listoptionsform') {
+                iPage = recipients_listoptionsform_curPage;
+            }
+
+            if (theform.name == 'groups_listoptionsform') {
+                iPage = groups_listoptionsform_curPage;
+            }
+
+            var formElements = theform.elements;
+            var multilink = "main.php?";
+            for(var i=0; i<formElements.length; i++)
+            {
+                if(i>0 && formElements[i].name != "" && formElements[i].value != "")
+                {
+                    multilink += "&";
+                }
+                if(formElements[i].name != "" && formElements[i].value != "")
+                {
+                    multilink += formElements[i].name + "=" + formElements[i].value;
+                }
+            }
+
+            multilink += '&page='+iPage;
+            conMultiLink("left_bottom", multilink);
+        }
+
+        function showPurgeMsg(sMsgPurgeTitle, sMsgPurgeDescr)
+        {
+            box.confirm(sMsgPurgeTitle, sMsgPurgeDescr, "purgeRecipients()");
+        }
+
+        function purgeRecipients()
+        {
+            //oForm = top.content.left.left_top.document.getElementById("recipient_listoptionsform");
+            oForm = document.getElementById("recipients_listoptionsform");
+
+            url  = "main.php?area=recipients";
+            url += "&action=recipients_purge";
+            url += "&frame=4";
+            url += "&contenido=" + sid;
+            url += get_registered_parameters();
+            url += "&restrictgroup=" + oForm.restrictgroup.value;
+            url += "&sortby=" + oForm.sortby.value;
+            url += "&sortorder=" + oForm.sortorder.value;
+            url += "&filter=" + oForm.filter.value;
+            url += "&elemperpage=" + oForm.elemperpage.value;
+
+            parent.parent.right.right_bottom.location.href = url;
+        }
+
+        function refreshGroupOption(idGroup, sMode, sGroupname) {
+            var oPossibleObjects = document.getElementsByTagName('select');
+            var iCount = oPossibleObjects.length;
+
+            for (var i = 0; i < iCount; i++) {
+                if (oPossibleObjects[i].name == 'restrictgroup') {
+                    if (sMode == 'remove') {
+                        dropOptionElement(oPossibleObjects[i], idGroup);
+                    } else if (sMode == 'add') {
+                        addOptionElement(oPossibleObjects[i], idGroup, sGroupname);
+                    }
+                }
+
+                if (oPossibleObjects[i].name == 'selTestDestination') {
+                    if (sMode == 'remove') {
+                        dropOptionElement(oPossibleObjects[i], idGroup);
+                    } else if (sMode == 'add') {
+                        addOptionElement(oPossibleObjects[i], idGroup, sGroupname);
+                    }
+                }
+            }
+        }
+
+        function dropOptionElement (select, value) {
+            var oOptions = select.getElementsByTagName('option');
+            var jCount = oOptions.length;
+            for (var j = 0; j < jCount; j++) {
+                if (oOptions[j].value == value) {
+                    select.removeChild(oOptions[j]);
+                    break;
+                }
+            }
+        }
+
+        function addOptionElement (select, value, sGroupname) {
+            var oNewOption = document.createElement("option");
+            if (!sGroupname) {
+                var sGroupname = '-- i18n("New group") --';
+            }
+            oNewOption.value = value;
+            var oNewLabel = document.createTextNode(sGroupname);
+            oNewOption.appendChild(oNewLabel);
+
+            var oOptions = select.getElementsByTagName('option');
+            var jCount = oOptions.length;
+            var oPrev = null;
+
+            for (var j = 1; j < jCount; j++) {
+                var sOptionLabel = '';
+                if (oOptions[j].firstChild) {
+                    sOptionLabel = oOptions[j].firstChild.nodeValue;
+                }
+
+                if (sOptionLabel > sGroupname) {
+                    select.insertBefore(oNewOption, oOptions[j]);
+                    return;
+                }
+            }
+
+            select.appendChild(oNewOption);
+        }
+
+        function toggle_pager(sId) {
+            var oBase = document.getElementById(sId);
+            if (oBase) {
+                if (oBase.firstChild && oBase.firstChild.firstChild && oBase.firstChild.firstChild) {
+                    var sExpandstate = document.getElementsByName('expandstate_'+sId)[0].value;
+                    oBase.previousSibling.style.display = sDisplay;
+                    if (sExpandstate == 'expanded') {
+                        oBase.style.display = sDisplay;
+                    } else {
+                        oBase.style.display = 'none';
+                    }
+                } else if (oBase){
+                    oBase.previousSibling.style.display = 'none';
+                    oBase.style.display = 'none';
+                }
+            }
+
+            switch(sId) {
+                case '0ed6d632-6adf-4f09-a0c6-1e38ab60e305':
+                    resizeFrame('{PAGINGLINKGROUP}', 1);
+                    break;
+
+                case '0ed6d632-6adf-4f09-a0c6-1e38ab60e304':
+                    resizeFrame('{PAGINGLINKREC}', 1);
+                    break;
+
+                case '0ed6d632-6adf-4f09-a0c6-1e38ab60e303':
+                    resizeFrame('{PAGINGLINKDISP}', 1);
+                    break;
+
+                case '0ed6d632-6adf-4f09-a0c6-1e38ab60e302':
+                    resizeFrame('{PAGINGLINK}', 1);
+                    break;
+            }
+        }
+
+
+    </script>
+
+
+</head>
+<body onLoad="resizeFrame('')" bgcolor="#FFFFFF">
+
+<div id="top_left_container" style="margin: 1px 0 0 0; border: 1px solid #B3B3B3;padding-top: 7px">
+    <div style="height:2em;margin: 0 0 0 17px;padding-bottom:5px;">{BUTTONROW}</div>
+    {CNEWSLETTER}
+    {CDISPATCH}
+    {CRECIPIENTS}
+    {CRECIPIENTGROUP}
+</div>
+
+</body>
+<!--
+template.newsletter_left_top
+
+i18n("New group")
+-->
+</html>

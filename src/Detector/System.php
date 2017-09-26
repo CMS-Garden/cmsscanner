@@ -1,8 +1,8 @@
 <?php
 /**
  * @package    CMSScanner
- * @copyright  Copyright (C) 2014 CMS-Garden.org
- * @license    GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @copyright  Copyright (C) 2017 CMS-Garden.org
+ * @license    MIT <https://tldrlegal.com/license/mit-license>
  * @link       http://www.cms-garden.org
  */
 
@@ -30,6 +30,11 @@ class System
      * @var \SplFileInfo path of this installation
      */
     public $path = null;
+
+    /**
+     * @var array The list of the modules
+     */
+    public $modules = array();
 
     public function __construct($name, \SplFileInfo $path)
     {
@@ -95,5 +100,27 @@ class System
     public function setVersion($version)
     {
         $this->version = $version;
+    }
+
+    /**
+     * Get the installed modules.
+     *
+     * @return Module[] The installed modules.
+     */
+    public function getModules()
+    {
+        return $this->modules;
+    }
+
+    /**
+     * Add a module.
+     *
+     * @param Module $module The module to add.
+     *
+     * @return void
+     */
+    public function addModule(Module $module)
+    {
+        $this->modules[] = $module;
     }
 }

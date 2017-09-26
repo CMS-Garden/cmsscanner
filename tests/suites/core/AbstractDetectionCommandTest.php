@@ -1,8 +1,8 @@
 <?php
 /**
  * @package    CMSScanner
- * @copyright  Copyright (C) 2014 CMS-Garden.org
- * @license    GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @copyright  Copyright (C) 2017 CMS-Garden.org
+ * @license    MIT <https://tldrlegal.com/license/mit-license>
  * @link       http://www.cms-garden.org
  */
 
@@ -41,7 +41,8 @@ class AbstractDetectionCommandTest extends \PHPUnit_Framework_TestCase
         $this->assertArrayHasKey('TYPO3 CMS', $this->object->getAdapters());
         $this->assertArrayHasKey('Prestashop', $this->object->getAdapters());
         $this->assertArrayHasKey('Contao', $this->object->getAdapters());
-        $this->assertCount(6, $this->object->getAdapters());
+        $this->assertArrayHasKey('Contenido', $this->object->getAdapters());
+        $this->assertCount(7, $this->object->getAdapters());
     }
 
     public function testAddingAnAdapter()

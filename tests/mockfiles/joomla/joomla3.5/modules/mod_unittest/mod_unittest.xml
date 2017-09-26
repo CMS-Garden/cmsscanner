@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="module" version="3.1" client="site" method="upgrade">
+	<name>UnitTests</name>
+	<creationDate>01/01/2015</creationDate>
+	<author>CMS Garden</author>
+	<authorEmail>info@cms-garden.org</authorEmail>
+	<authorUrl>http://www.cms-garden.org</authorUrl>
+	<copyright>CMS Garden</copyright>
+	<license>MIT</license>
+	<version>1.0.0</version>
+	<description>Test Module</description>
+	<files>
+		<filename module="mod_unittest">mod_unittest.php</filename>
+		<folder>tmpl</folder>
+		<filename>helper.php</filename>
+		<filename>index.html</filename>
+	</files>
+	<config group="advanced">
+		<fieldset name="advanced">
+			<field
+					name="layout"
+					type="modulelayout"
+					label="JFIELD_ALT_LAYOUT_LABEL"
+					description="JFIELD_ALT_MODULE_LAYOUT_DESC" />
+
+			<field
+					name="moduleclass_sfx"
+					type="textarea" rows="3"
+					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
+					description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC" />
+
+			<field
+					name="cache"
+					type="list"
+					default="1"
+					label="COM_MODULES_FIELD_CACHING_LABEL"
+					description="COM_MODULES_FIELD_CACHING_DESC"
+			>
+				<option value="1">JGLOBAL_USE_GLOBAL</option>
+				<option value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>
+			</field>
+
+			<field
+					name="cache_time"
+					type="text"
+					default="900"
+					label="COM_MODULES_FIELD_CACHE_TIME_LABEL"
+					description="COM_MODULES_FIELD_CACHE_TIME_DESC" />
+
+			<field
+					name="cachemode"
+					type="hidden"
+					default="static"
+			>
+				<option value="static"></option>
+			</field>
+		</fieldset>
+	</config>
+</extension>

@@ -1,8 +1,8 @@
 <?php
 /**
  * @package    CMSScanner
- * @copyright  Copyright (C) 2014 CMS-Garden.org
- * @license    GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @copyright  Copyright (C) 2017 CMS-Garden.org
+ * @license    MIT <https://tldrlegal.com/license/mit-license>
  * @link       http://www.cms-garden.org
  */
 
@@ -42,6 +42,12 @@ class DetectCommand extends AbstractDetectionCommand
                 null,
                 InputOption::VALUE_REQUIRED,
                 'If set, the detector will limit the directory recursion to the specified level'
+            )
+            ->addOption(
+                'modules',
+                null,
+                InputOption::VALUE_NONE,
+                'If set, the detector will try to determine the modules/extensions/plugins etc. with their version'
             )
             ->addOption(
                 'versions',
@@ -122,20 +128,25 @@ class DetectCommand extends AbstractDetectionCommand
                     $system->version = $adapter->detectVersion($system->getPath());
                 }
 
+                // If enabled, try to determine the used modules/extensions/plugins/components of the CMS
+                if ($input->getOption('modules')) {
+                    $system->modules = $adapter->detectModules($system->getPath());
+                }
+
                 // Append successful result to array
                 $results[] = $system;
             }
         }
 
         // Generate stats array
-        $stats = $this->generateStats($results, $input->getOption('versions'));
+        $stats = $this->generateStats($results, $input->getOption('versions'), $input->getOption('modules'));
 
         // Write output to command line
         $output->writeln('<info>Successfully finished scan!</info>');
         $output->writeln(sprintf('CMSScanner found %d CMS installations!', count($results)));
 
         // Write stats to command line
-        $this->outputStats($stats, $input->getOption('versions'), $output);
+        $this->outputStats($stats, $input->getOption('versions'), $output, $input->getOption('modules'));
 
         // Write report file
         if ($input->getOption('report')) {
@@ -151,26 +162,31 @@ class DetectCommand extends AbstractDetectionCommand
      *
      * @param   System[]  $results       results returned from system adapters
      * @param   bool      $versionStats  generate version stats
+     * @param   bool      $moduleStats  generate version stats
      *
      * @return  array
      */
-    protected function generateStats(array $results, $versionStats)
+    protected function generateStats(array $results, $versionStats, $moduleStats)
     {
         $stats = array();
 
         foreach ($results as $result) {
             $systemName = $result->getName();
 
-            // Create stats array for each system
+            // Create stats array for each system and each module
             if (empty($stats[$systemName])) {
                 $stats[$systemName] = array(
                     'amount' => 0,
                     'versions' => array(),
+                    'amountmodules' => 0,
+                    'modules' => array()
                 );
             }
 
             $stats[$systemName]['amount']++;
-
+            if ($moduleStats) {
+                $stats[$systemName]['amountmodules'] = $stats[$systemName]['amountmodules'] + count($result->modules);
+            }
             // Increase count for this used version
             if ($versionStats) {
                 if (!$result->version) {
@@ -189,6 +205,22 @@ class DetectCommand extends AbstractDetectionCommand
 
                 $stats[$systemName]['versions'][$result->version]++;
             }
+
+            // Increase count for this used module
+            if ($moduleStats) {
+                foreach ($result->modules as $item) {
+                    if (!$item->name) {
+                        $stats[$systemName]['modules']['Unknown'] = $stats[$systemName]['modules']['Unknown']++;
+                        continue;
+                    }
+
+                    if (empty($stats[$systemName]['modules'][$item->name])) {
+                        $stats[$systemName]['modules'][$item->name] = 1;
+                    } else {
+                        $stats[$systemName]['modules'][$item->name]++;
+                    }
+                }
+            }
         }
 
         return $stats;
@@ -200,16 +232,26 @@ class DetectCommand extends AbstractDetectionCommand
      * @param   array            $stats         stats data
      * @param   bool             $versionStats  output version stats
      * @param   OutputInterface  $output        cli output
+     * @param   bool             $moduleStats   output module stats
      */
-    protected function outputStats(array $stats, $versionStats, OutputInterface $output)
+    protected function outputStats(array $stats, $versionStats, OutputInterface $output, $moduleStats)
     {
         $output->writeln("");
 
         $table = new Table($output);
-        $table->setHeaders(array('CMS', '# Installations'));
+
+        if ($moduleStats) {
+            $table->setHeaders(array('CMS', '# Installations', '# Modules'));
+        } else {
+            $table->setHeaders(array('CMS', '# Installations'));
+        }
 
         foreach ($stats as $system => $cmsStats) {
-            $table->addRow(array($system, $cmsStats['amount']));
+            if ($moduleStats) {
+                $table->addRow(array($system, $cmsStats['amount'], $cmsStats['amountmodules']));
+            } else {
+                $table->addRow(array($system, $cmsStats['amount']));
+            }
         }
 
         $table->render();
@@ -234,6 +276,32 @@ class DetectCommand extends AbstractDetectionCommand
 
                 foreach ($cmsStats['versions'] as $version => $amount) {
                     $table->addRow(array($version, $amount));
+                }
+
+                $table->render();
+            }
+        }
+
+        // Render version stats if enabled
+        if ($moduleStats) {
+            $output->writeln("");
+            $output->writeln("<info>Module specific stats:</info>");
+
+            foreach ($stats as $system => $cmsStats) {
+                $output->writeln(sprintf("%s:", $system));
+
+                $table = new Table($output);
+                $table->setHeaders(array('Module', '# Installations'));
+
+                uksort(
+                    $cmsStats['modules'],
+                    function ($a, $b) {
+                        return version_compare($a, $b);
+                    }
+                );
+
+                foreach ($cmsStats['modules'] as $module => $amountmodules) {
+                    $table->addRow(array($module, $amountmodules));
                 }
 
                 $table->render();
@@ -266,12 +334,18 @@ class DetectCommand extends AbstractDetectionCommand
     protected function writeReport(array $results, $path)
     {
         // we need this to convert the \SplFileInfo object into a normal path string
-        array_walk($results, function (&$result, $key) {
-                $result = array(
-                    "name" => $result->getName(),
-                    "version" => $result->getVersion(),
-                    "path" => $result->getPath()->getRealPath()
-                );
+        // and the modules to a format which can be json encoded
+        array_walk($results, function (&$result) {
+            $modules = array();
+            foreach ($result->getModules() as $module) {
+                $modules[] = $module->toArray();
+            }
+            $result = array(
+              'name' => $result->getName(),
+              'version' => $result->getVersion(),
+              'path' => $result->getPath()->getRealPath(),
+              'modules' => $modules
+            );
         });
 
         if (file_put_contents($path, json_encode($results)) === false) {

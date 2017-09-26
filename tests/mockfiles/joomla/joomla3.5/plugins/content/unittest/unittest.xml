@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="3.2" type="plugin" group="content" method="upgrade">
+	<name>Content - Unittest</name>
+	<creationDate>01/01/2015</creationDate>
+	<author>CMS Garden</author>
+	<authorEmail>info@cms-garden.org</authorEmail>
+	<authorUrl>http://www.cms-garden.org</authorUrl>
+	<copyright>CMS Garden</copyright>
+	<license>MIT</license>
+	<version>1.0.0</version>
+	<description>Test Plugin</description>
+	<files>
+		<filename plugin="unittest">unittest.php</filename>
+	</files>
+</extension>
+

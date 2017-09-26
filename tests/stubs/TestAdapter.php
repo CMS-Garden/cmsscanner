@@ -1,8 +1,8 @@
 <?php
 /**
  * @package    CMSScanner
- * @copyright  Copyright (C) 2014 CMS-Garden.org
- * @license    GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @copyright  Copyright (C) 2017 CMS-Garden.org
+ * @license    MIT <https://tldrlegal.com/license/mit-license>
  * @link       http://www.cms-garden.org
  */
 
@@ -23,12 +23,17 @@ class TestAdapter implements AdapterInterface
 
     public function detectSystem(SplFileInfo $file)
     {
-        return new System("TestSystem", new SplFileInfo(__FILE__));
+        return new System("TestSystem", new \SplFileInfo(__FILE__));
     }
 
     public function detectVersion(\SplFileInfo $path)
     {
         return null;
+    }
+
+    public function detectModules(\SplFileInfo $path)
+    {
+        // TODO: Implement detectModules() method.
     }
 
     public function getName()

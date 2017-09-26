@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE install PUBLIC "-//Joomla! 2.5//DTD template 1.0//EN" "https://www.joomla.org/xml/dtd/2.5/template-install.dtd">
+<extension version="2.5" type="template" client="site">
+	<name>unitplate</name>
+	<creationDate>01/01/2015</creationDate>
+	<author>CMS Garden</author>
+	<authorEmail>info@cms-garden.org</authorEmail>
+	<authorUrl>http://www.cms-garden.org</authorUrl>
+	<copyright>CMS Garden</copyright>
+	<license>MIT</license>
+	<version>1.0.0</version>
+	<description>Test Template</description>
+	<files>
+		<filename>index.php</filename>
+		<filename>index.html</filename>
+		<filename>templateDetails.xml</filename>
+		<filename>template_thumbnail.png</filename>
+		<filename>component.php</filename>
+		<filename>favicon.ico</filename>
+		<folder>html</folder>
+		<folder>images</folder>
+		<folder>css</folder>
+		<folder>scripts</folder>
+	</files>
+	<positions>
+		<position>social</position>
+		<position>right</position>
+		<position>top-content</position>
+		<position>top-right</position>
+		<position>slideshow</position>
+		<position>bottom-content</position>
+		<position>bottom-right-1</position>
+		<position>bottom-right-2</position>
+		<position>footermenu</position>
+		<position>copyright</position>
+	</positions>
+</extension>
