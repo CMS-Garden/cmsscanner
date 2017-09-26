@@ -59,7 +59,7 @@ class JoomlaAdapterTest extends \PHPUnit_Framework_TestCase
             $results[$system->version] = $system;
         }
 
-        $this->assertCount(13, $results);
+        $this->assertCount(14, $results);
         $this->assertEquals(5, $falseCount);
         $this->assertArrayHasKey('', $results);
         $this->assertArrayHasKey('1.0.11', $results);
@@ -74,6 +74,7 @@ class JoomlaAdapterTest extends \PHPUnit_Framework_TestCase
         $this->assertArrayHasKey('3.4.8', $results);
         $this->assertArrayHasKey('3.5.1', $results);
         $this->assertArrayHasKey('3.8.0', $results);
+        $this->assertArrayHasKey('4.0.0', $results);
         $this->assertInstanceOf('Cmsgarden\Cmsscanner\Detector\System', current($results));
     }
 
