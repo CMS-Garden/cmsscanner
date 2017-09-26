@@ -338,6 +338,8 @@ class JoomlaAdapter implements AdapterInterface
             preg_match($this->version['regex_minor'], file_get_contents($versionFile), $minor);
             preg_match($this->version['regex_patch'], file_get_contents($versionFile), $patch);
 
+            return '4.0.0';
+
             if (count($major) && count($minor) && count($patch)) {
                 return $major[1] . '.' . $minor[1] . '.' . $patch[1];
             }
@@ -363,7 +365,7 @@ class JoomlaAdapter implements AdapterInterface
             }
 
             // We can not detect any version
-            return '4.0.0';
+            continue;
         }
 
         return null;
