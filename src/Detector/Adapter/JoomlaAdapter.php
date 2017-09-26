@@ -327,12 +327,10 @@ class JoomlaAdapter implements AdapterInterface
             $versionFile = $path->getRealPath() . $file;
 
             if (!file_exists($versionFile)) {
-                echo 'existiert nicht' . $versionFile;
                 continue;
             }
 
             if (!is_readable($versionFile)) {
-echo 'nicht lesbar' . $versionFile;
                 continue; // @codeCoverageIgnore
             }
 
