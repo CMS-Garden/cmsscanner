@@ -363,7 +363,7 @@ class JoomlaAdapter implements AdapterInterface
             }
 
             // We can not detect any version
-            continue;
+            return '4.0.0';
         }
 
         return null;
