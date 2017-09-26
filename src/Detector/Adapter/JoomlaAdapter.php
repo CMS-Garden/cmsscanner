@@ -30,9 +30,13 @@ class JoomlaAdapter implements AdapterInterface
                 "/includes/version.php",
                 "/libraries/joomla/version.php",
                 "/libraries/cms/version/version.php",
+                "/libraries/src/Version.php",
             ),
             "regex_release" => "/\\\$?RELEASE\s*=\s*'([\d.]+)';/",
             "regex_devlevel" => "/\\\$?DEV_LEVEL\s*=\s*'([^']+)';/",
+            "regex_major" => "/\\\$?MAJOR_VERSION\s*=\s*([\d.]+);/",
+            "regex_minor" => "/\\\$?MINOR_VERSION\s*=\s*([\d.]+);/",
+            "regex_patch" => "/\\\$?PATCH_VERSION\s*=\s*([\d.]+);/",
         );
 
 
@@ -327,18 +331,36 @@ class JoomlaAdapter implements AdapterInterface
                 continue; // @codeCoverageIgnore
             }
 
+            preg_match($this->version['regex_major'], file_get_contents($versionFile), $major);
+            preg_match($this->version['regex_minor'], file_get_contents($versionFile), $minor);
+            preg_match($this->version['regex_patch'], file_get_contents($versionFile), $patch);
+
+            if (count($major) && count($minor) && count($patch)) {
+                return $major[1] . '.' . $minor[1] . '.' . $patch[1];
+            }
+
+            if (count($major) && count($minor)) {
+                return $major[1] . '.' . $minor[1] . 'x';
+            }
+
+            if (count($major)) {
+                return $major[1] . '.x.x';
+            }
+
+            // Legacy handling for all version < 3.8.0
             preg_match($this->version['regex_release'], file_get_contents($versionFile), $release);
             preg_match($this->version['regex_devlevel'], file_get_contents($versionFile), $devlevel);
 
-            if (!count($release)) {
-                continue;
+            if (count($release) && count($devlevel)) {
+                return $release[1] . '.' . $devlevel[1];
             }
 
-            if (!count($devlevel)) {
+            if (count($release)) {
                 return $release[1] . '.x';
             }
 
-            return $release[1] . '.' . $devlevel[1];
+            // We can not detect any version
+            continue;
         }
 
         return null;
