@@ -327,27 +327,18 @@ class JoomlaAdapter implements AdapterInterface
             $versionFile = $path->getRealPath() . $file;
 
             if (!file_exists($versionFile)) {
+                echo 'existiert nicht' . $versionFile;
                 continue;
             }
 
             if (!is_readable($versionFile)) {
+echo 'nicht lesbar' . $versionFile;
                 continue; // @codeCoverageIgnore
             }
 
             preg_match($this->version['regex_major'], file_get_contents($versionFile), $major);
             preg_match($this->version['regex_minor'], file_get_contents($versionFile), $minor);
             preg_match($this->version['regex_patch'], file_get_contents($versionFile), $patch);
-
-            print_r($major);
-            echo '<br>';
-            print_r($minor);
-            echo '<br>';
-            print_r($patch);
-            echo '<br>';
-            
-            if (count($major) && count($minor) && count($patch)) {
-                echo $major[1] . '.' . $minor[1] . '.' . $patch[1];
-            }
 
             if (count($major) && count($minor) && count($patch)) {
                 return $major[1] . '.' . $minor[1] . '.' . $patch[1];
