@@ -83,7 +83,7 @@ class JoomlaAdapterTest extends \PHPUnit_Framework_TestCase
         $paths = array(
             "/joomla/joomla1.5",
             "/joomla/joomla2.5",
-            "/joomla/joomla3.5"
+            "/joomla/joomla3.5",
         );
 
         foreach ($paths as $path) {
