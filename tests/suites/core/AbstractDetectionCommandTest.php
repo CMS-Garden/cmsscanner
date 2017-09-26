@@ -42,7 +42,8 @@ class AbstractDetectionCommandTest extends \PHPUnit_Framework_TestCase
         $this->assertArrayHasKey('Prestashop', $this->object->getAdapters());
         $this->assertArrayHasKey('Contao', $this->object->getAdapters());
         $this->assertArrayHasKey('Contenido', $this->object->getAdapters());
-        $this->assertCount(7, $this->object->getAdapters());
+        $this->assertArrayHasKey('PivotX', $this->object->getAdapters());
+        $this->assertCount(8, $this->object->getAdapters());
     }
 
     public function testAddingAnAdapter()
