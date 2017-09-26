@@ -94,6 +94,7 @@ class JoomlaAdapter implements AdapterInterface
         'com_templates',
         'com_menus',
         'com_messages',
+        'com_associations',
         // Modules
         // Frontend
         'mod_articles_archive',
@@ -133,7 +134,7 @@ class JoomlaAdapter implements AdapterInterface
         'mod_title',
         'mod_toolbar',
         'mod_version',
-        'com_associations',
+        'mod_sampledata',
         // Plugins
         // authentication
         'plg_authentication_cookie',
@@ -199,6 +200,8 @@ class JoomlaAdapter implements AdapterInterface
         'plg_quickicon_extensionupdate',
         'plg_quickicon_joomlaupdate',
         'plg_quickicon_phpversioncheck',
+        // sampledata
+        'plg_sampledata_blog',
         // search
         'plg_search_categories',
         'plg_search_contacts',
