@@ -93,7 +93,7 @@ class AlchemyCmsAdapter implements AdapterInterface
     public function detectModules(\SplFileInfo $path)
     {
         // TODO implement this function
-        return array();
+        return false;
     }
 
     /**

@@ -181,12 +181,19 @@ class DetectCommand extends AbstractDetectionCommand
                     'amountmodules' => 0,
                     'modules' => array()
                 );
+
+                if ($result->modules === false) {
+                    $stats[$systemName]['amountmodules'] = false;
+                    $stats[$systemName]['modules'] = false;
+                }
             }
 
             $stats[$systemName]['amount']++;
-            if ($moduleStats) {
-                $stats[$systemName]['amountmodules'] = $stats[$systemName]['amountmodules'] + count($result->modules);
+
+            if ($moduleStats && $result->modules !== false) {
+                $stats[$systemName]['amountmodules'] += count($result->modules);
             }
+
             // Increase count for this used version
             if ($versionStats) {
                 if (!$result->version) {
@@ -207,18 +214,22 @@ class DetectCommand extends AbstractDetectionCommand
             }
 
             // Increase count for this used module
-            if ($moduleStats) {
+            if ($moduleStats && $result->modules !== false) {
                 foreach ($result->modules as $item) {
                     if (!$item->name) {
-                        $stats[$systemName]['modules']['Unknown'] = $stats[$systemName]['modules']['Unknown']++;
+                        if (!array_key_exists('Unknown', $stats[$systemName]['modules'])) {
+                            $stats[$systemName]['modules']['Unknown'] = 0;
+                        }
+
+                        $stats[$systemName]['modules']['Unknown']++;
                         continue;
                     }
 
                     if (empty($stats[$systemName]['modules'][$item->name])) {
-                        $stats[$systemName]['modules'][$item->name] = 1;
-                    } else {
-                        $stats[$systemName]['modules'][$item->name]++;
+                        $stats[$systemName]['modules'][$item->name] = 0;
                     }
+
+                    $stats[$systemName]['modules'][$item->name]++;
                 }
             }
         }
@@ -288,6 +299,11 @@ class DetectCommand extends AbstractDetectionCommand
             $output->writeln("<info>Module specific stats:</info>");
 
             foreach ($stats as $system => $cmsStats) {
+                // Skip module output if not supported
+                if ($cmsStats["modules"] === false) {
+                    continue;
+                }
+
                 $output->writeln(sprintf("%s:", $system));
 
                 $table = new Table($output);
@@ -336,10 +352,16 @@ class DetectCommand extends AbstractDetectionCommand
         // we need this to convert the \SplFileInfo object into a normal path string
         // and the modules to a format which can be json encoded
         array_walk($results, function (&$result) {
-            $modules = array();
-            foreach ($result->getModules() as $module) {
-                $modules[] = $module->toArray();
+            $modules = false;
+
+            if ($result->getModules() !== false) {
+                $modules = array();
+
+                foreach ($result->getModules() as $module) {
+                    $modules[] = $module->toArray();
+                }
             }
+
             $result = array(
               'name' => $result->getName(),
               'version' => $result->getVersion(),
