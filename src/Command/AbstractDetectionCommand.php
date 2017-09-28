@@ -17,6 +17,7 @@ use Cmsgarden\Cmsscanner\Detector\Adapter\PrestashopAdapter;
 use Cmsgarden\Cmsscanner\Detector\Adapter\Typo3CmsAdapter;
 use Cmsgarden\Cmsscanner\Detector\Adapter\WordpressAdapter;
 use Cmsgarden\Cmsscanner\Detector\Adapter\PivotxAdapter;
+use Cmsgarden\Cmsscanner\Detector\Adapter\Concrete5Adapter;
 use Symfony\Component\Console\Command\Command;
 
 /**
@@ -47,6 +48,7 @@ abstract class AbstractDetectionCommand extends Command
             ->addAdapter(new Typo3CmsAdapter())
             ->addAdapter(new WordpressAdapter())
             ->addAdapter(new PivotxAdapter())
+            ->addAdapter(new Concrete5Adapter())
         ;
     }
 
