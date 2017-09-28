@@ -123,7 +123,7 @@ class ContaoAdapter implements AdapterInterface
             }
 
             if (!is_readable($versionFile)) {
-                throw new \RuntimeException(sprintf("Unreadable version information file %s", $versionFile));
+                continue;
             }
 
             $fileContents = file_get_contents($versionFile);
