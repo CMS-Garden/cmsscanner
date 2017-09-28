@@ -44,7 +44,7 @@ class Concrete5Adapter implements AdapterInterface
      */
     public function appendDetectionCriteria(Finder $finder)
     {
-      $finder->name('version.php')
+        $finder->name('version.php')
           ->name('concrete.php');
 
         return $finder;
@@ -62,14 +62,12 @@ class Concrete5Adapter implements AdapterInterface
         if ($file->getFilename() == "version.php") {
             if (stripos($file->getContents(), '$APP_VERSION =') === false) {
                 return false;
-          }
-        }
-        elseif ($file->getFilename() == "concrete.php") {
+            }
+        } elseif ($file->getFilename() == "concrete.php") {
             if (stripos($file->getContents(), "'version' => '") === false) {
                 return false;
             }
-        }
-        else {
+        } else {
             return false;
         }
         $path = new \SplFileInfo(dirname(dirname($file->getPath())));
