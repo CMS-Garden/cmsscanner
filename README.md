@@ -13,6 +13,7 @@ This tool is developed by the CMS-Garden project. It's designed to scan a local 
 * Prestashop
 * Alchemy CMS
 * PivotX
+* Concrete5
 
 It is designed to work on Linux, OS X and FreeBSD.
 
