@@ -62,7 +62,7 @@ class Concrete5AdapterTest extends \PHPUnit_Framework_TestCase
         }
 
         $this->assertCount(2, $results);
-        $this->assertEquals(16, $falseCount);
+        $this->assertEquals(18, $falseCount);
         $this->assertArrayHasKey('8.1.0', $results);
         $this->assertArrayHasKey('5.6.3.4', $results);
         $this->assertInstanceOf('Cmsgarden\Cmsscanner\Detector\System', current($results));
