@@ -108,6 +108,16 @@ class ContenidoAdapter implements AdapterInterface
     {
         foreach ($this->versions as $version) {
             if (in_array($file->getFilename(), $version)) {
+                // Check file content of startup.php to prevent false positives
+                if (
+                    stripos($file->getContents(), "CONTENIDO") === false
+                    && stripos($file->getContents(), "4fb.de") === false
+                    && stripos($file->getContents(), "@author dirk.eschler") === false
+                ) {
+                    var_dump($file->getPath());
+                    continue;
+                }
+
                 $path = new \SplFileInfo($file->getPath());
 
                 // Return result if working
