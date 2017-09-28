@@ -92,7 +92,7 @@ class Concrete5Adapter implements AdapterInterface
             }
 
             if (!is_readable($versionFile)) {
-                throw new \RuntimeException(sprintf("Unreadable version information file %s", $versionFile));
+                continue;
             }
 
             if (preg_match($version['regexp'], file_get_contents($versionFile), $matches)) {
