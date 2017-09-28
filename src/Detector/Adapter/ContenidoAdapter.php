@@ -113,7 +113,6 @@ class ContenidoAdapter implements AdapterInterface
                     && stripos($file->getContents(), "4fb.de") === false
                     && stripos($file->getContents(), "@author dirk.eschler") === false
                 ) {
-                    var_dump($file->getPath());
                     continue;
                 }
 
