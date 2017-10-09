@@ -191,3 +191,26 @@ Output:
 It's also possible to pass a file that contains a 0-byte separated list of paths:
 
 	cmsscanner.phar cmsscanner:detect --readfromfile /absolute/path/to/file
+
+## Developer Informations
+
+### Run the tests
+
+#### set up the repo
+- Install composer (if not done yet)
+- cd into the cloned repository
+- run `composer install` to install the dependencies
+
+#### Run the tests
+
+Run the PHP Unit tests
+
+```
+./vendor/bin/phpunit --configuration phpunit.xml
+```
+
+Run the PHPCS tests
+
+```
+./vendor/bin/phpcs --standard=PSR2 src tests/suites
+```
