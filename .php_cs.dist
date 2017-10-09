@@ -2,7 +2,7 @@
 $year = date('Y');
 $header = <<<EOF
 @package    CMSScanner
-@copyright  Copyright (C) $year CMS-Garden.org
+@copyright  Copyright (C) 2014 - $year CMS-Garden.org
 @license    MIT <https://tldrlegal.com/license/mit-license>
 @link       http://www.cms-garden.org
 EOF;
