@@ -215,3 +215,7 @@ Run the PHPCS tests
 ```
 ./vendor/bin/phpcs --standard=PSR2 src tests/suites
 ```
+
+## Prebuilt Packages (unofficial)
+
+- [Archlinux](https://aur.archlinux.org/packages/cmsscanner) by @sanduhrs
