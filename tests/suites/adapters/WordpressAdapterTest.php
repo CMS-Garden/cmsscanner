@@ -1,7 +1,7 @@
 <?php
 /**
  * @package    CMSScanner
- * @copyright  Copyright (C) 2017 CMS-Garden.org
+ * @copyright  Copyright (C) 2014 - 2017 CMS-Garden.org
  * @license    MIT <https://tldrlegal.com/license/mit-license>
  * @link       http://www.cms-garden.org
  */
@@ -61,7 +61,7 @@ class WordpressAdapterTest extends \PHPUnit_Framework_TestCase
         }
 
         $this->assertCount(5, $results);
-        $this->assertEquals(13, $falseCount);
+        $this->assertEquals(14, $falseCount);
         $this->assertArrayHasKey('', $results);
         $this->assertArrayHasKey('2.2.1', $results);
         $this->assertArrayHasKey('2.9', $results);

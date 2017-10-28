@@ -1,7 +1,7 @@
 <?php
 /**
  * @package    CMSScanner
- * @copyright  Copyright (C) 2017 CMS-Garden.org
+ * @copyright  Copyright (C) 2014 - 2017 CMS-Garden.org
  * @license    MIT <https://tldrlegal.com/license/mit-license>
  * @link       http://www.cms-garden.org
  */
@@ -123,7 +123,7 @@ class ContaoAdapter implements AdapterInterface
             }
 
             if (!is_readable($versionFile)) {
-                throw new \RuntimeException(sprintf("Unreadable version information file %s", $versionFile));
+                continue;
             }
 
             $fileContents = file_get_contents($versionFile);

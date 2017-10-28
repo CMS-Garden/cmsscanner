@@ -1,7 +1,7 @@
 <?php
 /**
  * @package    CMSScanner
- * @copyright  Copyright (C) 2017 CMS-Garden.org
+ * @copyright  Copyright (C) 2014 - 2017 CMS-Garden.org
  * @license    MIT <https://tldrlegal.com/license/mit-license>
  * @link       http://www.cms-garden.org
  */
@@ -108,6 +108,14 @@ class ContenidoAdapter implements AdapterInterface
     {
         foreach ($this->versions as $version) {
             if (in_array($file->getFilename(), $version)) {
+                // Check file content of startup.php to prevent false positives
+                if (stripos($file->getContents(), "CONTENIDO") === false
+                    && stripos($file->getContents(), "4fb.de") === false
+                    && stripos($file->getContents(), "@author dirk.eschler") === false
+                ) {
+                    continue;
+                }
+
                 $path = new \SplFileInfo($file->getPath());
 
                 // Return result if working

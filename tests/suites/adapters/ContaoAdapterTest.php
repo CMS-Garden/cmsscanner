@@ -1,7 +1,7 @@
 <?php
 /**
  * @package    CMSScanner
- * @copyright  Copyright (C) 2017 CMS-Garden.org
+ * @copyright  Copyright (C) 2014 - 2017 CMS-Garden.org
  * @license    MIT <https://tldrlegal.com/license/mit-license>
  * @link       http://www.cms-garden.org
  */
@@ -63,7 +63,7 @@ class ContaoAdapterTest extends \PHPUnit_Framework_TestCase
         }
 
         $this->assertCount(3, $results);
-        $this->assertEquals(18, $falseCount);
+        $this->assertEquals(19, $falseCount);
         $this->assertArrayHasKey('2.10.4', $results);
         $this->assertArrayHasKey('3.1.0', $results);
         $this->assertArrayHasKey('4.1.1', $results);

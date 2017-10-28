@@ -1,7 +1,7 @@
 <?php
 /**
  * @package    CMSScanner
- * @copyright  Copyright (C) 2017 CMS-Garden.org
+ * @copyright  Copyright (C) 2014 - 2017 CMS-Garden.org
  * @license    MIT <https://tldrlegal.com/license/mit-license>
  * @link       http://www.cms-garden.org
  */
@@ -59,7 +59,7 @@ class PrestashopAdapterTest extends \PHPUnit_Framework_TestCase
         }
 
         $this->assertCount(1, $results);
-        $this->assertEquals(18, $falseCount);
+        $this->assertEquals(19, $falseCount);
         $this->assertArrayHasKey('1.6.0.14', $results);
         $this->assertInstanceOf('Cmsgarden\Cmsscanner\Detector\System', current($results));
     }

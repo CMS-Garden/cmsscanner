@@ -1,7 +1,7 @@
 <?php
 /**
  * @package    CMSScanner
- * @copyright  Copyright (C) 2014 - 2017 CMS-Garden.org
+ * @copyright  Copyright (C) 2017 CMS-Garden.org
  * @license    MIT <https://tldrlegal.com/license/mit-license>
  * @link       http://www.cms-garden.org
  */
@@ -13,41 +13,45 @@ use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo;
 
 /**
- * Class PrestashopAdapter
+ * Class Concrete5Adapter
  * @package Cmsgarden\Cmsscanner\Detector\Adapter
  *
  * @since   1.0.0
- * @author Anton Dollmaier <ad@aditsystems.de>
  */
-class PrestashopAdapter implements AdapterInterface
+class Concrete5Adapter implements AdapterInterface
 {
-
     /**
-     * Version detection information for Prestashop
+     * Version detection information for Contao
      * @var array
      */
     protected $versions = array(
-        array(
-            'filename' => '/config/settings.inc.php',
-            'regexp' => '/define\\(\'_PS_VERSION_\', \'(.+)\'\\)/'
+        array( //
+            'filename' => '/concrete/config/version.php',
+            'regexp' => "/\\\$APP_VERSION\s*=\s*'([^']+)'/",
+        ),
+        array( // 8+ ??
+            'filename' => '/concrete/config/concrete.php',
+            'regexp' => "/'version' => '([^']+)'/",
         ),
     );
 
     /**
-     * Prestashop has a file called constants.php that can be used to search for working installations
+     * look for the version.php with a version string in it
      *
      * @param   Finder  $finder  finder instance to append the criteria
      *
-     * @return  Finder
+     * @return Finder
      */
     public function appendDetectionCriteria(Finder $finder)
     {
-        $finder->name('settings.inc.php');
+        $finder->name('version.php')
+          ->name('concrete.php');
+
         return $finder;
     }
 
     /**
-     * try to verify a search result and work around some well known false positives
+     * verify a search result by making sure that the file has the correct name and $wp_version is in there
      *
      * @param   SplFileInfo  $file  file to examine
      *
@@ -55,24 +59,24 @@ class PrestashopAdapter implements AdapterInterface
      */
     public function detectSystem(SplFileInfo $file)
     {
-        $fileName = $file->getFilename();
-
-        if ($fileName !== "settings.inc.php") {
+        if ($file->getFilename() == "version.php") {
+            if (stripos($file->getContents(), '$APP_VERSION =') === false) {
+                return false;
+            }
+        } elseif ($file->getFilename() == "concrete.php") {
+            if (stripos($file->getContents(), "'version' => '") === false) {
+                return false;
+            }
+        } else {
             return false;
         }
+        $path = new \SplFileInfo(dirname(dirname($file->getPath())));
 
-        if (stripos($file->getContents(), '_PS_VERSION_') === false) {
-                return false;
-        }
-
-        $path = new \SplFileInfo($file->getPathInfo()->getPath());
-
-        // Return result if working
         return new System($this->getName(), $path);
     }
 
     /**
-     * determine version of a Prestashop installation within a specified path
+     * determine version of a Concrete5 installation within a specified path
      *
      * @param   \SplFileInfo  $path  directory where the system is installed
      *
@@ -111,11 +115,11 @@ class PrestashopAdapter implements AdapterInterface
         return false;
     }
 
-    /***
+    /**
      * @return string
      */
     public function getName()
     {
-        return 'Prestashop';
+        return 'Concrete5';
     }
 }

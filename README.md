@@ -13,6 +13,7 @@ This tool is developed by the CMS-Garden project. It's designed to scan a local 
 * Prestashop
 * Alchemy CMS
 * PivotX
+* Concrete5
 
 It is designed to work on Linux, OS X and FreeBSD.
 
@@ -24,7 +25,7 @@ For available options, try running:
 
 1. Download the current version of CMSScanner as a phar archive:
 
-	`wget http://cms-garden.github.io/cmsscanner/downloads/cmsscanner-0.4.0.phar && mv cmsscanner-0.4.0.phar cmsscanner.phar`
+	`wget http://cms-garden.github.io/cmsscanner/downloads/cmsscanner-0.5.0.phar && mv cmsscanner-0.5.0.phar cmsscanner.phar`
 
 2. Make it executable
 
@@ -191,6 +192,29 @@ Output:
 It's also possible to pass a file that contains a 0-byte separated list of paths:
 
 	cmsscanner.phar cmsscanner:detect --readfromfile /absolute/path/to/file
+
+## Developer Informations
+
+### Run the tests
+
+#### set up the repo
+- Install composer (if not done yet)
+- cd into the cloned repository
+- run `composer install` to install the dependencies
+
+#### Run the tests
+
+Run the PHP Unit tests
+
+```
+./vendor/bin/phpunit --configuration phpunit.xml
+```
+
+Run the PHPCS tests
+
+```
+./vendor/bin/phpcs --standard=PSR2 src tests/suites
+```
 
 ## Prebuilt Packages (unofficial)
 
