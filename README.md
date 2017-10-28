@@ -191,3 +191,7 @@ Output:
 It's also possible to pass a file that contains a 0-byte separated list of paths:
 
 	cmsscanner.phar cmsscanner:detect --readfromfile /absolute/path/to/file
+
+## Prebuilt Packages (unofficial)
+
+- [Archlinux](https://aur.archlinux.org/packages/cmsscanner) by @sanduhrs
