@@ -141,6 +141,9 @@ class JoomlaAdapter implements AdapterInterface
         'plg_authentication_gmail',
         'plg_authentication_joomla',
         'plg_authentication_ldap',
+        // Behaviour
+        'plg_behaviour_taggable',
+        'plg_behaviour_versionable',
         // captcha
         'plg_captcha_recaptcha',
         // content
@@ -185,6 +188,8 @@ class JoomlaAdapter implements AdapterInterface
         'plg_fields_url',
         'plg_fields_user',
         'plg_fields_usergrouplist',
+        // Filesystem
+        'plg_filesystem_local',
         // finder
         'plg_finder_categories',
         'plg_finder_contacts',
@@ -196,6 +201,10 @@ class JoomlaAdapter implements AdapterInterface
         'plg_installer_packageinstaller',
         'plg_installer_urlinstaller',
         'plg_installer_webinstaller',
+        // media-action
+        'plg_media-action_crop',
+        'plg_media-action_resize',
+        'plg_media-action_rotate',
         // quickicon
         'plg_quickicon_extensionupdate',
         'plg_quickicon_joomlaupdate',
@@ -213,6 +222,7 @@ class JoomlaAdapter implements AdapterInterface
         'plg_system_debug',
         'plg_system_fields',
         'plg_system_highlight',
+        'plg_system_httpheaders',
         'plg_system_languagecode',
         'plg_system_languagefilter',
         'plg_system_log',
@@ -221,6 +231,7 @@ class JoomlaAdapter implements AdapterInterface
         'plg_system_redirect',
         'plg_system_remember',
         'plg_system_sef',
+        'plg_system_sessiongc',
         'plg_system_stats',
         'plg_system_updatenotification',
         // twofactorauth
@@ -255,9 +266,9 @@ class JoomlaAdapter implements AdapterInterface
         'isis',
         // 4.0
         // Frontend
-        'Aurora',
+        'cassiopeia',
         // Backend
-        'Atun',
+        'atun',
     );
 
     /**
