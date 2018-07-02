@@ -62,6 +62,7 @@ class JoomlaAdapter implements AdapterInterface
         // Frontend
         'com_ajax',
         'com_banners',
+        'com_csp',
         'com_config',
         'com_contact',
         'com_content',
