@@ -67,6 +67,8 @@ abstract class AbstractDetectionCommand extends Command
             ->addAdapter(new ShopwareAdapter())
             ->addAdapter(new Typo3CmsAdapter())
             ->addAdapter(new WordpressAdapter())
+            ->addAdapter(new DrupalAdapter())
+            ->addAdapter(new Typo3CmsAdapter())
         ;
     }
 

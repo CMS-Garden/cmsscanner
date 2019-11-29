@@ -63,6 +63,7 @@ class DrupalAdapterTest extends \PHPUnit_Framework_TestCase
         $this->assertArrayHasKey('6.34', $results);
         $this->assertArrayHasKey('7.33', $results);
         $this->assertArrayHasKey('8.0.0-beta3', $results);
+<<<<<<< HEAD
 
         $this->assertInstanceOf('Cmsgarden\Cmsscanner\Detector\System', current($results));
     }
@@ -154,3 +155,8 @@ class DrupalAdapterTest extends \PHPUnit_Framework_TestCase
         }
     }
 }
+=======
+        $this->assertInstanceOf('Cmsgarden\Cmsscanner\Detector\System', current($results));
+    }
+}
+>>>>>>> 5301f5f0928ee7f4ce1685d0041cf1353024a0d3
