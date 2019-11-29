@@ -9,37 +9,30 @@
 namespace Cmsgarden\Cmsscanner\Detector\Adapter;
 
 use Cmsgarden\Cmsscanner\Detector\System;
-use Cmsgarden\Cmsscanner\Detector\Module;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo;
 
 /**
- * Class ContaoAdapter
+ * Class MatomoAdapter
  * @package Cmsgarden\Cmsscanner\Detector\Adapter
  *
  * @since   1.0.0
- * @author Anton Dollmaier <ad@aditsystems.de>
  */
-class ContaoAdapter implements AdapterInterface
+class MatomoAdapter implements AdapterInterface
 {
-
     /**
-     * Version detection information for Contao
+     * Matomo has changed the way how the version number is stored multiple times, so we need this comprehensive array
      * @var array
      */
-    protected $versions = array(
-        array( // Contao 2.x
-            'filename' => '/system/constants.php',
-            'regexp' => '/define\\(\'VERSION\', \'(.+)\'\\)/'
-        ),
-        array( // Contao 3.x
-            'filename' => '/system/config/constants.php',
-            'regexp' => '/define\\(\'VERSION\', \'(.+)\'\\)/'
+    private $versions = array(
+        array(
+            "file" => "/core/Version.php",
+            "regex" => '~VERSION = \'([0-9\.]+)\'~',
         ),
     );
 
     /**
-     * Contao has a file called constants.php that can be used to search for working installations
+     * Matomo has a file called configuration.php that can be used to search for working installations
      *
      * @param   Finder  $finder  finder instance to append the criteria
      *
@@ -47,7 +40,7 @@ class ContaoAdapter implements AdapterInterface
      */
     public function appendDetectionCriteria(Finder $finder)
     {
-        $finder->name('constants.php');
+        $finder->name('piwik.js');
         return $finder;
     }
 
@@ -60,18 +53,15 @@ class ContaoAdapter implements AdapterInterface
      */
     public function detectSystem(SplFileInfo $file)
     {
-        $fileName = $file->getFilename();
-        if ($fileName !== "constants.php" ) {
+        if ($file->getFilename() != "piwik.js" && $file->getFilename() != "matomo.js") {
             return false;
         }
-        if (stripos($file->getContents(), 'Contao') === false) {
-            return false;
-        }
-        if ( basename($file->getPath()) === 'system' ) {
-            // Contao 2.x
-            $path = new \SplFileInfo($file->getPathInfo()->getPath());
+        if (file_exists($file->getPath().'/js/piwik.js') ){
+            $path = new \SplFileInfo($file->getPath());
+        } elseif (file_exists($file->getPath().'/js/matomo.js')) {
+            $path = new \SplFileInfo($file->getPath());
         } else {
-            $path = new \SplFileInfo(dirname($file->getPathInfo()->getPath()));
+            return false;
         }
 
         // Return result if working
@@ -79,7 +69,7 @@ class ContaoAdapter implements AdapterInterface
     }
 
     /**
-     * determine version of a Contao installation within a specified path
+     * determine version of a Matomo installation within a specified path
      *
      * @param   \SplFileInfo  $path  directory where the system is installed
      *
@@ -87,24 +77,28 @@ class ContaoAdapter implements AdapterInterface
      */
     public function detectVersion(\SplFileInfo $path)
     {
+        // Iterate through version patterns
         foreach ($this->versions as $version) {
-            $sysEnvBuilder = $path->getRealPath() . $version['filename'];
-            if (!file_exists($sysEnvBuilder)) {
+            $versionFile = $path->getRealPath() . $version['file'];
+
+            if (!file_exists($versionFile)) {
                 continue;
             }
-            if (!is_readable($sysEnvBuilder)) {
-                throw new \RuntimeException(sprintf("Unreadable version information file %s", $sysEnvBuilder));
+
+            if (!is_readable($versionFile)) {
+                continue; // @codeCoverageIgnore
             }
-            if (preg_match($version['regexp'], file_get_contents($sysEnvBuilder), $matches)) {
-                if (count($matches) > 1) {
-                    return $matches[1];
-                }
+
+            preg_match($version['regex'], file_get_contents($versionFile), $matches);
+
+            if (!count($matches)) {
+                continue;
             }
+            return $matches[1];
         }
-        // this must not happen usually
+
         return null;
     }
-
 
     /**
      * @InheritDoc
@@ -120,6 +114,6 @@ class ContaoAdapter implements AdapterInterface
      */
     public function getName()
     {
-        return 'Contao';
+        return 'Matomo';
     }
 }

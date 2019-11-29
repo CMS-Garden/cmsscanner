@@ -9,37 +9,32 @@
 namespace Cmsgarden\Cmsscanner\Detector\Adapter;
 
 use Cmsgarden\Cmsscanner\Detector\System;
-use Cmsgarden\Cmsscanner\Detector\Module;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo;
 
 /**
- * Class ContaoAdapter
+ * Class ShopwareAdapter
  * @package Cmsgarden\Cmsscanner\Detector\Adapter
  *
  * @since   1.0.0
  * @author Anton Dollmaier <ad@aditsystems.de>
  */
-class ContaoAdapter implements AdapterInterface
+class ShopwareAdapter implements AdapterInterface
 {
 
     /**
-     * Version detection information for Contao
+     * Version detection information for Shopware
      * @var array
      */
     protected $versions = array(
-        array( // Contao 2.x
-            'filename' => '/system/constants.php',
-            'regexp' => '/define\\(\'VERSION\', \'(.+)\'\\)/'
-        ),
-        array( // Contao 3.x
-            'filename' => '/system/config/constants.php',
-            'regexp' => '/define\\(\'VERSION\', \'(.+)\'\\)/'
+        array(
+            'filename' => '/engine/Shopware/Application.php',
+            'regexp' => '/const VERSION      = \'(.+)\';/'
         ),
     );
 
     /**
-     * Contao has a file called constants.php that can be used to search for working installations
+     * Shopware has a file called constants.php that can be used to search for working installations
      *
      * @param   Finder  $finder  finder instance to append the criteria
      *
@@ -47,7 +42,7 @@ class ContaoAdapter implements AdapterInterface
      */
     public function appendDetectionCriteria(Finder $finder)
     {
-        $finder->name('constants.php');
+        $finder->name('Application.php');
         return $finder;
     }
 
@@ -61,17 +56,15 @@ class ContaoAdapter implements AdapterInterface
     public function detectSystem(SplFileInfo $file)
     {
         $fileName = $file->getFilename();
-        if ($fileName !== "constants.php" ) {
+        if ($fileName !== "Application.php" ) {
             return false;
         }
-        if (stripos($file->getContents(), 'Contao') === false) {
+        if (stripos($file->getContents(), 'class Shopware extends Enlight_Application') === false) {
             return false;
         }
-        if ( basename($file->getPath()) === 'system' ) {
-            // Contao 2.x
-            $path = new \SplFileInfo($file->getPathInfo()->getPath());
-        } else {
-            $path = new \SplFileInfo(dirname($file->getPathInfo()->getPath()));
+        if ( basename($file->getPath()) === 'Shopware' ) {
+            // Shopware 2.x
+            $path = new \SplFileInfo($file->getPathInfo()->getPathInfo()->getPath());
         }
 
         // Return result if working
@@ -79,7 +72,7 @@ class ContaoAdapter implements AdapterInterface
     }
 
     /**
-     * determine version of a Contao installation within a specified path
+     * determine version of a Shopware installation within a specified path
      *
      * @param   \SplFileInfo  $path  directory where the system is installed
      *
@@ -105,7 +98,6 @@ class ContaoAdapter implements AdapterInterface
         return null;
     }
 
-
     /**
      * @InheritDoc
      */
@@ -120,6 +112,6 @@ class ContaoAdapter implements AdapterInterface
      */
     public function getName()
     {
-        return 'Contao';
+        return 'Shopware';
     }
 }
