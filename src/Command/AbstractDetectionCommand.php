@@ -9,15 +9,24 @@
 namespace Cmsgarden\Cmsscanner\Command;
 
 use Cmsgarden\Cmsscanner\Detector\Adapter\AdapterInterface;
+use Cmsgarden\Cmsscanner\Detector\Adapter\AdminerAdapter;
+use Cmsgarden\Cmsscanner\Detector\Adapter\Concrete5Adapter;
 use Cmsgarden\Cmsscanner\Detector\Adapter\ContaoAdapter;
 use Cmsgarden\Cmsscanner\Detector\Adapter\ContenidoAdapter;
 use Cmsgarden\Cmsscanner\Detector\Adapter\DrupalAdapter;
+use Cmsgarden\Cmsscanner\Detector\Adapter\GambioAdapter;
 use Cmsgarden\Cmsscanner\Detector\Adapter\JoomlaAdapter;
+use Cmsgarden\Cmsscanner\Detector\Adapter\MagentoAdapter;
+use Cmsgarden\Cmsscanner\Detector\Adapter\MsdAdapter;
+use Cmsgarden\Cmsscanner\Detector\Adapter\NextcloudAdapter;
+use Cmsgarden\Cmsscanner\Detector\Adapter\PhpMyAdminAdapter;
+use Cmsgarden\Cmsscanner\Detector\Adapter\PivotxAdapter;
+use Cmsgarden\Cmsscanner\Detector\Adapter\MatomoAdapter;
 use Cmsgarden\Cmsscanner\Detector\Adapter\PrestashopAdapter;
+use Cmsgarden\Cmsscanner\Detector\Adapter\RedaxoAdapter;
+use Cmsgarden\Cmsscanner\Detector\Adapter\ShopwareAdapter;
 use Cmsgarden\Cmsscanner\Detector\Adapter\Typo3CmsAdapter;
 use Cmsgarden\Cmsscanner\Detector\Adapter\WordpressAdapter;
-use Cmsgarden\Cmsscanner\Detector\Adapter\PivotxAdapter;
-use Cmsgarden\Cmsscanner\Detector\Adapter\Concrete5Adapter;
 use Symfony\Component\Console\Command\Command;
 
 /**
@@ -40,15 +49,24 @@ abstract class AbstractDetectionCommand extends Command
         parent::__construct($name);
 
         $this
+            ->addAdapter(new AdminerAdapter())
+            ->addAdapter(new Concrete5Adapter())
             ->addAdapter(new ContaoAdapter())
             ->addAdapter(new ContenidoAdapter())
             ->addAdapter(new DrupalAdapter())
+            ->addAdapter(new GambioAdapter())
             ->addAdapter(new JoomlaAdapter())
+            ->addAdapter(new MagentoAdapter())
+            ->addAdapter(new MsdAdapter())
+            ->addAdapter(new NextcloudAdapter())
+            ->addAdapter(new PhpmyadminAdapter())
+            ->addAdapter(new PivotxAdapter())
+            ->addAdapter(new MatomoAdapter())
             ->addAdapter(new PrestashopAdapter())
+            ->addAdapter(new RedaxoAdapter())
+            ->addAdapter(new ShopwareAdapter())
             ->addAdapter(new Typo3CmsAdapter())
             ->addAdapter(new WordpressAdapter())
-            ->addAdapter(new PivotxAdapter())
-            ->addAdapter(new Concrete5Adapter())
         ;
     }
 
