@@ -28,7 +28,7 @@ class ShopwareAdapter implements AdapterInterface
     protected $versions = array(
         array(
             'filename' => '/engine/Shopware/Application.php',
-            'regexp' => '/const VERSION      = \'(.+)\';/'
+            'regexp' => '/const VERSION\s+= \'(.+)\';/'
         ),
     );
 
