@@ -1,7 +1,7 @@
 <?php
 /**
  * @package    CMSScanner
- * @copyright  Copyright (C) 2014 CMS-Garden.org
+ * @copyright  Copyright (C) 2014 - 2019 CMS-Garden.org
  * @license    GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
  * @link       http://www.cms-garden.org
  */
@@ -57,7 +57,7 @@ class PhpMyAdminAdapter implements AdapterInterface
             return false;
         }
 
-        if ( basename($file->getPath()) === 'libraries' ) {
+        if (basename($file->getPath()) === 'libraries') {
             $path = new \SplFileInfo($file->getPathInfo()->getPath());
         } else {
             return false;

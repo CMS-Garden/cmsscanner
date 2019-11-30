@@ -1,7 +1,7 @@
 <?php
 /**
  * @package    CMSScanner
- * @copyright  Copyright (C) 2014 - 2017 CMS-Garden.org
+ * @copyright  Copyright (C) 2014 - 2019 CMS-Garden.org
  * @license    MIT <https://tldrlegal.com/license/mit-license>
  * @link       http://www.cms-garden.org
  */
@@ -44,7 +44,7 @@ class AbstractDetectionCommandTest extends \PHPUnit_Framework_TestCase
         $this->assertArrayHasKey('Contenido', $this->object->getAdapters());
         $this->assertArrayHasKey('PivotX', $this->object->getAdapters());
         $this->assertArrayHasKey('Concrete5', $this->object->getAdapters());
-        $this->assertCount(9, $this->object->getAdapters());
+        $this->assertCount(18, $this->object->getAdapters());
     }
 
     public function testAddingAnAdapter()

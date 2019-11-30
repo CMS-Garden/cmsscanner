@@ -1,7 +1,7 @@
 <?php
 /**
  * @package    CMSScanner
- * @copyright  Copyright (C) 2014 CMS-Garden.org
+ * @copyright  Copyright (C) 2014 - 2019 CMS-Garden.org
  * @license    GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
  * @link       http://www.cms-garden.org
  */
@@ -56,12 +56,12 @@ class MsdAdapter implements AdapterInterface
         if ($file->getFilename() != "runtime.php") {
             return false;
         }
-        if ( basename($file->getPath()) === 'inc' ) {
+        if (basename($file->getPath()) === 'inc') {
             $path = new \SplFileInfo($file->getPathInfo()->getPath());
         } else {
             return false;
         }
-        if (!file_exists($file->getPathInfo()->getPath().'/inc/mysql.php') ){
+        if (!file_exists($file->getPathInfo()->getPath().'/inc/mysql.php')) {
             return false;
         }
 

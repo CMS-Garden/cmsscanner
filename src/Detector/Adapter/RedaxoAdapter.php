@@ -1,7 +1,7 @@
 <?php
 /**
  * @package    CMSScanner
- * @copyright  Copyright (C) 2014 CMS-Garden.org
+ * @copyright  Copyright (C) 2014 - 2019 CMS-Garden.org
  * @license    GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
  * @link       http://www.cms-garden.org
  */
@@ -58,7 +58,7 @@ class RedaxoAdapter implements AdapterInterface
     public function detectSystem(SplFileInfo $file)
     {
         $test = $file->getPathInfo()->getPathInfo();
-        if ($test->getFilename() == "redaxo" && file_exists($test->getPath()) ) {
+        if ($test->getFilename() == "redaxo" && file_exists($test->getPath())) {
             return new System($this->getName(), $test->getPathInfo());
         }
         return false;

@@ -1,7 +1,7 @@
 <?php
 /**
  * @package    CMSScanner
- * @copyright  Copyright (C) 2014 - 2017 CMS-Garden.org
+ * @copyright  Copyright (C) 2014 - 2019 CMS-Garden.org
  * @license    MIT <https://tldrlegal.com/license/mit-license>
  * @link       http://www.cms-garden.org
  */
@@ -63,7 +63,6 @@ class DrupalAdapterTest extends \PHPUnit_Framework_TestCase
         $this->assertArrayHasKey('6.34', $results);
         $this->assertArrayHasKey('7.33', $results);
         $this->assertArrayHasKey('8.0.0-beta3', $results);
-<<<<<<< HEAD
 
         $this->assertInstanceOf('Cmsgarden\Cmsscanner\Detector\System', current($results));
     }
@@ -127,17 +126,17 @@ class DrupalAdapterTest extends \PHPUnit_Framework_TestCase
                 $this->assertEquals($expected, (array)$modules[4]);
 
                 $expected = array(
-                    'name' => 'views_bulk_operations',
-                    'path' => $path->getRealPath().'/sites/mysite/modules/contrib/views_bulk_operations',
-                    'version' => '7.x-3.3',
+                    'name' => 'devel',
+                    'path' => $path->getRealPath().'/sites/mysite/modules/contrib/devel',
+                    'version' => '7.x-1.5',
                     'type' => 'module',
                 );
                 $this->assertEquals($expected, (array)$modules[5]);
 
                 $expected = array(
-                    'name' => 'devel',
-                    'path' => $path->getRealPath().'/sites/mysite/modules/contrib/devel',
-                    'version' => '7.x-1.5',
+                    'name' => 'views_bulk_operations',
+                    'path' => $path->getRealPath().'/sites/mysite/modules/contrib/views_bulk_operations',
+                    'version' => '7.x-3.3',
                     'type' => 'module',
                 );
                 $this->assertEquals($expected, (array)$modules[6]);
@@ -155,8 +154,3 @@ class DrupalAdapterTest extends \PHPUnit_Framework_TestCase
         }
     }
 }
-=======
-        $this->assertInstanceOf('Cmsgarden\Cmsscanner\Detector\System', current($results));
-    }
-}
->>>>>>> 5301f5f0928ee7f4ce1685d0041cf1353024a0d3
