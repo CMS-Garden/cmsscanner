@@ -18,7 +18,6 @@ use Symfony\Component\Finder\SplFileInfo;
  * @package Cmsgarden\Cmsscanner\Detector\Adapter
  *
  * @since   1.0.0
- * @author Anton Dollmaier <ad@aditsystems.de>
  * @author Andreas Schempp <https://github.com/aschempp>
  */
 class ContaoAdapter implements AdapterInterface
