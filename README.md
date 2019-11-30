@@ -216,6 +216,15 @@ Run the PHPCS tests
 ./vendor/bin/phpcs --standard=PSR2 src tests/suites
 ```
 
+#### Build the phar
+
+* grab `box.phar`: https://github.com/humbug/box
+* ensure that in your `php.ini` for CLI you have set `phar.readonly` to off.
+* run compile to build:
+  ```
+  box compile
+  ```
+
 ## Prebuilt Packages (unofficial)
 
 - [Archlinux](https://aur.archlinux.org/packages/cmsscanner) by @sanduhrs

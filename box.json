@@ -1,5 +1,4 @@
 {
-    "chmod": "0755",
     "directories": [
         "src"
     ],
@@ -16,6 +15,5 @@
     ],
     "git-version": "package_version",
     "main": "bin/cmsscanner",
-    "output": "cmsscanner.phar",
-    "stub": true
+    "output": "cmsscanner.phar"
 }
