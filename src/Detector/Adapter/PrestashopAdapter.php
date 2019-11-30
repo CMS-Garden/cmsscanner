@@ -17,7 +17,6 @@ use Symfony\Component\Finder\SplFileInfo;
  * @package Cmsgarden\Cmsscanner\Detector\Adapter
  *
  * @since   1.0.0
- * @author Anton Dollmaier <ad@aditsystems.de>
  */
 class PrestashopAdapter implements AdapterInterface
 {

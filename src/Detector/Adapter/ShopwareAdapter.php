@@ -2,7 +2,7 @@
 /**
  * @package    CMSScanner
  * @copyright  Copyright (C) 2014 - 2019 CMS-Garden.org
- * @license    GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @license    MIT <https://tldrlegal.com/license/mit-license>
  * @link       http://www.cms-garden.org
  */
 
@@ -17,7 +17,6 @@ use Symfony\Component\Finder\SplFileInfo;
  * @package Cmsgarden\Cmsscanner\Detector\Adapter
  *
  * @since   1.0.0
- * @author Anton Dollmaier <ad@aditsystems.de>
  */
 class ShopwareAdapter implements AdapterInterface
 {
