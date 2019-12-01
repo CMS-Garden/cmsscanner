@@ -1,8 +1,8 @@
 <?php
 /**
  * @package    CMSScanner
- * @copyright  Copyright (C) 2014 CMS-Garden.org
- * @license    GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @copyright  Copyright (C) 2014 - 2019 CMS-Garden.org
+ * @license    MIT <https://tldrlegal.com/license/mit-license>
  * @link       http://www.cms-garden.org
  */
 
@@ -17,7 +17,6 @@ use Symfony\Component\Finder\SplFileInfo;
  * @package Cmsgarden\Cmsscanner\Detector\Adapter
  *
  * @since   1.0.0
- * @author Anton Dollmaier <ad@aditsystems.de>
  */
 class ShopwareAdapter implements AdapterInterface
 {
@@ -56,13 +55,13 @@ class ShopwareAdapter implements AdapterInterface
     public function detectSystem(SplFileInfo $file)
     {
         $fileName = $file->getFilename();
-        if ($fileName !== "Application.php" ) {
+        if ($fileName !== "Application.php") {
             return false;
         }
         if (stripos($file->getContents(), 'class Shopware extends Enlight_Application') === false) {
             return false;
         }
-        if ( basename($file->getPath()) === 'Shopware' ) {
+        if (basename($file->getPath()) === 'Shopware') {
             // Shopware 2.x
             $path = new \SplFileInfo($file->getPathInfo()->getPathInfo()->getPath());
         }

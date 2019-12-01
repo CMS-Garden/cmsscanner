@@ -1,8 +1,8 @@
 <?php
 /**
  * @package    CMSScanner
- * @copyright  Copyright (C) 2014 CMS-Garden.org
- * @license    GNU GPLv3 <http://www.gnu.org/licenses/gpl.html>
+ * @copyright  Copyright (C) 2014 - 2019 CMS-Garden.org
+ * @license    MIT <https://tldrlegal.com/license/mit-license>
  * @link       http://www.cms-garden.org
  */
 
@@ -56,7 +56,7 @@ class MatomoAdapter implements AdapterInterface
         if ($file->getFilename() != "piwik.js" && $file->getFilename() != "matomo.js") {
             return false;
         }
-        if (file_exists($file->getPath().'/js/piwik.js') ){
+        if (file_exists($file->getPath().'/js/piwik.js')) {
             $path = new \SplFileInfo($file->getPath());
         } elseif (file_exists($file->getPath().'/js/matomo.js')) {
             $path = new \SplFileInfo($file->getPath());
