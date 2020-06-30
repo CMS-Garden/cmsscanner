@@ -342,22 +342,6 @@ class DetectCommand extends AbstractDetectionCommand
     }
 
     /**
-     * output stats to command line
-     *
-     * @param   float            $startTime     microtime where execution has started
-     * @param   OutputInterface  $output        cli output
-     */
-    protected function outputProfile($startTime, OutputInterface $output)
-    {
-        $output->writeln("");
-
-        $endTime = microtime(true);
-
-        $output->writeln('Execution time: ' . ($endTime - $startTime) . ' seconds');
-        $output->writeln('Memory consumption: ' . self::parseSizeUnit(memory_get_usage(true)));
-    }
-
-    /**
      * converts the results into a JSON and write it to a file
      *
      * @param   System[]   $results  result data
