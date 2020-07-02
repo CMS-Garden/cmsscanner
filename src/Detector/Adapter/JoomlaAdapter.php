@@ -1,9 +1,9 @@
 <?php
 /**
  * @package    CMSScanner
- * @copyright  Copyright (C) 2014 - 2019 CMS-Garden.org
+ * @copyright  Copyright (C) 2014 - 2020 CMS-Garden.org
  * @license    MIT <https://tldrlegal.com/license/mit-license>
- * @link       http://www.cms-garden.org
+ * @link       https://www.cms-garden.org
  */
 
 namespace Cmsgarden\Cmsscanner\Detector\Adapter;
@@ -62,23 +62,22 @@ class JoomlaAdapter implements AdapterInterface
         // Frontend
         'com_ajax',
         'com_banners',
-        'com_csp',
         'com_config',
         'com_contact',
         'com_content',
         'com_contenthistory',
+        'com_csp',
+        'com_fields',
         'com_finder',
-        'com_mailto',
         'com_media',
         'com_modules',
         'com_newsfeeds',
-        'com_search',
+        'com_privacy',
         'com_tags',
         'com_users',
         'com_wrapper',
-        'com_fields',
-        // Components
         // Backend only
+        'com_actionlogs',
         'com_admin',
         'com_associations',
         'com_cache',
@@ -89,13 +88,17 @@ class JoomlaAdapter implements AdapterInterface
         'com_joomlaupdate',
         'com_languages',
         'com_login',
+        'com_mails',
+        'com_menus',
+        'com_messages',
         'com_plugins',
         'com_postinstall',
         'com_redirect',
         'com_templates',
-        'com_menus',
-        'com_messages',
-        'com_associations',
+        'com_workflow',
+        // 3.x only
+        'com_mailto',
+        'com_search',
         // Modules
         // Frontend
         'mod_articles_archive',
@@ -115,7 +118,6 @@ class JoomlaAdapter implements AdapterInterface
         'mod_menu',
         'mod_random_image',
         'mod_related_items',
-        'mod_search',
         'mod_stats',
         'mod_syndicate',
         'mod_tags_popular',
@@ -124,22 +126,34 @@ class JoomlaAdapter implements AdapterInterface
         'mod_whosonline',
         'mod_wrapper',
         // Backend only
+        'mod_frontend',
         'mod_latest',
+        'mod_latestactions',
         'mod_logged',
+        'mod_loginsupport',
         'mod_multilangstatus',
         'mod_popular',
+        'mod_post_installation_messages',
+        'mod_privacy_dashboard',
+        'mod_privacy_status',
         'mod_quickicon',
+        'mod_sampledata',
         'mod_stats_admin',
-        'mod_status',
         'mod_submenu',
         'mod_title',
         'mod_toolbar',
         'mod_version',
-        'mod_sampledata',
+        // 3.x only
+        'mod_search',
+        'mod_status',
         // Plugins
+        // actionlog
+        'plg_actionlog_joomla',
+        // api-authentication
+        'plg_api-authentication_basic',
+        'plg_api-authentication_token',
         // authentication
         'plg_authentication_cookie',
-        'plg_authentication_gmail',
         'plg_authentication_joomla',
         'plg_authentication_ldap',
         // Behaviour
@@ -147,32 +161,36 @@ class JoomlaAdapter implements AdapterInterface
         'plg_behaviour_versionable',
         // captcha
         'plg_captcha_recaptcha',
+        'plg_captcha_recaptcha_invisible',
         // content
+        'plg_content_confirmconsent',
         'plg_content_contact',
         'plg_content_emailcloak',
+        'plg_content_fields',
         'plg_content_finder',
+        'plg_content_imagelazyload'
         'plg_content_joomla',
         'plg_content_loadmodule',
         'plg_content_pagebreak',
         'plg_content_pagenavigation',
         'plg_content_vote',
-        'plg_content_fields',
-        'plg_content_geshi',
         // editors
         'plg_editors_codemirror',
         'plg_editors_none',
         'plg_editors_tinymce',
         // editors-xtd
         'plg_editors-xtd_article',
+        'plg_editors-xtd_contact',
+        'plg_editors-xtd_fields',
         'plg_editors-xtd_image',
+        'plg_editors-xtd_menu',
         'plg_editors-xtd_module',
         'plg_editors-xtd_pagebreak',
         'plg_editors-xtd_readmore',
-        'plg_editors-xtd_contact',
-        'plg_editors-xtd_fields',
-        'plg_editors-xtd_menu',
         // extension
+        'plg_extension_finder',
         'plg_extension_joomla',
+        'plg_extension_namespacemap',
         // fields
         'plg_fields_calendar',
         'plg_fields_checkboxes',
@@ -184,6 +202,7 @@ class JoomlaAdapter implements AdapterInterface
         'plg_fields_media',
         'plg_fields_radio',
         'plg_fields_sql',
+        'plg_fields_subfields',
         'plg_fields_text',
         'plg_fields_textarea',
         'plg_fields_url',
@@ -199,6 +218,7 @@ class JoomlaAdapter implements AdapterInterface
         'plg_finder_tags',
         // installer
         'plg_installer_folderinstaller',
+        'plg_installer_override',
         'plg_installer_packageinstaller',
         'plg_installer_urlinstaller',
         'plg_installer_webinstaller',
@@ -206,19 +226,27 @@ class JoomlaAdapter implements AdapterInterface
         'plg_media-action_crop',
         'plg_media-action_resize',
         'plg_media-action_rotate',
+         // privacy
+        'plg_privacy_actionlogs',
+        'plg_privacy_consents',
+        'plg_privacy_contact',
+        'plg_privacy_content',
+        'plg_privacy_message',
+        'plg_privacy_user',
         // quickicon
+        'plg_quickicon_downloadkey',
         'plg_quickicon_extensionupdate',
         'plg_quickicon_joomlaupdate',
+        'plg_quickicon_overridecheck',
         'plg_quickicon_phpversioncheck',
+        'plg_quickicon_privacycheck',
         // sampledata
         'plg_sampledata_blog',
-        // search
-        'plg_search_categories',
-        'plg_search_contacts',
-        'plg_search_content',
-        'plg_search_newsfeeds',
-        'plg_search_tags',
+        'plg_sampledata_multilang',
+        'plg_sampledata_testing',
         // system
+        'plg_system_accessibility',
+        'plg_system_actionlogs',
         'plg_system_cache',
         'plg_system_debug',
         'plg_system_fields',
@@ -228,13 +256,16 @@ class JoomlaAdapter implements AdapterInterface
         'plg_system_languagefilter',
         'plg_system_log',
         'plg_system_logout',
-        'plg_system_p3p',
+        'plg_system_logrotation',
+        'plg_system_privacyconsent',
         'plg_system_redirect',
         'plg_system_remember',
         'plg_system_sef',
         'plg_system_sessiongc',
+        'plg_system_skipto',
         'plg_system_stats',
         'plg_system_updatenotification',
+        'plg_system_webauthn',
         // twofactorauth
         'plg_twofactorauth_totp',
         'plg_twofactorauth_yubikey',
@@ -242,6 +273,38 @@ class JoomlaAdapter implements AdapterInterface
         'plg_user_contactcreator',
         'plg_user_joomla',
         'plg_user_profile',
+        'plg_user_terms',
+        'plg_user_token',
+        // webservices
+        'plg_webservices_banners',
+        'plg_webservices_config',
+        'plg_webservices_contact',
+        'plg_webservices_content',
+        'plg_webservices_installer',
+        'plg_webservices_languages',
+        'plg_webservices_menus',
+        'plg_webservices_messages',
+        'plg_webservices_modules',
+        'plg_webservices_newsfeeds',
+        'plg_webservices_plugins',
+        'plg_webservices_privacy',
+        'plg_webservices_redirect',
+        'plg_webservices_tags',
+        'plg_webservices_templates',
+        'plg_webservices_users',
+        // workflow
+        'plg_workflow_featuring',
+        'plg_workflow_notification',
+        'plg_workflow_publishing',
+        // 3.x and older only
+        'plg_authentication_gmail',
+        'plg_content_geshi',
+        'plg_search_categories',
+        'plg_search_contacts',
+        'plg_search_content',
+        'plg_search_newsfeeds',
+        'plg_search_tags',
+        'plg_system_p3p',
         // Templates
         // 1.5
         // Frontend
