@@ -168,7 +168,7 @@ class JoomlaAdapter implements AdapterInterface
         'plg_content_emailcloak',
         'plg_content_fields',
         'plg_content_finder',
-        'plg_content_imagelazyload'
+        'plg_content_imagelazyload',
         'plg_content_joomla',
         'plg_content_loadmodule',
         'plg_content_pagebreak',
