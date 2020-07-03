@@ -30,7 +30,7 @@ class RedaxoAdapter implements AdapterInterface
     private $versions = array(
         array(
             "file" => "/redaxo/include/master.inc.php",
-            // phpcs:ignore 
+            // phpcs:ignore
             "regex" => '/\$REX\[\'VERSION\'\]\s+= \"(\d+)\";\s+\$REX\[\'SUBVERSION\'\]\s+= \"(\d+)\";\s+\$REX\[\'MINORVERSION\'\]\s+= \"(\d+)\"/',
         ),
     );
