@@ -21,7 +21,9 @@ use Symfony\Component\Finder\SplFileInfo;
 class PhpMyAdminAdapter implements AdapterInterface
 {
     /**
-     * Phpmyadmin has changed the way how the version number is stored multiple times, so we need this comprehensive array
+     * phpMyAdmin has changed the way how the version number is
+     * stored multiple times, so we need this comprehensive array
+     *
      * @var array
      */
     private $versions = array(
@@ -32,7 +34,7 @@ class PhpMyAdminAdapter implements AdapterInterface
     );
 
     /**
-     * Phpmyadmin has a file called configuration.php that can be used to search for working installations
+     * phpMyAdmin has a file called configuration.php that can be used to search for working installations
      *
      * @param   Finder  $finder  finder instance to append the criteria
      *
@@ -45,7 +47,7 @@ class PhpMyAdminAdapter implements AdapterInterface
     }
 
     /**
-     * try to verify a search result and work around some well known false positives
+     * Try to verify a search result and work around some well known false positives
      *
      * @param   SplFileInfo  $file  file to examine
      *
@@ -68,7 +70,7 @@ class PhpMyAdminAdapter implements AdapterInterface
     }
 
     /**
-     * determine version of a Phpmyadmin installation within a specified path
+     * Determine version of a phpMyAdmin installation within a specified path
      *
      * @param   \SplFileInfo  $path  directory where the system is installed
      *

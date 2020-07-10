@@ -27,6 +27,7 @@ class MagentoAdapter implements AdapterInterface
     private $versions = array(
         array(
             "file" => "/app/Mage.php",
+            // @codingStandardsIgnoreLine
             "regex" => '/\'major\'\s+=> \'(\d+)\',\s+\'minor\'\s+=> \'(\d+)\',\s+\'revision\'\s+=> \'(\d+)\',\s+\'patch\'\s+=> \'(\d+)\'/',
         ),
     );
