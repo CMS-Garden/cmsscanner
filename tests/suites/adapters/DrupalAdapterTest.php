@@ -126,17 +126,17 @@ class DrupalAdapterTest extends \PHPUnit_Framework_TestCase
                 $this->assertEquals($expected, (array)$modules[4]);
 
                 $expected = array(
-                    'name' => 'devel',
-                    'path' => $path->getRealPath().'/sites/mysite/modules/contrib/devel',
-                    'version' => '7.x-1.5',
+                    'name' => 'views_bulk_operations',
+                    'path' => $path->getRealPath().'/sites/mysite/modules/contrib/views_bulk_operations',
+                    'version' => '7.x-3.3',
                     'type' => 'module',
                 );
                 $this->assertEquals($expected, (array)$modules[5]);
 
                 $expected = array(
-                    'name' => 'views_bulk_operations',
-                    'path' => $path->getRealPath().'/sites/mysite/modules/contrib/views_bulk_operations',
-                    'version' => '7.x-3.3',
+                    'name' => 'devel',
+                    'path' => $path->getRealPath().'/sites/mysite/modules/contrib/devel',
+                    'version' => '7.x-1.5',
                     'type' => 'module',
                 );
                 $this->assertEquals($expected, (array)$modules[6]);
