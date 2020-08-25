@@ -132,7 +132,7 @@ class DrupalAdapterTest extends \PHPUnit_Framework_TestCase
                     'type' => 'module',
                 );
                 $this->assertEquals($expected, (array)$modules[5]);
-                
+
                 $expected = array(
                     'name' => 'devel',
                     'path' => $path->getRealPath().'/sites/mysite/modules/contrib/devel',
@@ -140,8 +140,6 @@ class DrupalAdapterTest extends \PHPUnit_Framework_TestCase
                     'type' => 'module',
                 );
                 $this->assertEquals($expected, (array)$modules[6]);
-
-
             } elseif ($version === 8) {
                 $this->assertCount(1, $modules);
                 $this->assertInstanceOf('Cmsgarden\Cmsscanner\Detector\Module', $modules[0]);
