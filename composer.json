@@ -16,7 +16,7 @@
         }
     ],
     "require": {
-        "symfony/finder": "2.5.*",
+        "symfony/finder": "2.5.* || 2.6.*",
         "symfony/console": "2.5.*",
         "php": ">=5.3.3",
         "herrera-io/phar-update": "1.*"
