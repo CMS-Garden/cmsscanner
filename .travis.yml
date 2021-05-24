@@ -20,8 +20,8 @@ matrix:
 script:
   - composer selfupdate
   - composer install
-  - ./vendor/bin/phpunit --configuration phpunit.xml
-  - ./vendor/bin/phpcs --standard=PSR2 src tests/suites
+  - composer php:test
+  - composer php:cs
 
 branches:
   except:
