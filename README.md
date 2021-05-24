@@ -193,7 +193,7 @@ It's also possible to pass a file that contains a 0-byte separated list of paths
 
 	cmsscanner.phar cmsscanner:detect --readfromfile /absolute/path/to/file
 
-## Developer Informations
+## Developer Information
 
 ### Run the tests
 
@@ -207,22 +207,22 @@ It's also possible to pass a file that contains a 0-byte separated list of paths
 Run the PHP Unit tests
 
 ```
-./vendor/bin/phpunit --configuration phpunit.xml
+composer php:test
 ```
 
 Run the PHPCS tests
 
 ```
-./vendor/bin/phpcs --standard=PSR2 src tests/suites
+composer php:cs
 ```
 
 #### Build the phar
 
-* grab `box.phar`: https://github.com/humbug/box
+* grab `box.phar`: https://github.com/humbug/box or run `phive install
 * ensure that in your `php.ini` for CLI you have set `phar.readonly` to off.
 * run compile to build:
   ```
-  box compile
+  box compile # via phive tools/box compile
   ```
 
 ## Prebuilt Packages (unofficial)

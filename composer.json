@@ -18,8 +18,8 @@
     "require": {
         "symfony/finder": "2.5.* || 2.6.*",
         "symfony/console": "2.5.* || 2.6.*",
-        "php": ">=5.4.0",
-        "herrera-io/phar-update": "1.*"
+        "php": "^5.4 || ^7.0 || ^8.0",
+        "herrera-io/phar-update": "^2.0"
     },
     "require-dev": {
         "phpunit/phpunit": "4.8.*",
@@ -29,5 +29,9 @@
         "psr-4": {
             "Cmsgarden\\Cmsscanner\\": "src"
         }
+    },
+    "scripts": {
+        "php:test": "phpunit",
+        "php:cs": "phpcs"
     }
 }
