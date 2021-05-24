@@ -10,7 +10,6 @@ namespace Cmsgarden\Cmsscanner\Tests\Adapters;
 
 use Cmsgarden\Cmsscanner\Detector\Adapter\AlchemyCmsAdapter;
 use Symfony\Component\Finder\Finder;
-use Symfony\Component\Finder\SplFileInfo;
 
 /**
  * Class AlchemyCmsAdapterTest
