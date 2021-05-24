@@ -1,7 +1,7 @@
 <?php
 /**
  * @package    CMSScanner
- * @copyright  Copyright (C) 2014 - 2020 CMS-Garden.org
+ * @copyright  Copyright (C) 2014 - 2021 CMS-Garden.org
  * @license    MIT <https://tldrlegal.com/license/mit-license>
  * @link       https://www.cms-garden.org
  */

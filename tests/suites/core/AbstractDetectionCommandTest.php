@@ -1,9 +1,9 @@
 <?php
 /**
  * @package    CMSScanner
- * @copyright  Copyright (C) 2014 - 2019 CMS-Garden.org
+ * @copyright  Copyright (C) 2014 - 2021 CMS-Garden.org
  * @license    MIT <https://tldrlegal.com/license/mit-license>
- * @link       http://www.cms-garden.org
+ * @link       https://www.cms-garden.org
  */
 
 namespace Cmsgarden\Cmsscanner\Tests\Command;

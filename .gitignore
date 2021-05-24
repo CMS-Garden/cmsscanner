@@ -2,7 +2,8 @@
 /composer.lock
 /build
 /*.phar
-/.php_cs
+/.php-cs-fixer.php
+/tools
 
 # OSX
 .DS_Store

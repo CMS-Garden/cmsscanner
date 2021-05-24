@@ -2,7 +2,7 @@
 
 # CMS-Garden CMSScanner
 
-This tool is developed by the CMS-Garden project. It's designed to scan a local filesystem for installations of the well known FOSS CMS systems that are part of the [CMS-Garden Project](http://www.cms-garden.org/):
+This tool is developed by the CMS-Garden project. It's designed to scan a local filesystem for installations of the well known FOSS CMS systems that are part of the [CMS-Garden Project](https://www.cms-garden.org/):
 
 * Contao
 * CONTENIDO
@@ -25,7 +25,7 @@ For available options, try running:
 
 1. Download the current version of CMSScanner as a phar archive:
 
-	`wget http://cms-garden.github.io/cmsscanner/downloads/cmsscanner-0.5.0.phar && mv cmsscanner-0.5.0.phar cmsscanner.phar`
+	`wget https://cms-garden.github.io/cmsscanner/downloads/cmsscanner-0.5.0.phar && mv cmsscanner-0.5.0.phar cmsscanner.phar`
 
 2. Make it executable
 
