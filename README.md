@@ -218,7 +218,7 @@ composer php:cs
 
 #### Build the phar
 
-* grab `box.phar`: https://github.com/humbug/box or run `phive install
+* grab `box.phar`: https://github.com/humbug/box or run `phive install`
 * ensure that in your `php.ini` for CLI you have set `phar.readonly` to off.
 * run compile to build:
   ```
