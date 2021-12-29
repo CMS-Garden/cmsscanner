@@ -218,12 +218,29 @@ composer php:cs
 
 #### Build the phar
 
-* grab `box.phar`: https://github.com/humbug/box or run `phive install
+First it's recommended to :
 * ensure that in your `php.ini` for CLI you have set `phar.readonly` to off.
+* composer dependencies are installed with `composer install`
+
+##### With phpive
+
+* install phive as explained at https://phar.io/#Install
+* run `phive install --force-accept-unsigned`
 * run compile to build:
   ```
-  box compile # via phive tools/box compile
+  tools/box compile
   ```
+##### Manualy
+
+* create *tools/* subdirectory
+* grab `box.phar` from https://github.com/box-project/box/releases and put it in tools/ directory
+* run compile to build phar
+* run compile to build:
+  ```
+  tools/box compile
+  ```
+
+Phar file will be put as `cmsscanner.phar`
 
 ## Prebuilt Packages (unofficial)
 
