@@ -111,11 +111,11 @@ class WordpressAdapter implements AdapterInterface
                 $version = null;
                 $content = file_get_contents($plugin);
 
-                preg_match('/\s*Plugin Name:\s*(.*)/', $content, $name);
+                preg_match('/\s*Plugin Name:\s*([\w _-]*)/', $content, $name);
                 preg_match('/\s*Version:\s*([\w._-]+)/', $content, $version);
 
                 if (empty($name) === false && empty($version) === false) {
-                    $modules[] = new Module($name[1], $dir, $version[1], 'plugin');
+                    $modules[] = new Module(trim($name[1]), $dir, $version[1], 'plugin');
                     $done = true;
                     break;
                 } else {
