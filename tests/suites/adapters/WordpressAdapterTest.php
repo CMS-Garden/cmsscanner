@@ -91,6 +91,18 @@ class WordpressAdapterTest extends \PHPUnit_Framework_TestCase
                 'version' => '1.6',
                 'type'    => 'plugin',
             ),
+            array(
+                'name'    => 'No Version',
+                'path'    => '/wordpress/wordpress2.2/wp-content/plugins/noversion',
+                'version' => 'unknown',
+                'type'    => 'plugin',
+            ),
+            array(
+                'name'    => 'noname',
+                'path'    => '/wordpress/wordpress2.2/wp-content/plugins/noname',
+                'version' => '99.2',
+                'type'    => 'plugin',
+            ),
         );
 
         $actual = $this->object->detectModules(

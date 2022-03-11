@@ -115,16 +115,20 @@ class WordpressAdapter implements AdapterInterface
                 preg_match('/\s*Version:\s*([\w._-]+)/', $content, $version);
 
                 if (empty($name) === false && empty($version) === false) {
-                    $modules[] = new Module(trim($name[1]), $dir, $version[1], 'plugin');
+                    $modules[] = new Module(trim($name[1]), $dir, trim($version[1]), 'plugin');
                     $done = true;
                     break;
                 } else {
                     if (empty($name) === true) {
                         $name = null;
+                    } else {
+                        $name = trim($name[1]);
                     }
 
                     if (empty($version) === true) {
                         $version = null;
+                    } else {
+                        $version = trim($version[1]);
                     }
 
                     $matches[$dir][] = new Module($name, $dir, $version, 'plugin');
